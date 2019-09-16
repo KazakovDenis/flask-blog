@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Blueprint index page
+{% endblock %}
+
+{% block content_title %}
+    Posts
+{% endblock %}
+
+{% block content %}
+    {% for post in paginator.items %}
+        <p>
+            <a href="{{ url_for('posts.post_detail', slug=post.slug) }}">{{ post.title }}</a>
+        </p>
+    {% endfor %}
+
+    <nav aria-label="Page navigation example">
+      <ul class="pagination justify-content-center">
+
+        <li {% if not paginator.has_prev %} class="page-item disabled" {% endif %}>
+          <a class="page-link" href="./?page={{ paginator.prev_num }}" aria-label="Previous"><span aria-hidden="true">&laquo;</span>
+          </a>
+        </li>
+
+          {% for page in paginator.iter_pages() %}
+
+            <li {% if page == paginator.page %} class="page-item active" {% endif %}>
+                <a class="page-link" href="./?page={{ page }}">{{ page }}</a>
+            </li>
+
+          {% endfor %}
+
+        <li {% if not paginator.has_next %} class="page-item disabled" {% endif %}>
+          <a class="page-link" href="./?page={{ paginator.next_num }}" aria-label="Next"><span aria-hidden="true">&raquo;</span>
+          </a>
+        </li>
+
+      </ul>
+    </nav>
+{% endblock %}
