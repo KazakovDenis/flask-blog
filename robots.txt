@@ -1,0 +1,19 @@
+User-agent: *
+# Disallow upper directories before allowed inner
+Disallow: /
+Allow: /index
+Allow: /blog
+# Use your URL
+Sitemap: https://www.mysite.com/sitemap.xml
+
+User-agent: Googlebot
+Disallow: /
+Allow: /index
+Allow: /blog
+Sitemap: https://www.mysite.com/sitemap.xml
+
+User-agent: Yandex
+Disallow: /
+Allow: /index
+Allow: /blog
+Sitemap: https://www.mysite.com/sitemap.xml

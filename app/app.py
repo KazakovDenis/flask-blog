@@ -21,9 +21,10 @@ migrate = Migrate(app, db)
 # менеджер
 manager = Manager(app)
 # регистрируем команду db для фиксации состояния приложения
-# python manage.py db init - зафиксировать первоначальное состояние
-# python manage.py db migrate - создать миграцию, python... upgrade - закоммитить
 manager.add_command('db', MigrateCommand)
+# python manage.py db init - зафиксировать первоначальное состояние
+# python manage.py db migrate - создать миграцию
+# python manage.py db upgrade - зафиксировать
 
 # ------ Admin panel
 from models import *

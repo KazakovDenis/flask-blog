@@ -1,0 +1,10 @@
+<!—- Basis of a sitemap —->
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+   <url>
+      <loc>http://www.mysite.com/</loc>
+	<lastmod>2019-09-17</lastmod>
+	<changefreq>weekly</changefreq>
+	<priority>1.0</priority>
+   </url>
+</urlset>

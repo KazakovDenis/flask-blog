@@ -1,5 +1,7 @@
+manual.txt
 .idea
-
+release.txt
+there_is_a_test_module.py
 
 # Created by https://www.gitignore.io/api/flask,python,windows,pycharm
 # Edit at https://www.gitignore.io/?templates=flask,python,windows,pycharm
