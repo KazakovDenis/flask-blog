@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 # https://github.com/KazakovDenis
+"""
+Module executes functions to start the project and contains functions to manage the project manually
+"""
 from app import user_datastore
 from models import *
+import os
 
-
-# пример запроса в базу:
-# post1 = Post.query.filter(Post.title.contains('word')).all()
-# post2 = Post.query.filter(Post.title=='another word')
 
 def init_tables_from_models():
     db.create_all()
@@ -43,8 +43,8 @@ def get_users(role=None):
     return User.query.filter(Role.roles.contains(role)).all()
 
 
-# пример: p = Post(title='Some title', body='Some body')
-# add_to_db(p)
+# пример: >>> p = Post(title='Some title', body='Some body')
+#         >>> add_to_db(p)
 def add_to_db(obj):
     db.session.add(obj)
     # db.session.add_all([obj1, obj2, obj3])
@@ -52,7 +52,17 @@ def add_to_db(obj):
 
 
 def main():
-    pass
+    check = input('Are you sure database has been created and config.py has been edited? [y/n]').lower()
+    if check == 'y':
+        init_tables_from_models()
+        add_new_role(name='admin', description='A head of project')
+        add_new_role(name='subscriber', description='A member of society')
+        add_new_user(email='admin@admin.com', password='admin123', role='admin')
+        os.system('python manage.py db init')
+        os.system('python manage.py db migrate')
+        os.system('python manage.py db upgrade')
+        tag = Tag(name='projects')
+        add_to_db(tag)
 
 
 if __name__ == '__main__':
