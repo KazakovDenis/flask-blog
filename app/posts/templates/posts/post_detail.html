@@ -46,7 +46,7 @@
 {% block rightpanel %}
     {% if current_user.has_role('admin') %}
     <div class="row justify-content-center mb-2">
-        <a href="{{ url_for('posts.edit_post', slug=post.slug) }}" class="text-decoration-none">
+        <a href="{{ url_for('posts.create_post', slug=post.slug) }}" class="text-decoration-none">
             <span class="btn btn-secondary">Редактировать запись</span>
         </a>
     </div>

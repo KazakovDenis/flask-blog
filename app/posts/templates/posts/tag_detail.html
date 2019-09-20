@@ -7,16 +7,19 @@
 {% block content %}
 
     <h3>Записи с тегом "{{ tag.name }}":</h3>
+    {% if posts %}
+        <div class="post">
+            {% for post in posts %}
+               <p><a href="{{ url_for('posts.post_detail', slug=post.slug) }}">{{ post.title }}</a></p>
+            {% endfor %}
+        </div>
+        <br>
+        <div class="main-content">
 
-    <div class="post">
-        {% for post in posts %}
-           <p><a href="{{ url_for('posts.post_detail', slug=post.slug) }}">{{ post.title }}</a></p>
-        {% endfor %}
-    </div>
-    <br>
-    <div class="main-content">
-
-    </div>
+        </div>
+    {% else %}
+    Записей не найдено
+    {% endif %}
 {% endblock %}
 
 {% block rightpanel %}

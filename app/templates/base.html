@@ -29,8 +29,11 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
+                <li class="nav-item" >
                     <a class="nav-link" href="{{ url_for('posts.index') }}">Все записи<span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('posts.tag_detail', slug='projects') }}">Мои проекты<span class="sr-only">(current)</span></a>
                 </li>
                 <!-- current_user - объект шаблонов фласка, has_role - наследуемый метод от класса UserMixin -->
                 {% if current_user.has_role('admin') %}
@@ -97,7 +100,7 @@
             <div class="row justify-content-between">
                 <span class="text-light">Personal blog | kazakov.ru.net</span>
                 <span class="text-light">
-                    Contact me: <a href="mailto:mail@gmail.com" class="text-light">admin@kazakov.ru.net</a>
+                    Contact me: <a href="mailto:admin@kazakov.ru.net" class="text-light">admin@kazakov.ru.net</a>
                 </span>
             </div>
         </div>

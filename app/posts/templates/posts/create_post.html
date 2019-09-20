@@ -10,7 +10,11 @@
 
 {% block content %}
     <div class="col h-100">
-        <form action="{{ url_for('posts.create_post')}}" method="POST">
+        {% if post %}
+        <form action="{{ url_for('posts.create_post', slug=post.slug)}}" method="POST" enctype="multipart/form-data">
+        {% else %}
+        <form action="{{ url_for('posts.create_post')}}" method="POST" enctype="multipart/form-data">
+        {% endif %}
             {% for field in form %}
             <div class="form-group">
                 {{ field.label(class='control-label') }}
@@ -20,4 +24,28 @@
             <button type="submit" class="btn btn-success">Опубликовать</button>
         </form>
     </div>
+{% endblock %}
+
+{% block rightpanel %}
+    <p class="mb-2"><small>{{ img }}</small></p>
+    <form action="{{ url_for('posts.upload_file')}}" method="POST" enctype="multipart/form-data">
+        <div class="input-group mb-3">
+          <div class="custom-file">
+            <input type="file" class="custom-file-input" id="inputGroupFile02" name="file">
+            <label class="custom-file-label"
+                   for="inputGroupFile02" aria-describedby="inputGroupFileAddon02">Choose file</label>
+          </div>
+          <div class="input-group-append">
+            <button type="submit" class="input-group-text" id="inputGroupFileAddon02" name="file">Upload</button>
+          </div>
+        </div>
+    </form>
+    <p>&lt;mark&gt; <mark>marked</mark> &lt;/mark&gt;</p>
+    <p>&lt;del&gt; <del>deleted</del> &lt;/del&gt;</p>
+    <p>&lt;s&gt; <s>no longer accurate</s> &lt;/s&gt;</p>
+    <p>&lt;ins&gt; <ins>addition</ins> &lt;/ins&gt;</p>
+    <p>&lt;u&gt; <u>underlined</u> &lt;/u&gt;</p>
+    <p>&lt;small&gt; <small>small</small> &lt;/small&gt;</p>
+    <p>&lt;strong&gt; <strong>bold</strong> &lt;/strong&gt;</p>
+    <p>&lt;em&gt; <em>italicized</em> &lt;/em&gt;</p>
 {% endblock %}

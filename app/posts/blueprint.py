@@ -1,57 +1,72 @@
 # -*- coding: utf-8 -*-
 # https://github.com/KazakovDenis
-from flask import Blueprint
-from flask import render_template
+from flask import Blueprint, redirect, url_for, request, render_template
 from models import Post, Tag
-from flask import request
 from .forms import PostForm
 from app import db
-from flask import redirect
-from flask import url_for
 from flask_security import login_required
+from config import Configuration
+from werkzeug.utils import secure_filename
+import os
 
 
 # всё, что относится к блюпринтам, находится под адресом /blog
 posts = Blueprint('posts', __name__, template_folder='templates')
 
-# должен располагатьс выше, чтобы фласк не подумал, что это /слаг
+
+# проверяем загруженное изображение на соответствие расширению
+def _allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1] in Configuration.ALLOWED_EXTENSIONS
+
+
+@posts.route('/upload', methods=['POST', 'GET'])
+def upload_file():
+    if request.method == 'POST':
+        file = request.files['file']
+        if file and _allowed_file(file.filename):
+            filename = secure_filename(file.filename)   # провекра заливаемого файла на безопасность
+            img = os.path.join(Configuration.UPLOAD_FOLDER, filename)
+            file.save(img)
+            file.close()
+            form = PostForm()   # без формы не рендерится
+            return render_template('posts/create_post.html', form=form, img=img)    # продумать, как заменить
+    # при попытке get-запроса направляем на главную
+    return redirect(url_for('index'))
+
+
+@posts.route('/<slug>/edit', methods=['POST', 'GET'])
 @posts.route('/create', methods=['POST', 'GET'])
 @login_required
-def create_post():
-    q = request.args.get('q')
+def create_post(slug=None, img=None):
+    # при наличии слага выдаём форму редактирования либо постим изменения
+    if slug:
+        post = Post.query.filter(Post.slug == slug).first_or_404()
+        # вносим изменения в пост
+        if request.method == 'POST':
+            # в formdata пишем данные формы класса ПостФорм, в obj принимаем значения поста
+            form = PostForm(formdata=request.form, obj=post)
+            form.populate_obj(post)  # метод заполняет форму данным из аргумента
+            db.session.commit()
+            return redirect(url_for('posts.post_detail', slug=post.slug))
+        # выдаём страницу редактирования
+        form = PostForm(obj=post)
+        return render_template('posts/create_post.html', post=post, form=form)
 
+    # если слага нет, выдаём пустую форму и постим новую запись
+    # пишем пост в БД
     if request.method == 'POST':
-        title = request.form['title']   # получаем значение поля title формы
+        title = request.form['title']  # получаем значение поля title формы
         body = request.form['body']
-
         try:
             post = Post(title=title, body=body)
             db.session.add(post)
             db.session.commit()
-        except:
-            print('Something went wrong')
-
-        # возвращаем метод (вьюху) index блюпринта posts
+        except Exception as e:
+            print(e)
         return redirect(url_for('posts.index'))
-
+    # выдаём страницу создания записи
     form = PostForm()
-    return render_template('posts/create_post.html', form=form)
-
-
-@posts.route('/<slug>/edit', methods=['POST', 'GET'])
-@login_required
-def edit_post(slug):
-    # находим пост для редактирования
-    post = Post.query.filter(Post.slug == slug).first_or_404()
-    if request.method == 'POST':
-        # в formdata пишем данные формы класса ПостФорм, в obj принимаем значения поста
-        form = PostForm(formdata=request.form, obj=post)
-        form.populate_obj(post)    # метод заполняет форму данным из аргумента
-        db.session.commit()
-        return redirect(url_for('posts.post_detail', slug=post.slug))
-
-    form = PostForm(obj=post)
-    return render_template('posts/edit_post.html', post=post, form=form)
+    return render_template('posts/create_post.html', form=form, img=img)
 
 
 @posts.route('/')
@@ -76,8 +91,7 @@ def index():
     # пагинатор
     pages = posts.paginate(page=page, per_page=10)   # объект pagination
     tags = Tag.query.all()
-    # передаём объект pagination в аргумент paginator функции render_template,
-    # который далее будет использован в шаблоне блюпринта
+    # выводим на экран шаблон с пагинацией
     return render_template('posts/index.html', paginator=pages, tags=tags)
 
 
@@ -96,9 +110,6 @@ def post_detail(slug):
     adjacent_posts = set(cache)
     # выводим на экран шаблон post_detail
     return render_template('posts/post_detail.html', post=post, tags=tags, right_panel=adjacent_posts)
-
-# <a href="{{ url_for('posts.post_detail', slug=post.slug) }}">
-# url_for() - конструктор ссылок Фласка
 
 
 # http://domain.com/blog/tag/the-tag
