@@ -11,13 +11,52 @@
 {% block content %}
     <div class="tags">
         {% for tag in tags %}
-            <a href="{{ url_for('posts.tag_detail', slug=tag.slug) }}">
+            <a href="{{ url_for('posts.tag_detail', slug=tag.slug) }}" class="text-decoration-none">
                 <span class="badge badge-info">{{ tag.name }}</span>
             </a>
         {% endfor %}
     </div>
     <br>
-    <div class="main-content">
+    <div class="main-content text-justify">
         {{ post.body }}
     </div>
+    <br>
+    <div class="col">
+        <div id="disqus_thread"></div>
+        <script>
+            var disqus_config = function () {
+            this.page.url = 'http://kazakov.ru.net/blog/{{ post.slug }}';
+            this.page.identifier = {{ post.slug }};
+            };
+
+            (function() { // DON'T EDIT BELOW THIS LINE
+            var d = document, s = d.createElement('script');
+            s.src = 'https://kazakov-ru-net.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+            })();
+
+        </script>
+        <noscript>Please enable JavaScript to view the
+            <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+    </div>
+{% endblock %}
+
+{% block rightpanel %}
+    {% if current_user.has_role('admin') %}
+    <div class="row justify-content-center mb-2">
+        <a href="{{ url_for('posts.edit_post', slug=post.slug) }}" class="text-decoration-none">
+            <span class="btn btn-secondary">Редактировать запись</span>
+        </a>
+    </div>
+    {% endif %}
+
+    <p class="text-center font-weight-bolder">Статьи по теме:</p>
+    {% for post in right_panel %}
+        <p>
+            <a href="/blog/{{ post.slug }}" class="text-decoration-none">{{ post.title }}</a>
+        </p>
+    {% endfor %}
+
 {% endblock %}

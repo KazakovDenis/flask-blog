@@ -1,18 +1,26 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    Blueprint index page
+    Все записи блога
 {% endblock %}
 
 {% block content_title %}
-    Posts
+    Все записи блога
 {% endblock %}
 
 {% block content %}
     {% for post in paginator.items %}
-        <p>
+
+    <div class="row justify-content-start no-gutters mt-3 mb-3" style="font-size: 20px">
+
+        <div class="col-3"><small class="text-muted">{{ post.created }}</small></div>
+        <div class="col">
             <a href="{{ url_for('posts.post_detail', slug=post.slug) }}">{{ post.title }}</a>
-        </p>
+        </div>
+
+    </div>
+
+
     {% endfor %}
 
     <nav aria-label="Page navigation example">
@@ -38,4 +46,22 @@
 
       </ul>
     </nav>
+{% endblock %}
+
+{% block rightpanel %}
+
+    <p class="text-center font-weight-bolder">Все темы:</p>
+    {% for tag in tags %}
+        <a href="/blog/tag/{{ tag.slug }}" class="text-decoration-none">
+            <text class="badge badge-info">
+                {{ tag }}
+            </text>
+        </a>
+    {% endfor %}
+
+    <p class="text-center font-weight-bolder mt-3">Последние комментарии:</p>
+    <script type="text/javascript"
+            src="https://kazakov-ru-net.disqus.com/recent_comments_widget.js?num_items=10&hide_avatars=0&avatar_size=40&excerpt_length=200"></script>
+
+
 {% endblock %}

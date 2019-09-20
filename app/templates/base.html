@@ -1,7 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="h-100">
 <head>
     <meta charset="UTF-8">
+    <meta name="description" content="Personal blog">
+    <meta name="author" content="Kazakov">
     <title>
 
         {% block title %}
@@ -9,64 +11,101 @@
         {% endblock %} | kazakov.ru.net
 
     </title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="icon" href="">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link href="sticky-footer-navbar.css" rel="stylesheet">
     <script src="https://kit.fontawesome.com/c562fba2ac.js"></script>
 </head>
-<body>
+<body class="d-flex flex-column h-100">
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-2">
         <a class="navbar-brand" href="{{url_for('index')}}">kazakov.ru.net</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="{{ url_for('posts.index') }}">Blog<span class="sr-only">(current)</span></a>
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="{{ url_for('posts.index') }}">Все записи<span class="sr-only">(current)</span></a>
+                </li>
+                <!-- current_user - объект шаблонов фласка, has_role - наследуемый метод от класса UserMixin -->
+                {% if current_user.has_role('admin') %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('posts.create_post') }}">Новый пост</a>
                     </li>
-                    <!-- current_user - объект шаблонов фласка, has_role - наследуемый метод от класса UserMixin -->
-                    {% if current_user.has_role('admin') %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('posts.create_post') }}">New post</a>
-                        </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link" href="/admin">Admin</a>
-                        </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin">Админка</a>
+                    </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link" href="/logout">Log out</a>
-                        </li>
-                    {% else %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="/login"><i class="fas fa-sign-in-alt"></i></a>
-                        </li>
-                    {% endif %}
-
-                </ul>
-<!-- Дополняем форму методом, Инпут значениями name и value. 'q' - переменная от query, request - Объект фласка -->
-            <form class="form-inline my-2 my-lg-0" method="GET" action="{{ url_for('posts.index')}}">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="q" value="{{ request.args.get('q', '') }}">
-                <button class="btn btn-outline-info my-2 my-sm-0" type="submit"><i class="fas fa-search"></i></button>
-            </form>
-
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout">Выйти</a>
+                    </li>
+                {% endif %}
+            </ul>
+            <div class="mf-2 mr-2"><a href="#" class="text-light"><i class="fab fa-telegram fa-2x"></i></a></div>
+            <div class="mf-2 mr-2"><a href="https://github.com/KazakovDenis" class="text-light"><i class="fab fa-github fa-2x"></i></a></div>
         </div>
     </nav>
     <br>
     <div class="container">
-        <span id="span">
-            <h1>
-                {% block content_title %}
 
-                {% endblock %}
-            </h1>
-            {% block content %}
+        <div class="row">
+            <div class="col-9">
+                <span id="span"><h1>
+                        {% block content_title %}
 
-            {% endblock %}
-        </span>
+                        {% endblock %}
+                </h1></span>
+                    {% block content %}
+
+                    {% endblock %}
+            </div>
+
+            <!--- Right panel -->
+            <div class="col-3 mt-3 d-md-none d-lg-block">
+                <!-- Дополняем форму методом, Инпут значениями name и value. 'q' - переменная от query, request - Объект фласка -->
+                <form class="my-2 my-lg-0" method="GET" action="{{ url_for('posts.index')}}">
+                    <div class="form-row">
+                        <div class="col-9">
+                            <input class="form-control mr-sm-2" type="search" placeholder="Поиск по блогу"
+                                   aria-label="Search" name="q" value="{{ request.args.get('q', '') }}">
+                        </div>
+                        <div class="col-3">
+                            <button class="btn btn-outline-info my-2 my-sm-0" type="submit">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+                <div class="mt-5">
+                    {% block rightpanel %}
+
+                    {% endblock %}
+                </div>
+            </div>
+        </div>
+        
     </div>
+
+    <footer class="footer mt-auto py-3 bg-secondary">
+        <div class="container">
+            <div class="row justify-content-between">
+                <span class="text-light">Personal blog | kazakov.ru.net</span>
+                <span class="text-light">
+                    Contact me: <a href="mailto:mail@gmail.com" class="text-light">admin@kazakov.ru.net</a>
+                </span>
+            </div>
+        </div>
+    </footer>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script>window.jQuery || document.write('<script src="/docs/4.3/assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+<script src="/docs/4.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script>
 
 </body>
 </html>

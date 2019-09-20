@@ -75,9 +75,10 @@ def index():
         posts = Post.query.order_by(Post.created.desc())
     # пагинатор
     pages = posts.paginate(page=page, per_page=10)   # объект pagination
+    tags = Tag.query.all()
     # передаём объект pagination в аргумент paginator функции render_template,
     # который далее будет использован в шаблоне блюпринта
-    return render_template('posts/index.html', paginator=pages)
+    return render_template('posts/index.html', paginator=pages, tags=tags)
 
 
 # http://domain.com/blog/first-post
@@ -88,8 +89,13 @@ def post_detail(slug):
     # и берём первый найденный пост (он же единственный, т.к. слаг уникален)
     post = Post.query.filter(Post.slug == slug).first_or_404()
     tags = post.tags
+    # создаём список смежных постов для правой панели
+    cache = []
+    for posts_list in [tag.posts.all() for tag in tags]:
+        cache.extend(posts_list)
+    adjacent_posts = set(cache)
     # выводим на экран шаблон post_detail
-    return render_template('posts/post_detail.html', post=post, tags=tags)
+    return render_template('posts/post_detail.html', post=post, tags=tags, right_panel=adjacent_posts)
 
 # <a href="{{ url_for('posts.post_detail', slug=post.slug) }}">
 # url_for() - конструктор ссылок Фласка
@@ -99,5 +105,6 @@ def post_detail(slug):
 @posts.route('/tag/<slug>')
 def tag_detail(slug):
     tag = Tag.query.filter(Tag.slug == slug).first_or_404()
+    tags = Tag.query.all()
     posts = tag.posts.all()
-    return render_template('posts/tag_detail.html', tag=tag, posts=posts)
+    return render_template('posts/tag_detail.html', tag=tag, tags=tags, posts=posts)
