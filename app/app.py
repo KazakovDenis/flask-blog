@@ -22,9 +22,9 @@ migrate = Migrate(app, db)
 manager = Manager(app)
 # регистрируем команду db для фиксации состояния приложения
 manager.add_command('db', MigrateCommand)
-# python manage.py db init - зафиксировать первоначальное состояние
-# python manage.py db migrate - создать миграцию
-# python manage.py db upgrade - зафиксировать
+# регистрируем блюпринт под адресом /блог
+from posts.blueprint import posts
+app.register_blueprint(posts, url_prefix='/blog')
 
 # ------ Admin panel
 from models import *

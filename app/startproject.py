@@ -11,25 +11,29 @@ import os
 def init_tables_from_models():
     db.create_all()
     db.session.commit()
+    print(f'Tables have been created!')
 
 
 def add_new_role(name='', description=''):
     user_datastore.create_role(name=name, description=description)
     db.session.commit()
+    print(f'Role "{name}" has been created!')
 
 
 def link_role_to_user(user, role):
     user_datastore.add_role_to_user(user, role)
     db.session.commit()
+    print(f'Role "{role}" has been linked to user "{user}"!')	
 
 
-def add_new_user(email='', password='', role='visitor'):
+def add_new_user(email='', password='', role='subscriber'):
     pattern = r"([\w\.-]+)@([\w\.-]+)(\.[\w\.]+)"   # checks that text is an email
     match = re.fullmatch(pattern, email)
     if match and len(password) >= 5:
         user_datastore.create_user(email=email, password=password)
         db.session.commit()
-        user = User.query.filter(User.email == email)
+        print(f'User "{email}" has been created!')
+        user = User.query.filter(User.email == email).first()
         link_role_to_user(user, role)
     else:
         return "Wrong email, weak password or role doesn't exist"
@@ -49,10 +53,11 @@ def add_to_db(obj):
     db.session.add(obj)
     # db.session.add_all([obj1, obj2, obj3])
     db.session.commit()
+    print(f'Object "{obj}" has been created!')
 
 
 def main():
-    check = input('Are you sure database has been created and config.py has been edited? [y/n]').lower()
+    check = input('Are you sure database has been created and config.py has been edited? [y/n] --> ').lower()
     if check == 'y':
         init_tables_from_models()
         add_new_role(name='admin', description='A head of project')
