@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # https://github.com/KazakovDenis
 from app import manager
-from main import *
+from debugrun import *
 
 
 if __name__ == '__main__':

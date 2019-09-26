@@ -21,7 +21,7 @@
             </p>
             <small class="text-muted">{{ post.created }}</small>
 
-            <p class="text-justify mb-0 mt-2">{{ post.body }}</p>
+            <p class="text-justify mb-0 mt-2">{{ post.body | safe }}</p>
 
             {% for tag in post.tags %}
                 <a href="/blog/tag/{{ tag.slug }}">

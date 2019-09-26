@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 # https://github.com/KazakovDenis
-"""
-Module executes functions to start the project and contains functions to manage the project manually
-"""
 from app import user_datastore
 from models import *
 import os
+"""
+Module executes functions to start the project and contains functions to manage the project manually
+"""
 
 
 def init_tables_from_models():
@@ -54,6 +54,15 @@ def add_to_db(obj):
     # db.session.add_all([obj1, obj2, obj3])
     db.session.commit()
     print(f'Object "{obj}" has been created!')
+
+
+def delete_from_db(obj):
+    confirm = input('Are you sure? [y/n] --> ').lower()
+    if confirm == 'y':
+        db.session.delete(obj)
+        # db.session.add_all([obj1, obj2, obj3])
+        db.session.commit()
+        print(f'Object "{obj}" has been deleted!')
 
 
 def main():

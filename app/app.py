@@ -16,13 +16,14 @@ app = Flask(__name__)
 app.config.from_object(Configuration)
 # создаём БД для приложения
 db = SQLAlchemy(app)
-# создаём миграции (записывают в БД изменения приложения)
+# создаём миграции (записывают в БД изменения структуры БД приложения)
 migrate = Migrate(app, db)
-# менеджер
+# создаём менеджера для управления миграциями
 manager = Manager(app)
 # регистрируем команду db для фиксации состояния приложения
 manager.add_command('db', MigrateCommand)
 # регистрируем блюпринт под адресом /блог
+# импорт расположен здесь во избежание зацикливания
 from posts.blueprint import posts
 app.register_blueprint(posts, url_prefix='/blog')
 
