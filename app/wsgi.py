@@ -1,5 +1,4 @@
-from app import app
-from app import db
+from app import app, db
 import view
 """
 The module to be pointed in WSGI configurations

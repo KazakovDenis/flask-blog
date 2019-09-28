@@ -8,23 +8,18 @@ from flask_script import Manager
 from flask_admin import Admin, AdminIndexView
 from flask_admin.contrib.sqla import ModelView
 from flask_security import SQLAlchemyUserDatastore, Security, current_user
+from werkzeug.middleware.proxy_fix import ProxyFix   # the http-fixer
 
 
-# создаём экземпляр класса - приложение Фласк
 app = Flask(__name__)
-# записываем в свойство config методом from_object конфигурацию
-app.config.from_object(Configuration)
-# создаём БД для приложения
-db = SQLAlchemy(app)
-# создаём миграции (записывают в БД изменения структуры БД приложения)
-migrate = Migrate(app, db)
-# создаём менеджера для управления миграциями
-manager = Manager(app)
-# регистрируем команду db для фиксации состояния приложения
-manager.add_command('db', MigrateCommand)
+app.config.from_object(Configuration)   # записываем в свойство config методом from_object конфигурацию
+db = SQLAlchemy(app)    # создаём БД для приложения
+migrate = Migrate(app, db)   # создаём миграции (записывают в БД изменения структуры БД приложения)
+manager = Manager(app)    # создаём менеджера для управления миграциями
+manager.add_command('db', MigrateCommand)   # регистрируем команду db для фиксации состояния приложения
+app.wsgi_app = ProxyFix(app.wsgi_app)   # http-fixer помогает фласку разобраться с прокси-запросами
 # регистрируем блюпринт под адресом /блог
-# импорт расположен здесь во избежание зацикливания
-from posts.blueprint import posts
+from posts.blueprint import posts    # импорт расположен здесь во избежание зацикливания
 app.register_blueprint(posts, url_prefix='/blog')
 
 # ------ Admin panel
