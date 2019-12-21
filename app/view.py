@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 # https://github.com/KazakovDenis
-from app import app
+from .app import app
 from flask import render_template
-from models import Post, Tag
+from .models import Post, Tag
 
 
 @app.route('/')

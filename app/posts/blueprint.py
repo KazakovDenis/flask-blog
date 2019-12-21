@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 # https://github.com/KazakovDenis
-from flask import Blueprint, redirect, url_for, request, render_template
-from models import Post, Tag
-from .forms import PostForm
-from app import db
-from flask_security import login_required
-from config.prod import Configuration
-from werkzeug.utils import secure_filename
 import os
+from flask import Blueprint, redirect, url_for, request, render_template
+from ..models import Post, Tag
+from .forms import PostForm
+from ..app import db
+from flask_security import login_required
+from ...config.prod import Configuration
+from werkzeug.utils import secure_filename
 
 
 # всё, что относится к блюпринтам, находится под адресом /blog
