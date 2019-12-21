@@ -53,7 +53,7 @@ class Post(db.Model):   # модуль SQLAlchemy автоматом назыв�
 class Tag(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100))
-    slug = db.Column(db.String(100))    # !!!!!! todo: unique=True
+    slug = db.Column(db.String(100))    # todo: unique=True  !!!!!!
 
     def __init__(self, *args, **kwargs):
         super(Tag, self).__init__(*args, **kwargs)

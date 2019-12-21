@@ -72,11 +72,12 @@ def main():
         add_new_role(name='admin', description='A head of project')
         add_new_role(name='subscriber', description='A member of society')
         add_new_user(email='admin@admin.com', password='admin123', role='admin')
-        os.system('python manage.py db init')
-        os.system('python manage.py db migrate')
-        os.system('python manage.py db upgrade')
+        os.system('python3 app/manage.py db init')
+        os.system('python3 app/manage.py db migrate')
+        os.system('python3 app/manage.py db upgrade')
         tag = Tag(name='projects')
         add_to_db(tag)
+        print('Now you can test the project by >> python3 app/manage.py runserver')
 
 
 if __name__ == '__main__':

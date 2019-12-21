@@ -1,3 +1,4 @@
+config/prod.py
 manual.txt
 release.txt
 .idea
@@ -300,3 +301,6 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.gitignore.io/api/flask,python,windows,pycharm
+/config/supervisor.conf
+/config/nginx.conf
+/app/data/

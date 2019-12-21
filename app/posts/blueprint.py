@@ -5,7 +5,7 @@ from models import Post, Tag
 from .forms import PostForm
 from app import db
 from flask_security import login_required
-from config import Configuration
+from config.prod import Configuration
 from werkzeug.utils import secure_filename
 import os
 
@@ -117,5 +117,5 @@ def post_detail(slug):
 def tag_detail(slug):
     tag = Tag.query.filter(Tag.slug == slug).first_or_404()
     tags = Tag.query.all()
-    posts = tag.posts.all()
+    posts = tag.posts.order_by(Post.created.desc()).all()
     return render_template('posts/tag_detail.html', tag=tag, tags=tags, posts=posts)

@@ -13,13 +13,13 @@
 {% endblock %}
 
 {% block content %}
-    <h3>Аккумулирую свои знания здесь</h3>
+
     {% for post in posts %}
         <div class="">
             <p class="h3 mb-0">
                 <a href="{{ url_for('posts.post_detail', slug=post.slug) }}">{{ post.title }}</a>
             </p>
-            <small class="text-muted">{{ post.created }}</small>
+            <small class="text-muted">{{ post.created.strftime('%d.%m.%Y %H:%M') }}</small>
 
             <p class="text-justify mb-0 mt-2">{{ post.body | safe }}</p>
 

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # https://github.com/KazakovDenis
 from flask import Flask, redirect, url_for, request
-from config import Configuration
+from config.config import CONFIG
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate, MigrateCommand
 from flask_script import Manager
@@ -12,7 +12,7 @@ from werkzeug.middleware.proxy_fix import ProxyFix   # the http-fixer
 
 
 app = Flask(__name__)
-app.config.from_object(Configuration)   # записываем в свойство config методом from_object конфигурацию
+app.config.from_object(CONFIG)   # записываем в свойство config методом from_object конфигурацию
 db = SQLAlchemy(app)    # создаём БД для приложения
 migrate = Migrate(app, db)   # создаём миграции (записывают в БД изменения структуры БД приложения)
 manager = Manager(app)    # создаём менеджера для управления миграциями
