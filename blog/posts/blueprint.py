@@ -4,9 +4,8 @@ import os
 from flask import Blueprint, redirect, url_for, request, render_template
 from ..models import Post, Tag
 from .forms import PostForm
-from ..app import db
+from ..app import db, CONFIG
 from flask_security import login_required
-from ...config.prod import Configuration
 from werkzeug.utils import secure_filename
 
 
@@ -16,7 +15,7 @@ posts = Blueprint('posts', __name__, template_folder='templates')
 
 # проверяем загруженное изображение на соответствие расширению
 def _allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1] in Configuration.ALLOWED_EXTENSIONS
+    return '.' in filename and filename.rsplit('.', 1)[1] in CONFIG.ALLOWED_EXTENSIONS
 
 
 @posts.route('/upload', methods=['POST', 'GET'])
@@ -25,7 +24,7 @@ def upload_file():
         file = request.files['file']
         if file and _allowed_file(file.filename):
             filename = secure_filename(file.filename)   # провекра заливаемого файла на безопасность
-            img = os.path.join(Configuration.UPLOAD_FOLDER, filename)
+            img = os.path.join(CONFIG.UPLOAD_FOLDER, filename)
             file.save(img)
             file.close()
             form = PostForm()   # без формы не рендерится

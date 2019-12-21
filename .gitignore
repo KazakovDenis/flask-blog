@@ -1,4 +1,5 @@
 config/prod.py
+config/nginx.conf
 manual.txt
 release.txt
 .idea
@@ -303,4 +304,4 @@ $RECYCLE.BIN/
 # End of https://www.gitignore.io/api/flask,python,windows,pycharm
 /config/supervisor.conf
 /config/nginx.conf
-/app/data/
+/blog/data/

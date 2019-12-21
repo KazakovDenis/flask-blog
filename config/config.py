@@ -9,7 +9,7 @@ class TestConfiguration:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_DATABASE_URI = 'sqlite:///data/blog.db'
     SECRET_KEY = 'AG8WMcd0nQ'
-    UPLOAD_FOLDER = os.path.abspath('../app/static/img/')
+    UPLOAD_FOLDER = os.path.abspath('../blog/static/img/')
     ALLOWED_EXTENSIONS = ('txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif')
     MAX_CONTENT_LENGTH = 16 * 1024 * 1024
 
