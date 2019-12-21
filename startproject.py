@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 # https://github.com/KazakovDenis
-from app import user_datastore
-from models import *
-import os
 """
 Module executes functions to start the project and contains functions to manage the project manually
 """
+from app import user_datastore, db
+from models import *
+import os
 
 
 def init_tables_from_models():
