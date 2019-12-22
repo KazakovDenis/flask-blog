@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # https://github.com/KazakovDenis
-from .app import app, db
-from . import view
+from app import app, db
+import view
 
 
 if __name__ == '__main__':

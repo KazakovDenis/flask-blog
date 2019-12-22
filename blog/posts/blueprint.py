@@ -2,9 +2,9 @@
 # https://github.com/KazakovDenis
 import os
 from flask import Blueprint, redirect, url_for, request, render_template
-from ..models import Post, Tag
+from models import Post, Tag
 from .forms import PostForm
-from ..app import db, CONFIG
+from app import db, CONFIG
 from flask_security import login_required
 from werkzeug.utils import secure_filename
 

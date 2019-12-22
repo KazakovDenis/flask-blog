@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 # https://github.com/KazakovDenis
 import os
-from config.prod import Configuration
+from prod import Configuration
 
 
 class TestConfiguration:
     DEBUG = True
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///data/blog.db'
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///:memory:'
     SECRET_KEY = 'AG8WMcd0nQ'
     UPLOAD_FOLDER = os.path.abspath('../blog/static/img/')
     ALLOWED_EXTENSIONS = ('txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif')

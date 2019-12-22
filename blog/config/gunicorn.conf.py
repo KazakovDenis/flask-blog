@@ -1,5 +1,5 @@
 import multiprocessing
-from .prod import _path, user
+from prod import _path, user
 
 
 bind = "127.0.0.1:8000"

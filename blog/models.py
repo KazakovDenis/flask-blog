@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # https://github.com/KazakovDenis
-from .app import db
+from app import db
 from datetime import datetime
 import re
 from flask_security import UserMixin, RoleMixin

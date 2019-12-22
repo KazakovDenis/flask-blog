@@ -3,7 +3,7 @@
 """
 Module executes functions to start the project and contains functions to manage the project manually
 """
-from blog import user_datastore, db
+from app import user_datastore, db
 from models import *
 import os
 
@@ -72,12 +72,12 @@ def main():
         add_new_role(name='admin', description='A head of project')
         add_new_role(name='subscriber', description='A member of society')
         add_new_user(email='admin@admin.com', password='admin123', role='admin')
-        os.system('python3 blog/manage.py db init')
-        os.system('python3 blog/manage.py db migrate')
-        os.system('python3 blog/manage.py db upgrade')
+        os.system('python3 manage.py db init')
+        os.system('python3 manage.py db migrate')
+        os.system('python3 manage.py db upgrade')
         tag = Tag(name='projects')
         add_to_db(tag)
-        print('Now you can test the project by >> python3 blog/manage.py runserver')
+        print('Now you can test the project by >> python3 manage.py runserver')
 
 
 if __name__ == '__main__':
