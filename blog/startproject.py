@@ -9,6 +9,7 @@ import os
 
 
 def init_tables_from_models():
+    os.system('mkdir data')
     db.create_all()
     db.session.commit()
     print(f'Tables have been created!')
