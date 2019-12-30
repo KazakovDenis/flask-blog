@@ -20,7 +20,9 @@ manager.add_command('db', MigrateCommand)   # регистрируем кома�
 app.wsgi_app = ProxyFix(app.wsgi_app)   # http-fixer помогает фласку разобраться с прокси-запросами
 # регистрируем блюпринт под адресом /блог
 from posts.blueprint import posts    # импорт расположен здесь во избежание зацикливания
+from api.blueprint import api    # импорт расположен здесь во избежание зацикливания
 app.register_blueprint(posts, url_prefix='/blog')
+app.register_blueprint(posts, url_prefix='/api')
 
 # ------ Admin panel
 from models import *

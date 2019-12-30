@@ -3,16 +3,17 @@
 """
 Module executes functions to start the project and contains functions to manage the project manually
 """
+import os
+
 from app import user_datastore, db
 from models import *
-import os
 
 
 def init_tables_from_models():
-    os.system('mkdir data')
+    os.system('mkdir data static/uploads static/img')
     db.create_all()
     db.session.commit()
-    print(f'Tables have been created!')
+    print('Tables have been created!')
 
 
 def add_new_role(name='', description=''):
