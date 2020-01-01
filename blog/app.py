@@ -8,21 +8,22 @@ from flask_script import Manager
 from flask_admin import Admin, AdminIndexView
 from flask_admin.contrib.sqla import ModelView
 from flask_security import SQLAlchemyUserDatastore, Security, current_user
-from werkzeug.middleware.proxy_fix import ProxyFix   # the http-fixer
+from werkzeug.middleware.proxy_fix import ProxyFix
 
 
 app = Flask(__name__)
-app.config.from_object(CONFIG)   # записываем в свойство config методом from_object конфигурацию
-db = SQLAlchemy(app)    # создаём БД для приложения
-migrate = Migrate(app, db)   # создаём миграции (записывают в БД изменения структуры БД приложения)
-manager = Manager(app)    # создаём менеджера для управления миграциями
-manager.add_command('db', MigrateCommand)   # регистрируем команду db для фиксации состояния приложения
-app.wsgi_app = ProxyFix(app.wsgi_app)   # http-fixer помогает фласку разобраться с прокси-запросами
-# регистрируем блюпринт под адресом /блог
-from posts.blueprint import posts    # импорт расположен здесь во избежание зацикливания
-from api.blueprint import api    # импорт расположен здесь во избежание зацикливания
+app.config.from_object(CONFIG)
+db = SQLAlchemy(app)
+migrate = Migrate(app, db)
+manager = Manager(app)
+manager.add_command('db', MigrateCommand)
+app.wsgi_app = ProxyFix(app.wsgi_app)
+
+from posts.blueprint import posts
 app.register_blueprint(posts, url_prefix='/blog')
-app.register_blueprint(posts, url_prefix='/api')
+
+from api.blueprint import api
+app.register_blueprint(api, url_prefix='/api')
 
 # ------ Admin panel
 from models import *
@@ -54,16 +55,27 @@ class HomeAdminView(AdminMixin, AdminIndexView):
 
 
 class PostAdminView(AdminMixin, BaseModelView):
-    form_columns = ['title', 'body', 'tags']
+    form_columns = ['title', 'body', 'tags', 'created']
 
 
 class TagAdminView(AdminMixin, BaseModelView):
     form_columns = ['name', 'posts']
 
 
-admin = Admin(app, 'Blog admin panel', url='/', index_view=HomeAdminView(name='Home'))
+class UserAdminView(AdminMixin, BaseModelView):
+    form_columns = ['email', 'password', 'roles', 'active']
+
+
+class RoleAdminView(AdminMixin, BaseModelView):
+    form_columns = ['name', 'description', 'users']
+
+
+admin = Admin(app, 'Back to blog', url='/', index_view=HomeAdminView(), template_mode='bootstrap3',
+              category_icon_classes={'Favorites': 'glyphicon glyphicon-star'})
 admin.add_view((PostAdminView(Post, db.session)))
 admin.add_view((TagAdminView(Tag, db.session)))
+admin.add_view((UserAdminView(User, db.session)))
+admin.add_view((RoleAdminView(Role, db.session)))
 
 # -------- Flask security
 user_datastore = SQLAlchemyUserDatastore(db, User, Role)
