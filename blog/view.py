@@ -11,9 +11,8 @@ from models import Post, Tag
 @app.route('/hook', methods=['POST', 'GET'])
 def hook():
     if request.method == 'POST':
-        conditions = (request.headers.get('X-Hub-Signature'),
-                      request.data['repository']['id'] == 208764257,
-                      request.data['sender']['id'] == 45169520)
+        conditions = (request.headers.get('X-Hub-Signature'),)
+        # request.data['repository']['id'] == 208764257, request.data['sender']['id'] == 45169520
         if all(conditions):
             os.execl(sys.executable, 'python', 'deployer.py')
             return 'Successfully', 200
