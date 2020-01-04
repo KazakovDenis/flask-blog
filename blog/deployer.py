@@ -6,7 +6,7 @@ add to the end: "nobody ALL = NOPASSWD: deployer.py"
 """
 import os
 from flask import Flask, request, redirect
-from blog.config.config import CONFIG
+from config.config import CONFIG
 
 
 app = Flask(__name__)
@@ -25,7 +25,7 @@ def update_app():
             break
 
 
-def verify_signature(received_signature: hex, request_body: request.data) -> bool:
+def verify_signature(received_signature, request_body) -> bool:
     # from hmac import HMAC, compare_digest
     # from hashlib import sha1
     # secret = CONFIG.GITHUB_SECRET.encode()
@@ -34,8 +34,8 @@ def verify_signature(received_signature: hex, request_body: request.data) -> boo
     return bool(received_signature)
 
 
-def check_request(req: request) -> bool:
-    received_sign = request.headers.get('X-Hub-Signature').split('sha1=')[-1].strip()
+def check_request(req) -> bool:
+    received_sign = req.headers.get('X-Hub-Signature').split('sha1=')[-1].strip()
     conditions = (verify_signature(received_sign, req.data),
                   req.data['repository']['id'] == CONFIG.GH_REPO_ID,
                   req.data['sender']['id'] == CONFIG.GH_SENDER_ID,)
