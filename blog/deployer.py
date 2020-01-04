@@ -9,19 +9,19 @@ from flask import Flask, request, redirect
 from config.config import *
 
 
-app = Flask(__name__)
-app.logger.filename = PATH + '/log/deployer/deployer.log'
-app.logger.level = 20
+depl = Flask(__name__)
+depl.logger.filename = PATH + '/log/deployer/deployer.log'
+depl.logger.level = 20
 
 
 def update_app():
     commands = (f'cd {PATH}', 'git pull origin master', 'supervisorctl restart blog')
     for command in commands:
-        app.logger.info(f'Выполняем "{command}"')
+        depl.logger.info(f'Выполняем "{command}"')
         try:
             os.system(command)
         except Exception as e:
-            app.logger.error(f'Не удалось выполнить "{command}": {e}')
+            depl.logger.error(f'Не удалось выполнить "{command}": {e}')
             break
 
 
@@ -42,14 +42,16 @@ def check_request(req) -> bool:
     return all(conditions)
 
 
-@app.route('/hook', methods=['POST', 'GET'])
+@depl.route('/hook', methods=['POST', 'GET'])
 def hook():
     if request.method == 'POST':
         if check_request(request):
             update_app()
-        return 'Successfully', 200
-    return redirect('/')
+            return 'Successfully', 200
+        else:
+            return 'Forbidden', 403
+    return redirect('', code=301)
 
 
 if __name__ == '__main__':
-    app.run()
+    depl.run()
