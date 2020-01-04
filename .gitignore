@@ -2,10 +2,12 @@ prod.py
 nginx.conf
 manual.txt
 release.txt
-.idea
+.idea/
 test.py
-migrations
-data
+migrations/
+data/
+img/
+uploads/
 
 # Created by https://www.gitignore.io/api/flask,python,windows,pycharm
 # Edit at https://www.gitignore.io/?templates=flask,python,windows,pycharm
