@@ -9,7 +9,7 @@ depl.logger.level = 20
 
 
 def update_app():
-    commands = (f'cd {PATH}', 'git pull origin master', 'supervisorctl restart blog')
+    commands = (f'cd {PATH}', 'git pull origin master', 'sudo supervisorctl restart blog')
     for command in commands:
         depl.logger.info(f'Выполняем "{command}"')
         try:
