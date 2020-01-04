@@ -14,12 +14,11 @@ logging.info('Запустили деплоер')
 
 
 def main():
-    commands = ('cd ~/www/blog', 'git pull origin master', 'supervisorctl restart blog')
+    commands = ('cd ~/www/blog && pwd', 'git pull origin master', 'supervisorctl restart blog')
     for command in commands:
         try:
             logging.info(f'Выполняем {command}')
-            os.system(command)
-            logging.info(f'Выполнено: {command}')
+            logging.info(f'Выполнено: {os.system(command)}')
         except Exception as e:
             logging.error(f'Не удалось выполнить {command}: {e}')
             break
