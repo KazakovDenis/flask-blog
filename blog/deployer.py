@@ -1,11 +1,3 @@
-"""
-sudo chown root:user deployer.py
-sudo chmod o-rwx deployer.py && sudo chmod g+rwx deployer.py
-sudo visudo
-add to the end:
-"username ALL = NOPASSWD: /path/to/deployer.py
- username ALL = NOPASSWD: /usr/bin/supervisorctl"
-"""
 import os
 from flask import Flask, request, redirect
 from config.config import *
