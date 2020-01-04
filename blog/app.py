@@ -75,7 +75,7 @@ class RoleAdminView(AdminMixin, BaseModelView):
     form_columns = ['name', 'description', 'users']
 
 
-admin = Admin(app, 'Back to blog', url='/', index_view=HomeAdminView(), template_mode='bootstrap3',)
+admin = Admin(app, 'Back to blog', url='/', index_view=HomeAdminView(), template_mode='bootstrap3')
 admin.add_view((PostAdminView(Post, db.session)))
 admin.add_view((TagAdminView(Tag, db.session)))
 admin.add_view((UserAdminView(User, db.session)))

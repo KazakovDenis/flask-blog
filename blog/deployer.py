@@ -1,15 +1,9 @@
-"""
-sudo chown root:user deployer.py
-sudo chmod o-rwx deployer.py && sudo chmod g+rwx deployer.py
-sudo visudo
-add to the end: "nobody ALL = NOPASSWD: deployer.py"
-"""
 import os
 from flask import Flask, request, redirect
 from config.config import *
 
 
-depl = Flask(__name__)
+depl = Flask('Deployer')
 depl.logger.filename = PATH + '/log/deployer/deployer.log'
 depl.logger.level = 20
 

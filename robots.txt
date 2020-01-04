@@ -1,19 +1,19 @@
 User-agent: *
 # Disallow upper directories before allowed inner
-Disallow: /
-Allow: /index
+Allow: /
 Allow: /blog
+Disallow: /admin
 # Use your URL
-Sitemap: https://www.mysite.com/sitemap.xml
+Sitemap: https://www.kazakov.ru.net/sitemap.xml
 
 User-agent: Googlebot
-Disallow: /
-Allow: /index
+Allow: /
 Allow: /blog
-Sitemap: https://www.mysite.com/sitemap.xml
+Disallow: /admin
+Sitemap: https://www.kazakov.ru.net/sitemap.xml
 
 User-agent: Yandex
-Disallow: /
-Allow: /index
+Allow: /
 Allow: /blog
-Sitemap: https://www.mysite.com/sitemap.xml
+Disallow: /admin
+Sitemap: https://www.kazakov.ru.net/sitemap.xml
