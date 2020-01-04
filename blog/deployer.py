@@ -6,8 +6,7 @@ add to the end: "nobody ALL = NOPASSWD: deployer.py"
 """
 import logging
 import os
-from time import time
-
+from time import time, sleep
 
 logging.basicConfig(filename="flask.log", level=logging.DEBUG)
 logging.info('Запустили деплоер')
@@ -22,6 +21,7 @@ def main():
         except Exception as e:
             logging.error(f'Не удалось выполнить {command}: {e}')
             break
+        sleep(5)
     return 'Success!', 200
 
 
