@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 # https://github.com/KazakovDenis
+import logging
 import os
 import sys
 
@@ -8,16 +9,18 @@ from flask import render_template, request, url_for, redirect
 from models import Post, Tag
 
 
+logging.basicConfig(filename="flask.log", level=logging.DEBUG)
+
+
 @app.route('/hook', methods=['POST', 'GET'])
 def hook():
     if request.method == 'POST':
+        logging.info('Обработали пост-запрос')
         conditions = (request.headers.get('X-Hub-Signature'),)
         # request.data['repository']['id'] == 208764257, request.data['sender']['id'] == 45169520
         if all(conditions):
+            logging.info('Все условия соблюдены, приступаем к исполнению deployer')
             os.execl(sys.executable, 'python', 'deployer.py')
-            return 'Successfully', 200
-        else:
-            return 'Forbidden', 403
     return redirect(url_for('index'))
 
 
