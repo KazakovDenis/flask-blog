@@ -2,20 +2,22 @@
 sudo chown root:user deployer.py
 sudo chmod o-rwx deployer.py && sudo chmod g+rwx deployer.py
 sudo visudo
-add to the end: "nobody ALL = NOPASSWD: deployer.py"
+add to the end:
+"username ALL = NOPASSWD: /path/to/deployer.py
+ username ALL = NOPASSWD: /usr/bin/supervisorctl"
 """
 import os
 from flask import Flask, request, redirect
 from config.config import *
 
 
-depl = Flask(__name__)
+depl = Flask('Deployer')
 depl.logger.filename = PATH + '/log/deployer/deployer.log'
 depl.logger.level = 20
 
 
 def update_app():
-    commands = (f'cd {PATH}', 'git pull origin master', 'supervisorctl restart blog')
+    commands = (f'cd {PATH}', 'git pull origin master', 'sudo supervisorctl restart blog')
     for command in commands:
         depl.logger.info(f'Выполняем "{command}"')
         try:
