@@ -4,10 +4,6 @@ import os
 from .prod import *
 
 
-# use the statement below to test
-# Configuration = None
-
-
 class TestConfiguration:
     DEBUG = True
     SQLALCHEMY_TRACK_MODIFICATIONS = False
