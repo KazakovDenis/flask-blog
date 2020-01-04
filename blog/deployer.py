@@ -42,9 +42,7 @@ def hook():
         if check_request(request):
             update_app()
             return 'Successfully', 200
-        else:
-            return 'Forbidden', 403
-    return redirect('', code=301)
+    return 'Forbidden', 403
 
 
 if __name__ == '__main__':
