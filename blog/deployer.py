@@ -6,18 +6,18 @@ add to the end: "nobody ALL = NOPASSWD: deployer.py"
 """
 import os
 from flask import Flask, request, redirect
-from config.config import CONFIG
+from config.config import *
 
 
 app = Flask(__name__)
-app.logger.filename = 'log/deployer.log'
+app.logger.filename = PATH + '/log/deployer/deployer.log'
 app.logger.level = 20
 
 
 def update_app():
-    commands = ('cd ~/www/blog', 'git pull origin master', 'supervisorctl restart blog')
+    commands = (f'cd {PATH}', 'git pull origin master', 'supervisorctl restart blog')
     for command in commands:
-        app.logger.info(f'Выполняем {command}')
+        app.logger.info(f'Выполняем "{command}"')
         try:
             os.system(command)
         except Exception as e:
@@ -37,8 +37,8 @@ def verify_signature(received_signature, request_body) -> bool:
 def check_request(req) -> bool:
     received_sign = req.headers.get('X-Hub-Signature').split('sha1=')[-1].strip()
     conditions = (verify_signature(received_sign, req.data),
-                  req.data['repository']['id'] == CONFIG.GH_REPO_ID,
-                  req.data['sender']['id'] == CONFIG.GH_SENDER_ID,)
+                  req.json.get('repository').get('id') == GH_REPO_ID,
+                  req.json.get('sender').get('id') == GH_SENDER_ID,)
     return all(conditions)
 
 

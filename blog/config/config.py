@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # https://github.com/KazakovDenis
 import os
-from .prod import Configuration
+from .prod import *
 
 
 # use the statement below to test
@@ -20,11 +20,6 @@ class TestConfiguration:
     # flask security
     SECURITY_PASSWORD_SALT = 'random_string'
     SECURITY_PASSWORD_HASH = 'sha512_crypt'
-
-    # Github webhooks
-    GH_SECRET = 'random_string'
-    GH_SENDER_ID = 123
-    GH_REPO_ID = 123
 
 
 CONFIG = TestConfiguration if not Configuration else Configuration

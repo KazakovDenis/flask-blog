@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # https://github.com/KazakovDenis
 from flask import Flask, redirect, url_for, request
-from config.config import CONFIG
+from config.config import *
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate, MigrateCommand
 from flask_script import Manager
@@ -13,11 +13,16 @@ from werkzeug.middleware.proxy_fix import ProxyFix
 
 app = Flask(__name__)
 app.config.from_object(CONFIG)
+app.logger.filename = PATH + '/log/flask/flask.log'
+app.logger.level = 20
+
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
+
 manager = Manager(app)
 manager.add_command('db', MigrateCommand)
 app.wsgi_app = ProxyFix(app.wsgi_app)
+
 
 from posts.blueprint import posts
 app.register_blueprint(posts, url_prefix='/blog')
