@@ -18,7 +18,7 @@ def _allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1] in CONFIG.ALLOWED_EXTENSIONS
 
 
-@posts.route('/upload/', methods=['POST', 'GET'])
+@posts.route('/upload', methods=['POST', 'GET'])
 def upload_file():
     if request.method == 'POST':
         file = request.files['file']
@@ -33,8 +33,8 @@ def upload_file():
     return redirect(url_for('index'))
 
 
-@posts.route('/<slug>/edit/', methods=['POST', 'GET'])
-@posts.route('/create/', methods=['POST', 'GET'])
+@posts.route('/<slug>/edit', methods=['POST', 'GET'])
+@posts.route('/create', methods=['POST', 'GET'])
 @login_required
 def create_post(slug=None, img=None):
     # при наличии слага выдаём форму редактирования либо постим изменения
@@ -96,7 +96,7 @@ def index():
 
 # http://domain.com/blog/first-post
 # в <slug> передаётся first-post и далее в post_detail
-@posts.route('/<slug>/')
+@posts.route('/<slug>')
 def post_detail(slug):
     # отфильтровываем в БД посты, имеющие свойство slug, совпадающее с переданными
     # и берём первый найденный пост (он же единственный, т.к. слаг уникален)
@@ -112,7 +112,7 @@ def post_detail(slug):
 
 
 # http://domain.com/blog/tag/the-tag
-@posts.route('/tag/<slug>/')
+@posts.route('/tag/<slug>')
 def tag_detail(slug):
     tag = Tag.query.filter(Tag.slug == slug).first_or_404()
     tags = Tag.query.all()
