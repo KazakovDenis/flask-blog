@@ -2,17 +2,21 @@
 # https://github.com/KazakovDenis
 from flask import Flask, redirect, url_for, request
 from config.config import *
+from flask_admin.contrib.fileadmin import FileAdmin
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate, MigrateCommand
 from flask_script import Manager
 from flask_admin import Admin, AdminIndexView
+from flask_admin.menu import MenuLink
 from flask_admin.contrib.sqla import ModelView
 from flask_security import SQLAlchemyUserDatastore, Security, current_user
+from os import path as op
 from werkzeug.middleware.proxy_fix import ProxyFix
 
 
 app = Flask(__name__)
 app.config.from_object(CONFIG)
+app.wsgi_app = ProxyFix(app.wsgi_app)
 log = app.logger
 log.filename = PATH + '/log/flask/flask.log'
 log.level = 20
@@ -22,7 +26,6 @@ migrate = Migrate(app, db)
 
 manager = Manager(app)
 manager.add_command('db', MigrateCommand)
-app.wsgi_app = ProxyFix(app.wsgi_app)
 
 
 from posts.blueprint import posts
@@ -61,26 +64,35 @@ class HomeAdminView(AdminMixin, AdminIndexView):
 
 
 class PostAdminView(AdminMixin, BaseModelView):
-    form_columns = ['title', 'body', 'tags', 'created']
+    column_list = ('title', 'tags', 'created')
+    form_columns = ('title', 'body', 'tags', 'slug', 'created')
 
 
 class TagAdminView(AdminMixin, BaseModelView):
-    form_columns = ['name', 'posts']
+    form_columns = ('name', 'posts')
 
 
-class UserAdminView(AdminMixin, BaseModelView):
-    form_columns = ['email', 'password', 'roles', 'active']
+class UserAdminView(AdminMixin, ModelView):
+    column_list = ('email', 'roles', 'active')
+    form_columns = ('email', 'password', 'roles', 'active')
 
 
-class RoleAdminView(AdminMixin, BaseModelView):
-    form_columns = ['name', 'description', 'users']
+class RoleAdminView(AdminMixin, ModelView):
+    pass
+
+
+class MyFileAdmin(FileAdmin):
+    def is_accessible(self):
+        return current_user.has_role('admin')
 
 
 admin = Admin(app, 'Admin panel', url='/admin', index_view=HomeAdminView(), template_mode='bootstrap3')
-admin.add_view((PostAdminView(Post, db.session)))
-admin.add_view((TagAdminView(Tag, db.session)))
-admin.add_view((UserAdminView(User, db.session)))
-admin.add_view((RoleAdminView(Role, db.session)))
+admin.add_view(PostAdminView(Post, db.session))
+admin.add_view(TagAdminView(Tag, db.session))
+admin.add_view(UserAdminView(User, db.session))
+admin.add_view(RoleAdminView(Role, db.session))
+admin.add_view(FileAdmin(op.join(op.dirname(__file__), 'static'), '/static/', name='Files'))
+admin.add_link(MenuLink('Back to blog', endpoint='index'))
 
 # -------- Flask security
 user_datastore = SQLAlchemyUserDatastore(db, User, Role)
