@@ -13,8 +13,9 @@ from werkzeug.middleware.proxy_fix import ProxyFix
 
 app = Flask(__name__)
 app.config.from_object(CONFIG)
-app.logger.filename = PATH + '/log/flask/flask.log'
-app.logger.level = 20
+log = app.logger
+log.filename = PATH + '/log/flask/flask.log'
+log.level = 20
 
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)

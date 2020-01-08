@@ -4,7 +4,7 @@ import os
 from flask import Blueprint, redirect, url_for, request, render_template
 from models import Post, Tag
 from .forms import PostForm
-from app import db, CONFIG
+from app import db, CONFIG, log
 from flask_security import login_required
 from werkzeug.utils import secure_filename
 
@@ -54,26 +54,23 @@ def create_post(slug=None, img=None):
     # если слага нет, выдаём пустую форму и постим новую запись
     # пишем пост в БД
     if request.method == 'POST':
-        title = request.form['title']  # получаем значение поля title формы
+        title = request.form['title']
         body = request.form['body']
         try:
             post = Post(title=title, body=body)
             db.session.add(post)
             db.session.commit()
         except Exception as e:
-            print(e)
+            log.error(e)
         return redirect(url_for('posts.index'))
-    # выдаём страницу создания записи
     form = PostForm()
     return render_template('posts/create_post.html', form=form, img=img)
 
 
 @posts.route('/')
 def index():
-    # принимаем аругменты из адресной строки
     # обработчик пагинации
     page = request.args.get('page')
-
     if page and page.isdigit():
         page = int(page)
     else:
@@ -81,37 +78,29 @@ def index():
 
     # обработчик формы поиска
     q = request.args.get('q')
-
-    if q:   # если не пустой запрос, ищем посты с запросом в названии и в теле
+    if q:
         posts = Post.query.filter(Post.title.contains(q) | Post.body.contains(q))
     else:
-        # извлекаем из БД все посты в виде списка
         posts = Post.query.order_by(Post.created.desc())
-    # пагинатор
+
     pages = posts.paginate(page=page, per_page=10)   # объект pagination
     tags = Tag.query.all()
-    # выводим на экран шаблон с пагинацией
     return render_template('posts/index.html', paginator=pages, tags=tags)
 
 
-# http://domain.com/blog/first-post
-# в <slug> передаётся first-post и далее в post_detail
 @posts.route('/<slug>')
 def post_detail(slug):
-    # отфильтровываем в БД посты, имеющие свойство slug, совпадающее с переданными
-    # и берём первый найденный пост (он же единственный, т.к. слаг уникален)
-    post = Post.query.filter(Post.slug == slug).first_or_404()
-    tags = post.tags
+    the_post = Post.query.filter(Post.slug == slug).first_or_404()
+    tags = the_post.tags
     # создаём список смежных постов для правой панели
     cache = []
     for posts_list in [tag.posts.all() for tag in tags]:
+        posts_list = [post for post in posts_list if post.id != the_post.id]
         cache.extend(posts_list)
     adjacent_posts = set(cache)
-    # выводим на экран шаблон post_detail
-    return render_template('posts/post_detail.html', post=post, tags=tags, right_panel=adjacent_posts)
+    return render_template('posts/post_detail.html', post=the_post, tags=tags, right_panel=adjacent_posts)
 
 
-# http://domain.com/blog/tag/the-tag
 @posts.route('/tag/<slug>')
 def tag_detail(slug):
     tag = Tag.query.filter(Tag.slug == slug).first_or_404()
