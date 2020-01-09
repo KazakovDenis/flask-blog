@@ -40,19 +40,19 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('posts.create_post') }}">Новый пост</a>
                     </li>
-
                     <li class="nav-item">
-                        <a class="nav-link" href="/admin">Админка</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="/logout">Выйти</a>
+                        <a class="nav-link" href="{{ url_for('admin.index') }}">Админка</a>
                     </li>
                 {% endif %}
             </ul>
             <div class="row m-1">
                 <div class="mf-2 mr-2"><a href="#" class="text-light"><i class="fab fa-telegram fa-2x"></i></a></div>
                 <div class="mf-2 mr-2"><a href="https://github.com/KazakovDenis" class="text-light"><i class="fab fa-github fa-2x"></i></a></div>
+                {% if current_user.is_authenticated %}
+                    <div class="mf-2 mr-2"><a href="{{ url_for('security.logout') }}" class="text-light"><i class="fas fa-sign-out-alt fa-2x"></i></a></div>
+                {% else %}
+                    <div class="mf-2 mr-2"><a href="{{ url_for('security.login') }}" class="text-light"><i class="fas fa-sign-in-alt fa-2x"></i></a></div>
+                {% endif %}
             </div>
         </div>
     </nav>
