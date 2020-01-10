@@ -62,7 +62,7 @@ def create_post(slug=None, img=None):
             db.session.commit()
         except Exception as e:
             log.error(e)
-        return redirect(url_for('posts.index'))
+        return redirect(url_for('posts.index', _external=True))
     form = PostForm()
     return render_template('posts/create_post.html', form=form, img=img)
 
