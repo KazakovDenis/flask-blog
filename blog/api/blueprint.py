@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 # https://github.com/KazakovDenis
-import os
-from flask import Blueprint, redirect, url_for, request, render_template
+from flask import Blueprint, url_for, request
 from models import Post, Tag
-from app import db, CONFIG
+from app import db
 from flask_security import login_required
-from werkzeug.utils import secure_filename
+
 
 api = Blueprint('api', __name__, template_folder='templates')
 site = 'https://kazakov.ru.net/blog/'
+
 
 @api.route('/posts')
 def get_posts():

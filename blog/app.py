@@ -15,7 +15,7 @@ from werkzeug.middleware.proxy_fix import ProxyFix
 
 
 app = Flask(__name__)
-app.config.from_object(CONFIG)
+app.config.from_object(Configuration)
 app.wsgi_app = ProxyFix(app.wsgi_app)
 log = app.logger
 log.filename = PATH + '/log/flask/flask.log'

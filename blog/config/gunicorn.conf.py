@@ -1,11 +1,11 @@
-import multiprocessing
-from config.prod import PATH
+from os import cpu_count
+from .config import PATH
 
 
-bind = "127.0.0.1:8000"
-workers = multiprocessing.cpu_count() * 2 + 1
-timeout = 600
+bind = '127.0.0.1:8000'
+workers = cpu_count() * 2 + 1
+timeout = 1000
 
-#pythonpath = PATH + '/venv/bin/'
-#accesslog = PATH + '/log/gunicorn/access.log'
-#errorlog = PATH + '/log/gunicorn/error.log'
+pythonpath = f'{PATH}/venv/bin/'
+accesslog = f'{PATH}/log/gunicorn/access.log'
+errorlog = f'{PATH}/log/gunicorn/error.log'

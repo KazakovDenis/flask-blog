@@ -68,7 +68,7 @@ def delete_from_db(obj):
 
 
 def main():
-    check = input('Are you sure database has been created and config.py has been edited? [y/n] --> ').lower()
+    check = input('Are you sure the database has been created and environment variables are set? [y/n] --> ').lower()
     if check == 'y':
         init_tables_from_models()
         add_new_role(name='admin', description='A head of project')
@@ -80,6 +80,8 @@ def main():
         tag = Tag(name='projects')
         add_to_db(tag)
         print('Now you can test the project by >> python3 manage.py runserver')
+    else:
+        print('Aborting')
 
 
 if __name__ == '__main__':
