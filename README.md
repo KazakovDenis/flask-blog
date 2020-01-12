@@ -28,6 +28,7 @@ for supervisor config
 ```
 [program:blog]
 environment=
+    USER="username",
     DB_PASS="database_password",
     FLASK_SECRET="random_string1",
     FLASK_SALT="random_string2",
@@ -35,7 +36,7 @@ environment=
     GH_REPO_ID="random_string4"
 ```
 Choose SQLite in SQLALCHEMY_DATABASE_URI of "config/config.py" or use PostgresQL.
-Look for [psycopg2](https://pypi.org/project/psycopg2/) to install the last and then create database and add a user. 
+Look [psycopg2](https://pypi.org/project/psycopg2/) to install the last and then create a database and add a user. 
 
 ### Starting
 Finally, start the project by executing:
