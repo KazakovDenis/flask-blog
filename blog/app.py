@@ -18,7 +18,7 @@ app = Flask(__name__)
 app.config.from_object(Configuration)
 app.wsgi_app = ProxyFix(app.wsgi_app)
 log = app.logger
-log.filename = PATH + '/log/flask/flask.log'
+log.filename = f'{PATH}/log/flask/flask.log'
 log.level = 20
 
 db = SQLAlchemy(app)

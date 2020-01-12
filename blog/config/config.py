@@ -3,6 +3,8 @@
 import os
 
 
+PATH = os.path.abspath('..')
+
 # database
 USER = os.environ.get('USER')
 PASSWORD = os.environ.get('DB_PASS')
