@@ -10,7 +10,7 @@ api = Blueprint('api', __name__, template_folder='templates')
 site = 'https://kazakov.ru.net/blog/'
 
 
-@api.route('/posts')
+@api.route('/posts/')
 def get_posts():
     q = request.args.get('q')
     if q:
@@ -29,7 +29,7 @@ def get_posts():
     return result
 
 
-@api.route('/tags')
+@api.route('/tags/')
 def get_tags():
     q = request.args.get('q')
     if q:

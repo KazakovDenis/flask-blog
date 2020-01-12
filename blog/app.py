@@ -29,10 +29,10 @@ manager.add_command('db', MigrateCommand)
 
 
 from posts.blueprint import posts
-app.register_blueprint(posts, url_prefix='/blog')
+app.register_blueprint(posts, url_prefix='/blog/')
 
 from api.blueprint import api
-app.register_blueprint(api, url_prefix='/api')
+app.register_blueprint(api, url_prefix='/api/')
 
 # ------ Admin panel
 from models import *
@@ -86,12 +86,12 @@ class MyFileAdmin(FileAdmin):
         return current_user.has_role('admin')
 
 
-admin = Admin(app, 'Admin panel', url='/admin', index_view=HomeAdminView(), template_mode='bootstrap3')
+admin = Admin(app, 'Admin panel', url='/admin/', index_view=HomeAdminView(), template_mode='bootstrap3')
 admin.add_view(PostAdminView(Post, db.session))
 admin.add_view(TagAdminView(Tag, db.session))
 admin.add_view(UserAdminView(User, db.session))
 admin.add_view(RoleAdminView(Role, db.session))
-admin.add_view(FileAdmin(op.join(op.dirname(__file__), 'static'), '/static/', name='Files'))
+admin.add_view(MyFileAdmin(op.join(op.dirname(__file__), 'static'), '/static/', name='Files'))
 admin.add_link(MenuLink('Back to blog', endpoint='index'))
 
 # -------- Flask security

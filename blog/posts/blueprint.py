@@ -18,7 +18,7 @@ def _allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1] in Configuration.ALLOWED_EXTENSIONS
 
 
-@posts.route('/upload', methods=['POST', 'GET'])
+@posts.route('/upload/', methods=['POST', 'GET'])
 def upload_file():
     if request.method == 'POST':
         file = request.files['file']
@@ -33,8 +33,8 @@ def upload_file():
     return redirect(url_for('index'))
 
 
-@posts.route('/<slug>/edit', methods=['POST', 'GET'])
-@posts.route('/create', methods=['POST', 'GET'])
+@posts.route('/<slug>/edit/', methods=['POST', 'GET'])
+@posts.route('/create/', methods=['POST', 'GET'])
 @login_required
 def create_post(slug=None, img=None):
     # при наличии слага выдаём форму редактирования либо постим изменения
@@ -97,7 +97,7 @@ def index():
     return render_template('posts/index.html', paginator=pages, tags=tags)
 
 
-@posts.route('/<slug>')
+@posts.route('/<slug>/')
 def post_detail(slug):
     the_post = Post.query.filter(Post.slug == slug).first_or_404()
     tags = the_post.tags
@@ -110,7 +110,7 @@ def post_detail(slug):
     return render_template('posts/post_detail.html', post=the_post, tags=tags, right_panel=adjacent_posts)
 
 
-@posts.route('/tag/<slug>')
+@posts.route('/tag/<slug>/')
 def tag_detail(slug):
     tag = Tag.query.filter(Tag.slug == slug).first_or_404()
     tags = Tag.query.all()
