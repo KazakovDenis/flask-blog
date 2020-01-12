@@ -42,11 +42,18 @@ def create_post(slug=None, img=None):
         post = Post.query.filter(Post.slug == slug).first_or_404()
         # вносим изменения в пост
         if request.method == 'POST':
-            # в formdata пишем данные формы класса ПостФорм, в obj принимаем значения поста
-            form = PostForm(formdata=request.form, obj=post)
-            form.populate_obj(post)  # метод заполняет форму данным из аргумента
-            db.session.commit()
-            return redirect(url_for('posts.post_detail', slug=post.slug))
+            title = request.form['title']
+            body = request.form['body']
+            if all((title, body)):
+                try:
+                    # в formdata пишем данные формы класса ПостФорм, в obj принимаем значения поста
+                    form = PostForm(formdata=request.form, obj=post)
+                    form.populate_obj(post)  # метод заполняет форму данным из аргумента
+                    db.session.commit()
+                    return redirect(url_for('posts.post_detail', slug=post.slug))
+                except Exception as e:
+                    log.error(e)
+            return redirect(url_for('posts.index'))
         # выдаём страницу редактирования
         form = PostForm(obj=post)
         return render_template('posts/create_post.html', post=post, form=form)
@@ -56,13 +63,15 @@ def create_post(slug=None, img=None):
     if request.method == 'POST':
         title = request.form['title']
         body = request.form['body']
-        try:
-            post = Post(title=title, body=body)
-            db.session.add(post)
-            db.session.commit()
-        except Exception as e:
-            log.error(e)
-        return redirect(url_for('posts.index', _external=True))
+        if all((title, body)):
+            try:
+                post = Post(title=title, body=body)
+                db.session.add(post)
+                db.session.commit()
+                return redirect(url_for('posts.post_detail', slug=post.slug))
+            except Exception as e:
+                log.error(e)
+        return redirect(url_for('posts.index'))
     form = PostForm()
     return render_template('posts/create_post.html', form=form, img=img)
 
@@ -94,7 +103,7 @@ def post_detail(slug):
     tags = the_post.tags
     # создаём список смежных постов для правой панели
     cache = []
-    for posts_list in [tag.posts.all() for tag in tags]:
+    for posts_list in [tag.posts.all() for tag in tags if tag.name != 'projects']:
         posts_list = [post for post in posts_list if post.id != the_post.id]
         cache.extend(posts_list)
     adjacent_posts = set(cache)
