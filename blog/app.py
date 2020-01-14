@@ -81,12 +81,11 @@ class RoleAdminView(AdminMixin, ModelView):
     pass
 
 
-class MyFileAdmin(FileAdmin):
-    def is_accessible(self):
-        return current_user.has_role('admin')
+class MyFileAdmin(AdminMixin, FileAdmin):
+    pass
 
 
-admin = Admin(app, 'Admin panel', url='/admin/', index_view=HomeAdminView(), template_mode='bootstrap3')
+admin = Admin(app, 'Admin panel', url='/admin', index_view=HomeAdminView(), template_mode='bootstrap3')
 admin.add_view(PostAdminView(Post, db.session))
 admin.add_view(TagAdminView(Tag, db.session))
 admin.add_view(UserAdminView(User, db.session))

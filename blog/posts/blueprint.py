@@ -2,11 +2,13 @@
 # https://github.com/KazakovDenis
 import os
 from flask import Blueprint, redirect, url_for, request, render_template
+from markdown import markdown
 from models import Post, Tag
 from .forms import PostForm
 from app import db, Configuration, log
 from flask_security import login_required
 from werkzeug.utils import secure_filename
+from html2text import html2text
 
 
 # всё, что относится к блюпринтам, находится под адресом /blog
@@ -23,7 +25,7 @@ def upload_file():
     if request.method == 'POST':
         file = request.files['file']
         if file and _allowed_file(file.filename):
-            filename = secure_filename(file.filename)   # провекра заливаемого файла на безопасность
+            filename = secure_filename(file.filename)   # проверка заливаемого файла на безопасность
             img = os.path.join(Configuration.UPLOAD_FOLDER, filename)
             file.save(img)
             file.close()
@@ -36,44 +38,37 @@ def upload_file():
 @posts.route('/<slug>/edit/', methods=['POST', 'GET'])
 @posts.route('/create/', methods=['POST', 'GET'])
 @login_required
-def create_post(slug=None, img=None):
-    # при наличии слага выдаём форму редактирования либо постим изменения
-    if slug:
-        post = Post.query.filter(Post.slug == slug).first_or_404()
-        # вносим изменения в пост
-        if request.method == 'POST':
-            title = request.form['title']
-            body = request.form['body']
-            if all((title, body)):
-                try:
-                    # в formdata пишем данные формы класса ПостФорм, в obj принимаем значения поста
-                    form = PostForm(formdata=request.form, obj=post)
-                    form.populate_obj(post)  # метод заполняет форму данным из аргумента
-                    db.session.commit()
-                    return redirect(url_for('posts.post_detail', slug=post.slug))
-                except Exception as e:
-                    log.error(e)
-            return redirect(url_for('posts.index'))
-        # выдаём страницу редактирования
-        form = PostForm(obj=post)
-        return render_template('posts/create_post.html', post=post, form=form)
+def create_post(slug=None):
+    post = Post.query.filter(Post.slug == slug).first_or_404() if slug else None
 
-    # если слага нет, выдаём пустую форму и постим новую запись
-    # пишем пост в БД
     if request.method == 'POST':
-        title = request.form['title']
-        body = request.form['body']
+        from werkzeug.datastructures import MultiDict
+        data = MultiDict(request.form)
+        title = data.get('title')
+        body = data['body'] = html2text(data.get('body') or '')
+
         if all((title, body)):
+            data['body'] = markdown(body)
             try:
-                post = Post(title=title, body=body)
-                db.session.add(post)
-                db.session.commit()
+                if post:
+                    form = PostForm(formdata=data, obj=post)
+                    form.populate_obj(post)
+                    db.session.commit()
+                else:
+                    post = Post(title=title, body=body)
+                    db.session.add(post)
+                    db.session.commit()
                 return redirect(url_for('posts.post_detail', slug=post.slug))
             except Exception as e:
                 log.error(e)
         return redirect(url_for('posts.index'))
-    form = PostForm()
-    return render_template('posts/create_post.html', form=form, img=img)
+
+    if post:
+        body = html2text(post.body)
+        form = PostForm(title=post.title, body=body)
+    else:
+        form = PostForm()
+    return render_template('posts/create_post.html', post=post, form=form)
 
 
 @posts.route('/')
