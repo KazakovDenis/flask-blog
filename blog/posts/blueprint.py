@@ -2,13 +2,14 @@
 # https://github.com/KazakovDenis
 import os
 from flask import Blueprint, redirect, url_for, request, render_template
-from markdown import markdown
-from models import Post, Tag
-from .forms import PostForm
-from app import db, Configuration, log
 from flask_security import login_required
-from werkzeug.utils import secure_filename
 from html2text import html2text
+from markdown2 import markdown
+from models import Post, Tag
+from werkzeug.utils import secure_filename
+
+from app import db, Configuration, log
+from .forms import PostForm
 
 
 # всё, что относится к блюпринтам, находится под адресом /blog
@@ -31,7 +32,6 @@ def upload_file():
             file.close()
             form = PostForm()   # без формы не рендерится
             return render_template('posts/create_post.html', form=form, img=img)    # продумать, как заменить
-    # при попытке get-запроса направляем на главную
     return redirect(url_for('index'))
 
 
@@ -39,13 +39,15 @@ def upload_file():
 @posts.route('/create/', methods=['POST', 'GET'])
 @login_required
 def create_post(slug=None):
+    """Is used to create a new post or to edit an existed post
+    :param slug: attribute 'slug' of the Post object
+    """
     post = Post.query.filter(Post.slug == slug).first_or_404() if slug else None
 
     if request.method == 'POST':
         from werkzeug.datastructures import MultiDict
         data = MultiDict(request.form)
-        title = data.get('title')
-        body = data['body'] = html2text(data.get('body') or '')
+        title, body = data.get('title'), data.get('body', '')
 
         if all((title, body)):
             data['body'] = markdown(body)
@@ -73,6 +75,7 @@ def create_post(slug=None):
 
 @posts.route('/')
 def index():
+    """The blog index page handler"""
     # обработчик пагинации
     page = request.args.get('page')
     if page and page.isdigit():
@@ -94,6 +97,9 @@ def index():
 
 @posts.route('/<slug>/')
 def post_detail(slug):
+    """The post page handler
+    :param slug: attribute 'slug' of the Post object
+    """
     the_post = Post.query.filter(Post.slug == slug).first_or_404()
     tags = the_post.tags
     # создаём список смежных постов для правой панели
@@ -107,6 +113,9 @@ def post_detail(slug):
 
 @posts.route('/tag/<slug>/')
 def tag_detail(slug):
+    """The tag page handler
+    :param slug: attribute 'slug' of the Tag object
+    """
     tag = Tag.query.filter(Tag.slug == slug).first_or_404()
     tags = Tag.query.all()
     posts = tag.posts.order_by(Post.created.desc()).all()

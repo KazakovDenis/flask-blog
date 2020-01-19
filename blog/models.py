@@ -47,7 +47,7 @@ class Post(db.Model):   # модуль SQLAlchemy автоматом назыв�
             self.slug = slugify(self.title)
 
     def __repr__(self):
-        return f'{self.id}.{self.title}'
+        return f'{self.id}. {self.title}'
 
 
 class Tag(db.Model):
