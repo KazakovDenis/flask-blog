@@ -4,7 +4,7 @@ import os
 from flask import Blueprint, redirect, url_for, request, render_template
 from flask_security import login_required
 from html2text import html2text
-from markdown2 import markdown
+from markdown import markdown
 from models import Post, Tag
 from werkzeug.utils import secure_filename
 

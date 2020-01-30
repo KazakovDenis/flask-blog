@@ -1,17 +1,27 @@
 # -*- coding: utf-8 -*-
 # https://github.com/KazakovDenis
-from flask import Blueprint, url_for, request
+import json
+from flask import Blueprint, request, Response
 from models import Post, Tag
-from app import db
-from flask_security import login_required
 
 
 api = Blueprint('api', __name__, template_folder='templates')
 site = 'https://kazakov.ru.net/blog/'
+headers = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': 'Access-Control-Allow-Origin, Content-Type',
+    'Access-Control-Allow-Methods': 'GET',
+}
 
 
-@api.route('/posts/')
+@api.route('/posts/', methods=['GET', 'OPTIONS'])
 def get_posts():
+
+    if request.method == 'OPTIONS':
+        response = Response()
+        response.headers.extend(headers)
+        return response
+
     q = request.args.get('q')
     if q:
         posts = Post.query.filter(Post.title.contains(q) | Post.body.contains(q))
@@ -21,16 +31,26 @@ def get_posts():
     result = {'posts': {post.title: {
                            'id': post.id,
                            'body': post.body,
-                           'created': post.created,
+                           'created': str(post.created),
                            'URL': site + post.slug,
                            'tags': {tag.name: {'tag.id': tag.id, 'URL': site + 'tag/' + tag.slug}
                                     for tag in post.tags},
                        } for post in posts}}
-    return result
+
+    result = json.dumps(result)
+    response = Response(result, content_type='application/json')
+    response.headers.extend(headers)
+    return response
 
 
-@api.route('/tags/')
+@api.route('/tags/', methods=['GET', 'OPTIONS'])
 def get_tags():
+
+    if request.method == 'OPTIONS':
+        response = Response()
+        response.headers.extend(headers)
+        return response
+
     q = request.args.get('q')
     if q:
         tags = Tag.query.filter(Tag.name.contains(q)).order_by(Tag.name.asc())
@@ -45,4 +65,8 @@ def get_tags():
                                           'body': post.body}
                                      for post in tag.posts},
                        } for tag in tags}}
-    return result
+
+    result = json.dumps(result)
+    response = Response(result, content_type='application/json')
+    response.headers.extend(headers)
+    return response
