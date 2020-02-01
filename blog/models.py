@@ -2,23 +2,8 @@
 # https://github.com/KazakovDenis
 from app import db
 from datetime import datetime
-import re
 from flask_security import UserMixin, RoleMixin
-from transliterate import translit
-
-
-def slugify(txt):
-    if not txt:
-        return None
-    txt = txt.lower()
-    # turn to Latin if Cyrillic is here
-    pattern = r'[^\w{IsCyrillic}]'
-    if re.search(pattern, txt):
-        txt = translit(txt, 'ru', reversed=True)
-    # replace all special symbols with dashes
-    pattern = r'[^a-z0-9]+'
-    slug = re.sub(pattern, '-', txt)
-    return slug
+from functions import slugify
 
 
 # в аргументе ForeignKey адрес
