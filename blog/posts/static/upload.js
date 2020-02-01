@@ -1,39 +1,51 @@
 // Обработчик формы загрузки изображения при создании и редактировании поста
 window.addEventListener('DOMContentLoaded', () => {
 
-    function getFile() {
-        let file = document.querySelector('#inputGroupFile02').files[0];
-        return file
+    let form = document.querySelector('#uploadForm');
+
+    function addItem(item_url, item_title) {
+        let row = document.createElement('div');
+        row.innerHTML = `<a href="${item_url}" target="_blank">${item_title}</a>`;
+        document.querySelector('#uploadedFiles').appendChild(row);
     };
 
-    function req() {
+    function upload(e) {
+        e.preventDefault();  // сбрасывает действие по умолчанию - перезагрузку страницы
 
-        var request = new XMLHttpRequest();
-        request.open('POST', '/upload');
-        request.setRequestHeader('Access-Control-Allow-Origin', '*');
+        let filename = form.inputGroupFile02.files[0].name;
+        let formData = new FormData(form);
 
-        file = getFile();
-        console.log(file);
-        request.send(file);
+        let xhr = new XMLHttpRequest();
 
-        request.addEventListener('load', function() {
-
-            if (request.status === 200) {
-                data = request.response;
-                console.log(request.response);
-
-                let row = document.createElement('div');
-                row.innerHTML = `<p><a href="${data}">Загруженное изображение</a></p>`;
-                document.querySelector('#uploadedFiles').appendChild(row);
-                };
+        xhr.open('POST', '/upload');
+        xhr.send(formData);
+        xhr.addEventListener('load', function() {
+            if (xhr.status === 200) {
+                addItem(xhr.response, filename);
+            } else {
+                console.log(xhr.response);
+            };
         });
-
-        request.onload = () => alert(xhr.response);
     };
+    //
+    // async function async_upload(url, data={}, headers={}) {
+    //     const resp = await fetch(url, {
+    //         method: 'POST',
+    //         headers: headers,
+    //         body: data,
+    //     });
+    //
+    //     if (!resp.ok){
+    //         throw new Error(`Could not fetch ${url}, status: ${resp.status}`);
+    //     };
+    //
+    //     return await resp.text();
+    // };
+    //
+    // async_upload('/upload', data=formData)
+    //     .then(data => addItem(data, formData.files[]))
+    //     .catch(err => console.console.error());
+    //
 
-    document.querySelector('#inputGroupFileAddon02').addEventListener('submit', function (event) {
-        this.addEventListener('click', req);
-    },true);
-
-
+    form.addEventListener('submit', (e) => upload(e));
 });
