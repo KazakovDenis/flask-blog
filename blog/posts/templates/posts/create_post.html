@@ -11,9 +11,9 @@
 {% block content %}
     <div class="col h-100">
         {% if post %}
-        <form action="{{ url_for('posts.create_post', slug=post.slug)}}" method="POST" enctype="multipart/form-data">
+        <form action="{{ url_for('posts.create_post', slug=post.slug)}}" method="POST" enctype="multipart/form-data" class="mb-3">
         {% else %}
-        <form action="{{ url_for('posts.create_post')}}" method="POST" enctype="multipart/form-data">
+        <form action="{{ url_for('posts.create_post')}}" method="POST" enctype="multipart/form-data" class="mb-3">
         {% endif %}
             {% for field in form %}
             <div class="form-group">
@@ -23,23 +23,24 @@
             {% endfor %}
             <button type="submit" class="btn btn-success">Опубликовать</button>
         </form>
+
+        <form action="{{ url_for('upload_file')}}" method="POST" enctype="multipart/form-data" id="uploadForm">
+            <div class="input-group mb-3">
+              <div class="custom-file">
+                <input type="file" class="custom-file-input" id="inputGroupFile02" name="file" onchange="getFile()">
+                <label class="custom-file-label"
+                       for="inputGroupFile02" aria-describedby="inputGroupFileAddon02">Выбрать файл</label>
+              </div>
+              <div class="input-group-append">
+                <button type="submit" class="input-group-text" id="inputGroupFileAddon02" name="file">Загрузить</button>
+              </div>
+            </div>
+        </form>
+        <div id="uploadedFiles"></div>
     </div>
 {% endblock %}
 
 {% block rightpanel %}
-    <p class="mb-2"><small>{{ img }}</small></p>
-    <form action="{{ url_for('posts.upload_file')}}" method="POST" enctype="multipart/form-data">
-        <div class="input-group mb-3">
-          <div class="custom-file">
-            <input type="file" class="custom-file-input" id="inputGroupFile02" name="file">
-            <label class="custom-file-label"
-                   for="inputGroupFile02" aria-describedby="inputGroupFileAddon02">Choose file</label>
-          </div>
-          <div class="input-group-append">
-            <button type="submit" class="input-group-text" id="inputGroupFileAddon02" name="file">Upload</button>
-          </div>
-        </div>
-    </form>
     <p>&lt;mark&gt; <mark>marked</mark> &lt;/mark&gt;</p>
     <p>&lt;del&gt; <del>deleted</del> &lt;/del&gt;</p>
     <p>&lt;s&gt; <s>no longer accurate</s> &lt;/s&gt;</p>
@@ -49,4 +50,8 @@
     <p>&lt;strong&gt; <strong>bold</strong> &lt;/strong&gt;</p>
     <p>&lt;em&gt; <em>italicized</em> &lt;/em&gt;</p>
     <p>&lt;kbd&gt; <kbd>terminal or key</kbd> &lt;/kbd&gt;</p>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('posts.static', filename='upload.js') }}"></script>
 {% endblock %}

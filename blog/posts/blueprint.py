@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 # https://github.com/KazakovDenis
 import os
+from datetime import datetime
+
 from flask import Blueprint, redirect, url_for, request, render_template
 from flask_security import login_required
 from html2text import html2text
@@ -8,30 +10,28 @@ from markdown import markdown
 from models import Post, Tag
 from werkzeug.utils import secure_filename
 
-from app import db, Configuration, log
+from app import db, Configuration, log, app
 from .forms import PostForm
 
 
-# всё, что относится к блюпринтам, находится под адресом /blog
-posts = Blueprint('posts', __name__, template_folder='templates')
+posts = Blueprint('posts', __name__, template_folder='templates', static_folder='static')
 
 
-# проверяем загруженное изображение на соответствие расширению
-def _allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1] in Configuration.ALLOWED_EXTENSIONS
-
-
-@posts.route('/upload/', methods=['POST', 'GET'])
+@app.route('/upload', methods=['POST', 'GET'])
 def upload_file():
     if request.method == 'POST':
-        file = request.files['file']
-        if file and _allowed_file(file.filename):
-            filename = secure_filename(file.filename)   # проверка заливаемого файла на безопасность
-            img = os.path.join(Configuration.UPLOAD_FOLDER, filename)
-            file.save(img)
-            file.close()
-            form = PostForm()   # без формы не рендерится
-            return render_template('posts/create_post.html', form=form, img=img)    # продумать, как заменить
+        file = request.files.get('file')
+        if file:
+            filename, extension = file.filename.rsplit('.', 1)[0], file.filename.rsplit('.', 1)[-1]
+            if extension in Configuration.ALLOWED_EXTENSIONS:
+                filename = f"{secure_filename(filename)}{datetime.now().strftime('%Y%m%d-%H%M%S')}.{extension}"
+                checked_file = os.path.join(Configuration.UPLOAD_FOLDER, filename)
+                file.save(checked_file)
+                file.close()
+                return f'/static/uploads/{filename}'
+            else:
+                return 'Bad file'
+        return 'No file'
     return redirect(url_for('index'))
 
 
