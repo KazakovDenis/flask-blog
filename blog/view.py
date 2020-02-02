@@ -3,7 +3,7 @@
 import os
 from datetime import datetime
 
-from flask import redirect, url_for, request, render_template
+from flask import redirect, url_for, request, render_template, flash
 from werkzeug.utils import secure_filename
 
 from app import db, Configuration, log, app
@@ -35,6 +35,7 @@ def upload_file():
                 checked_file = os.path.join(Configuration.UPLOAD_FOLDER, filename)
                 file.save(checked_file)
                 file.close()
+                flash('File uploaded')
                 return f'/static/uploads/{filename}'
             else:
                 return 'Bad file', 400

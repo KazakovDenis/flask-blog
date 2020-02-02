@@ -39,18 +39,6 @@
     </div>
 {% endblock %}
 
-{% block rightpanel %}
-    <p>&lt;mark&gt; <mark>marked</mark> &lt;/mark&gt;</p>
-    <p>&lt;del&gt; <del>deleted</del> &lt;/del&gt;</p>
-    <p>&lt;s&gt; <s>no longer accurate</s> &lt;/s&gt;</p>
-    <p>&lt;ins&gt; <ins>addition</ins> &lt;/ins&gt;</p>
-    <p>&lt;u&gt; <u>underlined</u> &lt;/u&gt;</p>
-    <p>&lt;small&gt; <small>small</small> &lt;/small&gt;</p>
-    <p>&lt;strong&gt; <strong>bold</strong> &lt;/strong&gt;</p>
-    <p>&lt;em&gt; <em>italicized</em> &lt;/em&gt;</p>
-    <p>&lt;kbd&gt; <kbd>terminal or key</kbd> &lt;/kbd&gt;</p>
-{% endblock %}
-
 {% block scripts %}
 <script src="{{ url_for('posts.static', filename='upload.js') }}"></script>
 {% endblock %}
