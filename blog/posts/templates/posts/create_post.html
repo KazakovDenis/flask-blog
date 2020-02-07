@@ -39,6 +39,10 @@
     </div>
 {% endblock %}
 
+{% block rightpanel %}
+    <div id="right-panel" class="container"></div>
+{% endblock %}
+
 {% block scripts %}
 <script src="{{ url_for('posts.static', filename='upload.js') }}"></script>
 {% endblock %}

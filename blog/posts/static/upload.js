@@ -2,11 +2,14 @@
 window.addEventListener('DOMContentLoaded', () => {
 
     let form = document.querySelector('#uploadForm');
-    let textArea = document.querySelector('textarea#body');
+    let textArea = form.inputGroupFile02;
+    let fileInput = document.querySelector('input#inputGroupFile02');
+
+    // ============== добавляем кнопки редактирования текста и вешаем на них события
     let editions = {
-        'btn-bold': [' **text**', '<strong>B</strong>'],
-        'btn-italic': [' _text_', '<em>I</em>'],
-        'btn-underlined': [' <u>text</u>', '<u>U</u>'],
+        'btn-bold': [' **text**', '<strong>Жирный</strong>'],
+        'btn-italic': [' _text_', '<em>Курсив</em>'],
+        'btn-underlined': [' <u>text</u>', '<small><u>Подчёркнутый</u></small>'],
         'btn-deleted': [' ~~text~~', '<del>Зачёркнутый</del>'],
         'btn-marked': [' <mark>text<mark>', '<mark>Выделенный</mark>'],
         'btn-small': [' <small>text<small>', '<small>Мелкий</small>'],
@@ -22,12 +25,18 @@ window.addEventListener('DOMContentLoaded', () => {
     };
 
     function addButtons() {
+        let panel = document.createElement('div');
+        panel.classList.add('row');
+        panel.classList.add('justify-content-around');
+
         Object.keys(editions).forEach(elem => {
-            let btn = document.createElement('p');
+            let btn = document.createElement('div');
             btn.innerHTML = `
-            <button type="button" class="btn btn-outline-dark w-50" id="${elem}">${editions[elem][1]}</button>`;
-            document.querySelector('#right-panel').appendChild(btn);
+            <button type="button" class="btn btn-outline-dark col" id="${elem}">${editions[elem][1]}</button>`;
+            panel.appendChild(btn);
         });
+
+        document.querySelector('#right-panel').appendChild(panel);
     };
 
     addButtons();
@@ -38,7 +47,9 @@ window.addEventListener('DOMContentLoaded', () => {
             addToText(editions[btn_id][0]);
         });
     });
+    // ============== кнопки добавлены
 
+    // добавляем текст в textarea
     function addToText(text_or_url, title='', link=false) {
         let template;
 
@@ -51,6 +62,15 @@ window.addEventListener('DOMContentLoaded', () => {
         textArea.append(text);
     };
 
+    function addToLabel() {
+        if (textArea.files.length > 0) {
+            form.querySelector('label.custom-file-label').append(form.inputGroupFile02.files[0].name);
+        };
+    };
+
+    addToLabel();
+
+    // добавляем ссылку на загруженный файл под форму
     function addLink(item_url, item_title) {
         let row = document.createElement('div');
         row.innerHTML = `<a href="${item_url}" target="_blank">${item_title}</a>`;
