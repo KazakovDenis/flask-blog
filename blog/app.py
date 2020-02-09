@@ -34,6 +34,9 @@ app.register_blueprint(posts, url_prefix='/blog/')
 from api.blueprint import api
 app.register_blueprint(api, url_prefix='/api/')
 
+from sitemap import sitemap
+app.add_url_rule('/sitemap.xml', endpoint='sitemap', view_func=sitemap.view)
+
 # ------ Admin panel
 from models import *
 
