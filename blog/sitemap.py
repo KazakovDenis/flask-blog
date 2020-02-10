@@ -1,6 +1,6 @@
 from app import app, db
 from models import Post, Tag
-from sitemap_ext.sitemap_ext import Sitemap
+from sitemap_ext import Sitemap
 
 
 class Config:

@@ -30,6 +30,7 @@ Moreover you can get a static file by using:
 """
 from collections import namedtuple
 from datetime import datetime
+import logging
 from os.path import abspath, join, exists
 from re import split
 from xml.etree import ElementTree as ET
@@ -40,7 +41,7 @@ from flask import render_template, make_response
 # todo: lastmod неизменённых
 # todo: проблема с :path
 # todo: динамика
-# todo: логгирование
+# todo: логгирование, импорты
 # todo: итератор для больших списков
 # dependencies
 
@@ -65,6 +66,13 @@ class SitemapConfig:
     FOLDER = ('..', )
     IGNORED = ['/admin', '/static', ]
     INDEX_PRIORITY = CONTENT_PRIORITY = ALTER_PRIORITY = None
+
+    # logging
+    DEFAULT_LOGGER = False
+    LOG_FILENAME = 'sitemap.log'
+    LOG_FOLDER = ('.',)
+    LOG_FILE = join(*LOG_FOLDER, LOG_FILENAME)
+    LOG_FORMAT = "@%(name)s [%(asctime)s] %(levelname)s in %(module)s: %(message)s"
 
     def from_object(self, obj):
         """Updates the values from the given object
@@ -112,10 +120,21 @@ class Sitemap:
         self.start = datetime.now().strftime('%Y-%m-%dT%H:%M:%S')
         self.rules = [rule_obj.rule for rule_obj in list(app.url_map.iter_rules()) if 'GET' in rule_obj.methods]
         self.rules.sort(key=len)
+        self._create_template()
+
+        # logger
+        self.log = app.logger.getChild('sitemap')
+        if not self.config.DEFAULT_LOGGER:
+            handler = logging.FileHandler(self.config.LOG_FILE, encoding='utf-8')
+            handler.setFormatter(logging.Formatter(self.config.LOG_FORMAT))
+            self.log.addHandler(handler)
+        else:
+            from flask.logging import default_handler
+            self.log.addHandler(default_handler)
+
+        # containers
         self.data = []
         self.models = {}
-
-        self._create_template()
 
     def _create_template(self):
         """Creates a template xml file in app templates directory"""
@@ -169,7 +188,7 @@ class Sitemap:
             else:
                 self.data.append(Record(self.url + uri, self.start, self.config.ALTER_PRIORITY))
 
-    def _replace_patterns(self, uri, splitted):
+    def _replace_patterns(self, uri, splitted) -> list:
         """Replaces '/<slug>/...' with real URIs
 
         :param uri: a relative URL without base

@@ -1,1 +1,1 @@
-from sitemap_ext import *
+from .sitemap_ext import *
