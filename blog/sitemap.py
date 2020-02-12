@@ -1,19 +1,32 @@
-from app import app, db
+import logging
+from os.path import join
+
+from app import app
 from models import Post, Tag
-from sitemap_ext import Sitemap
+from sitemap_ext import FlaskSitemap
 
 
-class Config:
+log = logging.getLogger('sitemap')
+log.setLevel(20)
 
+fh = logging.FileHandler(join('.', 'sitemap.log'), encoding='utf-8')
+fh.setLevel(20)
+fh.setFormatter(logging.Formatter("[%(asctime)s] %(levelname)s in %(module)s: %(message)s"))
+log.addHandler(fh)
+
+
+class SMConfig:
     FOLDER = ('static',)
     IGNORED = ['/static', '/admin', ]
     INDEX_PRIORITY = 1.0
+    LOGGER = log
 
 
-sitemap = Sitemap(app, 'https://kazakov.ru.net', config_obj=Config)
+sitemap = FlaskSitemap(app, 'https://kazakov.ru.net', config_obj=SMConfig)
 sitemap.add_rule('/blog', Post, lastmod='created')
 sitemap.add_rule('/blog/tag', Tag, priority=0.8)
+sm_view = sitemap.view
 
 
 if __name__ == '__main__':
-    sitemap.build()
+    sitemap.build_static()

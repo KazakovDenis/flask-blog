@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 # https://github.com/KazakovDenis
+from os import path as op
+import logging
+
 from flask import Flask, redirect, url_for, request
-from config.config import *
 from flask_admin.contrib.fileadmin import FileAdmin
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate, MigrateCommand
@@ -10,16 +12,22 @@ from flask_admin import Admin, AdminIndexView
 from flask_admin.menu import MenuLink
 from flask_admin.contrib.sqla import ModelView
 from flask_security import SQLAlchemyUserDatastore, Security, current_user
-from os import path as op
 from werkzeug.middleware.proxy_fix import ProxyFix
+
+from config.config import *
 
 
 app = Flask(__name__)
 app.config.from_object(Configuration)
 app.wsgi_app = ProxyFix(app.wsgi_app)
+
+# logger
 log = app.logger
-log.filename = f'{PATH}/log/flask/flask.log'
-log.level = 20
+log.setLevel(LOG_LEVEL)
+fh = logging.FileHandler(f'{PATH}/log/flask/flask.log', encoding='utf-8')
+fh.setFormatter(logging.Formatter(LOG_FORMAT))
+log.addHandler(fh)
+log.info('Flask app initialized')
 
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
@@ -34,8 +42,8 @@ app.register_blueprint(posts, url_prefix='/blog/')
 from api.blueprint import api
 app.register_blueprint(api, url_prefix='/api/')
 
-from sitemap import sitemap
-app.add_url_rule('/sitemap.xml', endpoint='sitemap', view_func=sitemap.view)
+from sitemap import sm_view
+app.add_url_rule('/sitemap.xml', endpoint='sitemap', view_func=sm_view)
 
 # ------ Admin panel
 from models import *

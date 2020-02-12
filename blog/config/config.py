@@ -14,6 +14,10 @@ GH_SECRET = os.environ.get('GH_SECRET')
 GH_SENDER_ID = os.environ.get('GH_SENDER_ID')
 GH_REPO_ID = os.environ.get('GH_REPO_ID')
 
+# logging
+LOG_LEVEL = 20
+LOG_FORMAT = "[%(asctime)s] @%(name)s  %(levelname)s in %(module)s: %(message)s"
+
 
 class Configuration:
     DEBUG = False
