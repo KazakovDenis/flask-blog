@@ -52,11 +52,12 @@ from flask import render_template, make_response, request
 # todo: решить с :path
 # todo: тесты
 
-__all__ = ('Record', 'SitemapMeta', 'FlaskSitemap')
+__all__ = ('Record', 'SitemapMeta', 'FlaskSitemap', 'DjangoSitemap')
 
 Record = namedtuple('Record', 'loc lastmod priority')
 Response = TypeVar('Response')
 FlaskApp = TypeVar('FlaskApp')
+DjangoApp = TypeVar('DjangoApp')
 
 
 class SitemapConfig:
@@ -137,7 +138,7 @@ class SitemapMeta(metaclass=ABCMeta):
     def __init__(self, app, base_url: str, config_obj=None):
         """Creates an instance of a Sitemap
 
-        :param app: an instance of Flask application
+        :param app: an application instance
         :param base_url: your base URL such as 'http://site.com'
         :param config_obj: a class with configurations
         """
@@ -147,13 +148,13 @@ class SitemapMeta(metaclass=ABCMeta):
         self.url = base_url
 
         # attributes to override
-        self.log = None             # an instance of logging.Logger (set in config)
-        self.rules = None           # a list of URL rules of an app like ['/model/<slug>', '/<path:path>']
-        self.query = None           # a query to get all objects of a model: self.queries[framework_name]
+        self.log = self.config.LOGGER     # an instance of logging.Logger (set in config)
+        self.rules = None                 # a list of URL rules of an app like ['/model/<slug>', '/<path:path>']
+        self.query = None                 # a query to get all objects of a model: self.queries[framework_name]
 
         # containers
-        self.data = []              # to store Record instances
-        self.models = {}            # to store db objects added by add_rule
+        self.data = []                    # to store Record instances
+        self.models = {}                  # to store db objects added by add_rule
 
     def add_rule(self, path: str, model, slug='slug', lastmod: str=None, priority: float=None):
         """Adds a rule to the builder to generate urls by a template using models of an app
@@ -314,7 +315,7 @@ class FlaskSitemap(SitemapMeta):
     """A sitemap generator for a Flask application"""
 
     def __init__(self, app: FlaskApp, base_url: str, config_obj=None):
-        """Creates an instance of a Sitemap. Required arguments: app, base_url
+        """Creates an instance of a Sitemap
 
         :param app: an instance of Flask application
         :param base_url: your base URL such as 'http://site/com'
@@ -323,7 +324,8 @@ class FlaskSitemap(SitemapMeta):
         super().__init__(app, base_url, config_obj)
         assert self.app.extensions.get('sqlalchemy'), 'Flask-SQLAlchemy not found'
 
-        self.log = self.config.LOGGER or self.app.logger.getChild('sitemap')
+        if not self.log:
+            self.log = self.app.logger.getChild('sitemap')
         if self.config.DEBUG:
             self.set_debug_level()
 
@@ -343,6 +345,23 @@ class FlaskSitemap(SitemapMeta):
         response.headers['Content-Type'] = 'application/xml'
         self.log.info(f'[{request.method}] Requested by {request.remote_addr}')
         return response
+
+
+# todo
+class DjangoSitemap(SitemapMeta):
+    """A sitemap generator for a Django application"""
+
+    def __init__(self, app: DjangoApp, base_url: str, config_obj=None):
+        """Creates an instance of a Sitemap
+
+        :param app: an instance of Django application
+        :param base_url: your base URL such as 'http://site/com'
+        :param config_obj: a class with configurations
+        """
+        super().__init__(app, base_url, config_obj)
+
+    def view(self):
+        pass
 
 
 def test():
