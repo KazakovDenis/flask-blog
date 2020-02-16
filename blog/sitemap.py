@@ -7,17 +7,18 @@ from sitemap_ext import FlaskSitemap
 
 
 log = logging.getLogger('sitemap')
-log.setLevel(20)
+log.setLevel(30)
 
 fh = logging.FileHandler(join('.', 'sitemap.log'), encoding='utf-8')
-fh.setLevel(20)
+fh.setLevel(30)
 fh.setFormatter(logging.Formatter("[%(asctime)s] %(levelname)s in %(module)s: %(message)s"))
 log.addHandler(fh)
 
 
 class SMConfig:
+    DEBUG = False
     FOLDER = ('static',)
-    IGNORED = ['/static', '/admin', ]
+    IGNORED = ['/admin', '/edit', '/static', '/upload']
     INDEX_PRIORITY = 1.0
     LOGGER = log
 
