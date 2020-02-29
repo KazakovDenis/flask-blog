@@ -14,11 +14,11 @@ Basic example:
     sitemap = FlaskSitemap(app, 'https://mysite.com')
     sitemap.config.IGNORED.extend(['/edit', '/upload'])
     sitemap.config.FOLDER = ('..', 'static',)
-    sitemap.add_rule('/blog', Post, lastmod='created')
-    sitemap.add_rule('/blog/tag', Tag, priority=0.4)
+    sitemap.add_rule('/app', Post, lastmod='created')
+    sitemap.add_rule('/app/tag', Tag, priority=0.4)
     app.add_url_rule('/sitemap.xml', endpoint='sitemap', view_func=sitemap.view)
 
-also you can set configurations from your class:
+IGNORED has a priority over add_rule. Also you can set configurations from your class:
 
     sm_logger = logging.getLogger('sitemap')
     sm_logger.setLevel(30)
@@ -49,7 +49,7 @@ from flask import render_template, make_response, request
 
 
 # todo: lastmod неизменённых
-# todo: решить с :path
+# todo: решить с path:path, path:filename в replace patterns # /static/<path:filename>
 # todo: тесты
 
 __all__ = ('Record', 'SitemapMeta', 'FlaskSitemap', 'DjangoSitemap')
@@ -165,9 +165,8 @@ class SitemapMeta(metaclass=ABCMeta):
         :param lastmod: an attribute of this model which is instance of the datetime object
         :param priority: a priority of URL to be set
         """
-        priority = priority or self.config.CONTENT_PRIORITY
-
         if priority:
+            priority = round(priority or self.config.CONTENT_PRIORITY, 1)
             assert 0.0 < priority <= 1.0, 'Priority should be a float between 0.0 and 1.0'
 
         self.models.update({path: (model, slug, lastmod, priority)})
@@ -230,11 +229,11 @@ class SitemapMeta(metaclass=ABCMeta):
                     file.write(self.tree)
                     self.log.info(f'Template has been created: {filename}')
             except FileNotFoundError as e:
-                error = f'Seems like {filename} is not found or credentials required.'
+                error = f'BAD PATH: Seems like {filename} is not found or credentials required.'
                 self.log.error(error)
                 raise Exception(error) from e
 
-    def _exclude(self) -> list:
+    def _exclude(self) -> iter:
         """Excludes URIs in config.IGNORED from self.rules"""
         self.rules, public_uris = tee(self.rules, 2)
 
@@ -270,7 +269,7 @@ class SitemapMeta(metaclass=ABCMeta):
         self.log.debug('Data for the sitemap is ready')
 
     def _replace_patterns(self, uri: str, splitted: list) -> list:
-        """Replaces '/<slug>/...' with real URIs
+        """Replaces '/<converter:name>/...' with real URIs
 
         :param uri: a relative URL without base
         :param splitted: a list with parts of URI
@@ -280,7 +279,7 @@ class SitemapMeta(metaclass=ABCMeta):
         prefix, end = splitted[0], splitted[-1]
         prefix = '/' if not prefix else prefix
 
-        assert self.models.get(prefix), f'Your should add {uri} to ignored or add a new rule'
+        assert self.models.get(prefix), f"Your should add '{uri}' or it's part to ignored or add a new rule"
 
         model, slug, updated, priority = self.models.get(prefix)
         prepared = []
@@ -345,28 +344,3 @@ class FlaskSitemap(SitemapMeta):
         response.headers['Content-Type'] = 'application/xml'
         self.log.info(f'[{request.method}] Requested by {request.remote_addr}')
         return response
-
-
-# todo
-class DjangoSitemap(SitemapMeta):
-    """A sitemap generator for a Django application"""
-
-    def __init__(self, app: DjangoApp, base_url: str, config_obj=None):
-        """Creates an instance of a Sitemap
-
-        :param app: an instance of Django application
-        :param base_url: your base URL such as 'http://site/com'
-        :param config_obj: a class with configurations
-        """
-        super().__init__(app, base_url, config_obj)
-
-    def view(self):
-        pass
-
-
-def test():
-    pass
-
-
-if __name__ == '__main__':
-    test()

@@ -5,12 +5,12 @@ from flask_security import login_required
 from html2text import html2text
 from markdown import markdown
 
-from app import db, Configuration, log
+from blog import db, Configuration, log
 from models import Post, Tag
 from .forms import PostForm
 
 
-posts = Blueprint('posts', __name__, template_folder='templates', static_folder='static')
+posts = Blueprint('posts', __name__, template_folder='templates', static_folder='.')
 
 
 @posts.route('/<slug>/edit/', methods=['POST', 'GET'])
@@ -53,7 +53,7 @@ def create_post(slug=None):
 
 @posts.route('/')
 def index():
-    """The blog index page handler"""
+    """The app index page handler"""
     # обработчик пагинации
     page = request.args.get('page')
     if page and page.isdigit():

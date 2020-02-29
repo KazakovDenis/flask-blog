@@ -1,7 +1,7 @@
 """
 The module to be pointed in WSGI configurations
 """
-from app import app, db
+from blog import app, db
 import view
 
 

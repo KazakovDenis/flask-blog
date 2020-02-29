@@ -1,26 +1,22 @@
 # -*- coding: utf-8 -*-
 # https://github.com/KazakovDenis
-from app import db
+from blog import db
 from datetime import datetime
 from flask_security import UserMixin, RoleMixin
 from functions import slugify
 
 
-# в аргументе ForeignKey адрес
 post_tags = db.Table('post_tags',
                      db.Column('post_id', db.Integer, db.ForeignKey('post.id')),
                      db.Column('tag_id', db.Integer, db.ForeignKey('tag.id')))
 
 
-class Post(db.Model):   # модуль SQLAlchemy автоматом называет таблицу именем класса
+class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(140))
     slug = db.Column(db.String(140), unique=True)
     body = db.Column(db.Text)
     created = db.Column(db.DateTime, default=datetime.now())
-    # выстраиваем отношения с классом Tag
-    # backref неявно создаёт допольнительное свойство связанному классу
-    # lazy='dynamic' позволяет при обращении к экземпляру класса получать объект BaseQuery
     tags = db.relationship('Tag', secondary=post_tags, backref=db.backref('posts', lazy='dynamic'))
 
     def __init__(self, *args, **kwargs):
@@ -38,7 +34,7 @@ class Post(db.Model):   # модуль SQLAlchemy автоматом назыв�
 class Tag(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100))
-    slug = db.Column(db.String(100))    # todo: unique=True  !!!!!!
+    slug = db.Column(db.String(100), unique=True)
 
     def __init__(self, *args, **kwargs):
         super(Tag, self).__init__(*args, **kwargs)
@@ -52,11 +48,10 @@ class Tag(db.Model):
         return self.name
 
 
-### Flask security
+# Flask security
 roles_users = db.Table('roles_users',
                        db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
                        db.Column('role_id', db.Integer, db.ForeignKey('role.id')))
-# попробовать ForeignKey('users.id', onupdate="CASCADE", ondelete="CASCADE")
 
 
 class User(db.Model, UserMixin):

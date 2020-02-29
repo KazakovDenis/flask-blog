@@ -41,7 +41,7 @@ Look [psycopg2](https://pypi.org/project/psycopg2/) to install the last and then
 ### Starting
 Finally, start the project by executing:
 ```shell script
-$ cd your/blog/root/directory/
+$ cd your/app/root/directory/
 $ source venv/bin/activate
 $ python startproject.py
 > Are you sure the database has been created and environment variables are set? [y/n] --> y
