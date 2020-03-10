@@ -3,7 +3,7 @@
 import os
 
 
-PATH = os.path.abspath('..')
+PATH = os.path.abspath('.')
 
 # database
 USER = os.environ.get('USER')
