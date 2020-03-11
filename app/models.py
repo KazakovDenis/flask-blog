@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 # https://github.com/KazakovDenis
-from blog import db
 from datetime import datetime
 from flask_security import UserMixin, RoleMixin
-from functions import slugify
+
+from app.blog import db
+from app.functions import slugify
 
 
 post_tags = db.Table('post_tags',

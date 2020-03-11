@@ -5,12 +5,12 @@
         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
     {% for record in data %}
     <url>
-        <loc>{ record.loc }</loc>
+        <loc>{{ record.loc }}</loc>
         {% if record.lastmod %}
-        <lastmod>{ record.lastmod }</lastmod>
+        <lastmod>{{ record.lastmod }}</lastmod>
         {% endif %}
         {% if record.priority %}
-        <priority>{ record.priority }</priority>
+        <priority>{{ record.priority }}</priority>
         {% endif %}
     </url>
     {% endfor %}

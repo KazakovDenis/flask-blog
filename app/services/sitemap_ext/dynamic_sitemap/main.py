@@ -40,7 +40,7 @@ from abc import ABCMeta, abstractmethod
 from collections import namedtuple
 from datetime import datetime
 from itertools import tee
-from os.path import abspath, join, exists
+import os
 from re import search, split
 from shutil import copyfile
 from typing import TypeVar
@@ -154,7 +154,7 @@ class SitemapMeta(metaclass=ABCMeta):
         """
         self._prepare_data()
 
-        fullname = filename if not isinstance(self.config.FOLDER, str) else join(*self.config.FOLDER, filename)
+        fullname = filename if not isinstance(self.config.FOLDER, str) else os.path.join(*self.config.FOLDER, filename)
         self.log.info(f'Creating {fullname}...')
 
         url_set = ET.Element('urlset', self.attrs)
@@ -215,12 +215,12 @@ class SitemapMeta(metaclass=ABCMeta):
         """Copies an xml file with Jinja2 template to an app templates directory
         :param folder: a template folder or a path to
         """
-        source = join('dynamic_sitemap', 'templates', 'jinja2.xml')
-        root = abspath(self.app.__module__).rsplit('/', 1)[0]
-        folder = folder if isinstance(folder, str) else join(*folder)
-        filename = join(root, folder, 'sitemap.xml')
+        source = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'templates', 'jinja2.xml')
+        root = os.path.abspath(self.app.__module__).rsplit('/', 1)[0]
+        folder = folder if isinstance(folder, str) else os.path.join(*folder)
+        filename = os.path.join(root, folder, 'sitemap.xml')
 
-        if not exists(filename):
+        if not os.path.exists(filename):
             try:
                 copyfile(source, filename)
                 self.log.info(f'Template has been created: {filename}')
@@ -228,11 +228,12 @@ class SitemapMeta(metaclass=ABCMeta):
                 error = '[BAD PATH] Seems like this path is not found or credentials required: ' + filename
                 self.log.error(error)
                 raise Exception(error) from e
-        else:
-            if not self.config.DEBUG:
-                msg = 'Sitemap already exists. Operation stopped'
-                self.log.error(msg)
-                raise FileExistsError(msg)
+        # todo
+        # else:
+        #     if not self.config.DEBUG:
+        #         msg = 'Sitemap already exists. Operation stopped'
+        #         self.log.error(msg)
+        #         raise FileExistsError(msg)
 
     def _exclude(self) -> iter:
         """Excludes URIs in config.IGNORED from self.rules"""

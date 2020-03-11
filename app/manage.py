@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # https://github.com/KazakovDenis
-from blog import manager
-import view
+from app.blog import manager
+from app import view
 
 
 if __name__ == '__main__':

@@ -22,7 +22,7 @@ manager.add_command('db', MigrateCommand)
 
 from .services import log
 from .posts.blueprint import posts
-app.register_blueprint(posts, url_prefix='/app/')
+app.register_blueprint(posts, url_prefix='/blog/')
 
 from .api.blueprint import api
 app.register_blueprint(api, url_prefix='/api/')
@@ -31,5 +31,6 @@ from .models import User, Role
 user_datastore = SQLAlchemyUserDatastore(db, User, Role)
 security = Security(app, user_datastore)
 
+from .admin import admin
 from .sitemap import sm_view
 app.add_url_rule('/sitemap.xml', endpoint='sitemap', view_func=sm_view)

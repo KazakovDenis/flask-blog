@@ -5,8 +5,8 @@ from flask_security import login_required
 from html2text import html2text
 from markdown import markdown
 
-from blog import db, Configuration, log
-from models import Post, Tag
+from app.blog import db, log
+from app.models import Post, Tag
 from .forms import PostForm
 
 

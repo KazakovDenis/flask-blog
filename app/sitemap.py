@@ -6,7 +6,8 @@ from .services import FlaskSitemap, sm_log
 class SMConfig:
     DEBUG = False
     FOLDER = ('static',)
-    IGNORED = ['/admin', '/edit', '/static', '/upload']
+    # todo: что за '/blog/./' ???
+    IGNORED = ['/admin', '/edit', '/static', '/upload', '/blog/./']
     INDEX_PRIORITY = 1.0
     LOGGER = sm_log
 

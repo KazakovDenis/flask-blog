@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 # https://github.com/KazakovDenis
 import json
-
 from flask import Blueprint, request, Response
-from models import Post, Tag
+
+from app.models import Post, Tag
 
 
 api = Blueprint('api', __name__, template_folder='templates')

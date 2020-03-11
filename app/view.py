@@ -6,9 +6,9 @@ from datetime import datetime
 from flask import redirect, url_for, request, render_template, flash
 from werkzeug.utils import secure_filename
 
-from blog import db, Configuration, log, app
-from functions import rusify
-from models import Post, Tag
+from .blog import db, Configuration, log, app
+from .functions import rusify
+from .models import Post, Tag
 
 
 @app.route('/')

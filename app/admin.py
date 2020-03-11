@@ -7,8 +7,8 @@ from flask_admin.menu import MenuLink
 from flask_admin.contrib.sqla import ModelView
 from flask_security import current_user
 
-from blog import app, db
-from models import Post, Tag, User, Role
+from .blog import app, db
+from .models import Post, Tag, User, Role
 
 
 class AdminMixin:
