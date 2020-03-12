@@ -1,3 +1,4 @@
-[submodule "dynamic-sitemap"]
+[submodule "sitemap"]
 	path = app/services/sitemap_ext
-	url = https://github.com/KazakovDenis/dynamic-sitemap.git
+	url = https://github.com/KazakovDenis/dynamic-sitemap
+	branch = dev
