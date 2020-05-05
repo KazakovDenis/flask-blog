@@ -41,3 +41,8 @@ def upload_file():
                 return 'Bad file', 400
         return 'No file', 406
     return redirect(url_for('index'))
+
+
+@app.route('/cv')
+def get_cv():
+    return render_template('cv.html')
