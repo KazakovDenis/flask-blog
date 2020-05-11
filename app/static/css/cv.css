@@ -125,6 +125,7 @@ body {
   border-radius: 5%;
   background-image: url(https://instagram.fhel3-1.fna.fbcdn.net/v/t51.2885-15/sh0.08/e35/s640x640/37718115_227978708046421_5349552036851482624_n.jpg?_nc_ht=instagram.fhel3-1.fna.fbcdn.net&_nc_cat=101&_nc_ohc=cSqevng0Yn4AX9gbiLH&oh=bcb6bdfef2db639e99dbb1b1ca0d3fa0&oe=5EDB5FC4);
   background-size: cover;
+  background-position: bottom right;
   box-shadow: 5px 10px 20px black;
 }
 
@@ -133,13 +134,6 @@ body {
   min-width: 110px;
   padding: 0;
   margin: 0px 15px;
-}
-
-.points {
-  min-width: 100px;
-  max-width: 120px;
-  margin: 0;
-  padding: 0;
 }
 
 .point {
@@ -151,4 +145,8 @@ body {
   margin: 2px 2px;
   background: radial-gradient(farthest-side ellipse at top left, white, #aaaaaa);
   box-shadow: 5px 10px 20px rgba(0,0,0,0.3);
+}
+
+.tech {
+  min-width: 250px;
 }
