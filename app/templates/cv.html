@@ -27,27 +27,34 @@
 <body>
 <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
     <header class="masthead mb-auto">
-        <div class="inner">
-        <h3 class="masthead-brand my-2">Backend & testing</h3>
-        <nav class="nav nav-masthead justify-content-center">
-        <a class="nav-link active" href="#">CV</a>
-        <a class="nav-link" href="/blog">Notes</a>
-        <a class="nav-link" href="/blog/tag/projects/">Projects</a>
-        <a class="nav-link" href="#contacts">Contacts</a>
-      </nav>
-    </div>
+        <nav class="navbar navbar-dark navbar-expand-lg nav-masthead d-flex w-100 justify-content-between">
+            <a class="masthead-brand my-2 text-decoration-none" href="{{ url_for('cv') }}">Backend & testing</a>
+            <button class="navbar-toggler m-2" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="justify-content-end collapse navbar-collapse" id="navbarTogglerDemo01">
+                <a class="nav-link active" href="#">CV</a>
+                <a class="nav-link" href="{{ url_for('index') }}">Notes</a>
+                <a class="nav-link" href="{{ url_for('posts.tag_detail', slug='projects') }}">Projects</a>
+                <a class="nav-link" href="#contacts">Contacts</a>
+                {% if current_user.has_role('admin') %}
+                    <a class="nav-link" href="{{ url_for('posts.create_post') }}">Новый пост</a>
+                    <a class="nav-link" href="{{ url_for('admin.index') }}">Админка</a>
+                {% endif %}
+            </div>
+        </nav>
     </header>
     <main role="main" class="inner cover mt-5">
         <div class="d-flex flex-wrap justify-content-center">
-            <div class="text-wrap text-justify px-5" style="max-width: 40em;">
+            <div class="text-wrap text-justify px-5 mb-5" style="max-width: 40em;">
                 <h1 class="cover-heading">Denis Kazakov</h1>
                 <p class="lead">Hello, let's get acquainted!</p>
                 <p class="lead">I'm a programmer living in Russia, Novosibirsk. This page is intended to make you find me out. Technologies I have deal with are listed below.</p>
-                <p class="lead mt-2">
+                <p class="lead mt-2 text-center text-sm-left">
                   <a href="https://profile-summary-for-github.com/user/kazakovdenis" class="btn btn-md btn-secondary" target="_blank">Github overview</a>
                 </p>
             </div>
-            <div class="d-flex px-5" id="myphoto"></div>
+            <div class="d-flex p-5" id="myphoto"></div>
         </div>
         <h3 class="cover-heading text-center mt-5 w-100">Skills</h3>
         <div class="container-fluid">
@@ -132,7 +139,7 @@
                 <div class="d-flex my-2">
                     <ul class="list-group bg-transparent tech">
                       <li class="list-group-item d-flex justify-content-center bg-transparent">
-                        <b>Devops</b>
+                        <b>CI / CD</b>
                       </li>
                       <li class="list-group-item d-flex justify-content-between align-items-center bg-transparent">
                         Jenkins
@@ -273,7 +280,7 @@
         </div>
     </main>
     <footer class="mastfoot mt-auto">
-        <div class="inner">
+        <div class="inner text-center">
             <p>Powered by Flask</p>
         </div>
     </footer>
