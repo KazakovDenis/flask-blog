@@ -123,5 +123,8 @@ body {
 
 .icon {
   width: 30px;
+}
+
+.inverted {
   filter: invert(100%);
 }

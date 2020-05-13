@@ -6,7 +6,6 @@ release.txt
 test.py
 migrations/
 data/
-img/
 uploads/
 
 # Created by https://www.gitignore.io/api/flask,python,windows,pycharm
