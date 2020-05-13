@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block title %}
+
+    Конспект начинающего программиста
+
+{% endblock %}
+
+{% block content_title %}
+
+    Конспект начинающего программиста
+
+{% endblock %}
+
+{% block content %}
+
+    {% for post in posts %}
+        <div class="">
+            <p class="h3 mb-0">
+                <a href="{{ url_for('posts.post_detail', slug=post.slug) }}">{{ post.title }}</a>
+            </p>
+            <small class="text-muted">{{ post.created.strftime('%d.%m.%Y %H:%M') }}</small>
+
+            <p class="text-justify mb-0 mt-2">{{ post.body | safe }}</p>
+
+            {% for tag in post.tags %}
+                <a href="/blog/tag/{{ tag.slug }}">
+                    <span class="badge badge-info text-decoration-none">
+                        {{ tag }}
+                    </span></a>
+            {% endfor %}
+        </div>
+        <hr>
+    {% endfor %}
+
+{% endblock %}
+
+{% block rightpanel %}
+
+    <p class="text-center font-weight-bolder">Все темы:</p>
+
+    {% for tag in tags %}
+        <a href="/blog/tag/{{ tag.slug }}" class="text-decoration-none">
+            <text class="badge badge-info">
+                {{ tag }}
+            </text>
+        </a>
+
+    {% endfor %}
+
+    <p class="text-center font-weight-bolder mt-3">Последние комментарии:</p>
+    <script type="text/javascript"
+            src="https://kazakov-ru-net.disqus.com/recent_comments_widget.js?num_items=10&hide_avatars=0&avatar_size=40&excerpt_length=200"></script>
+
+{% endblock %}
