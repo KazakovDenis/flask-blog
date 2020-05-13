@@ -11,11 +11,11 @@ from .functions import rusify
 from .models import Post, Tag
 
 
-@app.route('/')
+@app.route('/notes')
 def index():
     posts = Post.query.order_by(Post.created.desc()).all()[:10]
     tags = Tag.query.all()[:50]
-    return render_template('index.html', posts=posts, tags=tags)
+    return render_template('notes.html', posts=posts, tags=tags)
 
 
 @app.errorhandler(404)
@@ -43,6 +43,6 @@ def upload_file():
     return redirect(url_for('index'))
 
 
-@app.route('/cv')
-def get_cv():
-    return render_template('cv.html')
+@app.route('/')
+def cv():
+    return render_template('index.html')
