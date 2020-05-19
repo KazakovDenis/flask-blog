@@ -12,7 +12,7 @@ from .models import Post, Tag
 
 
 @app.route('/notes')
-def index():
+def get_notes():
     posts = Post.query.order_by(Post.created.desc()).all()[:10]
     tags = Tag.query.all()[:50]
     return render_template('notes.html', posts=posts, tags=tags)
@@ -44,5 +44,5 @@ def upload_file():
 
 
 @app.route('/')
-def cv():
+def get_cv():
     return render_template('index.html')
