@@ -8,6 +8,8 @@
 
 {% block content %}
 
+<div class="row mt-5">
+    <div class="col-9">
     {% for post in posts %}
         <div class="">
             <p class="h3 mb-0">
@@ -26,24 +28,19 @@
         </div>
         <hr>
     {% endfor %}
-
-{% endblock %}
-
-{% block rightpanel %}
-
-    <p class="text-center font-weight-bolder">Все темы:</p>
-
-    {% for tag in tags %}
-        <a href="/blog/tag/{{ tag.slug }}" class="text-decoration-none">
-            <text class="badge badge-info">
-                {{ tag }}
-            </text>
-        </a>
-
-    {% endfor %}
-
-    <p class="text-center font-weight-bolder mt-3">Последние комментарии:</p>
-    <script type="text/javascript"
-            src="https://kazakov-ru-net.disqus.com/recent_comments_widget.js?num_items=10&hide_avatars=0&avatar_size=40&excerpt_length=200"></script>
+    </div>
+    <div class="col-3">
+        <div class="row my-5">
+            <div class="col">
+                {% include 'search.html' %}
+            </div>
+        </div>
+        <div class="row my-5">
+            <div class="col">
+                {% include 'right_panel.html' %}
+            </div>
+        </div>
+    </div>
+</div>
 
 {% endblock %}

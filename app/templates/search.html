@@ -1,0 +1,12 @@
+<form class="my-2 my-lg-0" method="GET" action="{{ url_for('posts.index')}}">
+    <div class="form-row">
+        <div class="col-9">
+            <input class="form-control mr-sm-2" type="search" placeholder="Поиск по блогу" aria-label="Search" name="q" value="{{ request.args.get('q', '') }}">
+        </div>
+        <div class="col">
+            <button class="btn btn-outline-info my-2 my-sm-0" type="submit">
+                O
+            </button>
+        </div>
+    </div>
+</form>
