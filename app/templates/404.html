@@ -6,14 +6,11 @@
 
 {% endblock %}
 
-{% block content_title %}
-
-    Страница не найдена (404)
-
-{% endblock %}
-
 {% block content %}
 
-    Воспользуйтесь формой поиска
-
+<h2>Такой страницы не существует (404)</h2>
+<p>Для поиска воспользуйтесь формой ниже</p>
+<div class="mw-75">
+    {% include 'search.html' %}
+</div>
 {% endblock %}

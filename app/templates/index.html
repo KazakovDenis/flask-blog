@@ -5,247 +5,247 @@ Denis Kazakov | Backend & testing
 {% endblock %}
 
 {% block content %}
-<main role="main" class="inner cover mt-5">
-    <div class="d-flex flex-wrap justify-content-center">
-        <div class="text-wrap text-justify px-5 mb-5" style="max-width: 40em;">
-            <h1 class="cover-heading">Denis Kazakov</h1>
-            <p class="lead">Hello, let's get acquainted!</p>
-            <p class="lead">I'm a programmer living in Russia, Novosibirsk. This page is intended to make you find me out. Technologies I have deal with are listed below.</p>
-            <p class="lead mt-2 text-center text-sm-left">
-              <a href="https://profile-summary-for-github.com/user/kazakovdenis" class="btn btn-md btn-secondary" target="_blank">Github overview</a>
-            </p>
-        </div>
-        <div class="d-flex p-5" id="myphoto"></div>
+
+<div class="d-flex flex-wrap justify-content-center">
+    <div class="text-wrap text-justify px-5 mb-5" style="max-width: 40em;">
+        <h1 class="cover-heading">Denis Kazakov</h1>
+        <p class="lead">Hello, let's get acquainted!</p>
+        <p class="lead">I'm a programmer living in Russia, Novosibirsk. This page is intended to make you find me out. Technologies I have deal with are listed below.</p>
+        <p class="lead mt-2 text-center text-sm-left">
+          <a href="https://profile-summary-for-github.com/user/kazakovdenis" class="btn btn-md btn-secondary" target="_blank">Github overview</a>
+        </p>
     </div>
-    <h3 class="cover-heading text-center mt-5 w-100">Skills</h3>
-    <div class="container-fluid">
-        <div class="d-flex flex-wrap justify-content-around">
-            <div class="d-flex my-2">
-                <ul class="list-group bg-transparent tech">
-                    <!-- to show skills: aria-expanded = true + div#langs.show -->
-                    <a data-toggle="collapse" href="#langs" role="button" aria-expanded="false" aria-controls="langs">
-                        <li class="list-group-item d-flex justify-content-center bg-transparent" style="border-radius: 5px 5px 0 0;">
-                            <b>Languages</b>
-                        </li>
-                    </a>
-                    <div class="collapse" id="langs">
-                        <li class="list-group-item d-flex justify-content-between align-items-center bg-transparent rounded-0 border-top-0">
-                        Python 3
+    <div class="d-flex p-5" id="myphoto"></div>
+</div>
+<h3 class="cover-heading text-center mt-5 w-100">Skills</h3>
+<div class="container-fluid">
+    <div class="d-flex flex-wrap justify-content-around">
+        <div class="d-flex my-2">
+            <ul class="list-group bg-transparent tech">
+                <!-- to show skills: aria-expanded = true + div#langs.show -->
+                <a data-toggle="collapse" href="#langs" role="button" aria-expanded="false" aria-controls="langs">
+                    <li class="list-group-item d-flex justify-content-center bg-transparent" style="border-radius: 5px 5px 0 0;">
+                        <b>Languages</b>
+                    </li>
+                </a>
+                <div class="collapse" id="langs">
+                    <li class="list-group-item d-flex justify-content-between align-items-center bg-transparent rounded-0 border-top-0">
+                    Python 3
+                    <div class="row mx-1">
+                    <div class="point"></div>
+                    <div class="point"></div>
+                    <div class="point"></div>
+                    <div class="point"></div>
+                    </div>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center bg-transparent">
+                    C
+                    <div>
+                    <div class="point"></div>
+                    <div class="point"></div>
+                    </div>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center bg-transparent">
+                    HTML
+                    <div>
+                    <div class="point"></div>
+                    <div class="point"></div>
+                    </div>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center bg-transparent">
+                    CSS
+                    <div>
+                    <div class="point"></div>
+                    <div class="point"></div>
+                    </div>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center bg-transparent">
+                Javascript
+                <div>
+                    <div class="point"></div>
+                </div>
+              </li>
+                </div>
+            </ul>
+        </div>
+        <div class="d-flex my-2">
+            <ul class="list-group bg-transparent tech">
+                <a data-toggle="collapse" href="#libs" role="button" aria-expanded="false" aria-controls="libs">
+                    <li class="list-group-item d-flex justify-content-center bg-transparent" style="border-radius: 5px 5px 0 0;">
+                <b>Frameworks & libs</b>
+                </li>
+                </a>
+                <div class="collapse" id="libs">
+                    <li class="list-group-item d-flex justify-content-between align-items-center bg-transparent rounded-0 border-top-0">
+                    Flask
+                    <div class="row mx-1">
+                        <div class="point"></div>
+                        <div class="point"></div>
+                        <div class="point"></div>
+                    </div>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center bg-transparent">
+                        Selenium
+                        <div>
+                            <div class="point"></div>
+                            <div class="point"></div>
+                        </div>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center bg-transparent">
+                    Bootstrap
+                    <div>
+                        <div class="point"></div>
+                        <div class="point"></div>
+                    </div>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center bg-transparent">
+                    Django
+                    <div>
+                        <div class="point"></div>
+                    </div>
+                </li>
+                </div>
+            </ul>
+        </div>
+        <div class="d-flex my-2">
+            <ul class="list-group bg-transparent tech">
+                <a data-toggle="collapse" href="#cicd" role="button" aria-expanded="false" aria-controls="cicd">
+                    <li class="list-group-item d-flex justify-content-center bg-transparent" style="border-radius: 5px 5px 0 0;">
+                    <b>CI / CD</b>
+                    </li>
+                </a>
+                <div class="collapse" id="cicd">
+                    <li class="list-group-item d-flex justify-content-between align-items-center bg-transparent rounded-0 border-top-0">
+                    Git
+                    <div>
+                    <div class="point"></div>
+                    <div class="point"></div>
+                    <div class="point"></div>
+                    </div>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center bg-transparent">
+                        Jenkins
                         <div class="row mx-1">
-                        <div class="point"></div>
-                        <div class="point"></div>
-                        <div class="point"></div>
-                        <div class="point"></div>
+                            <div class="point"></div>
+                            <div class="point"></div>
                         </div>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-center bg-transparent">
-                        C
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center bg-transparent">
+                        Docker
                         <div>
                         <div class="point"></div>
                         <div class="point"></div>
                         </div>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-center bg-transparent">
-                        HTML
-                        <div>
-                        <div class="point"></div>
-                        <div class="point"></div>
-                        </div>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-center bg-transparent">
-                        CSS
-                        <div>
-                        <div class="point"></div>
-                        <div class="point"></div>
-                        </div>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-center bg-transparent">
-                    Javascript
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center bg-transparent">
+                    Travis CI
                     <div>
                         <div class="point"></div>
                     </div>
                   </li>
-                    </div>
-                </ul>
-            </div>
-            <div class="d-flex my-2">
-                <ul class="list-group bg-transparent tech">
-                    <a data-toggle="collapse" href="#libs" role="button" aria-expanded="false" aria-controls="libs">
-                        <li class="list-group-item d-flex justify-content-center bg-transparent" style="border-radius: 5px 5px 0 0;">
-                    <b>Frameworks & libs</b>
+                </div>
+            </ul>
+        </div>
+        <div class="d-flex my-2">
+            <ul class="list-group bg-transparent tech">
+                <a data-toggle="collapse" href="#other" role="button" aria-expanded="false" aria-controls="other">
+                    <li class="list-group-item d-flex justify-content-center bg-transparent" style="border-radius: 5px 5px 0 0;">
+                        <b>Other</b>
                     </li>
-                    </a>
-                    <div class="collapse" id="libs">
-                        <li class="list-group-item d-flex justify-content-between align-items-center bg-transparent rounded-0 border-top-0">
-                        Flask
-                        <div class="row mx-1">
+                </a>
+                <div class="collapse" id="other">
+                    <li class="list-group-item d-flex justify-content-between align-items-center bg-transparent rounded-0 border-top-0">
+                        Linux
+                        <div>
                             <div class="point"></div>
                             <div class="point"></div>
                             <div class="point"></div>
                         </div>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-center bg-transparent">
-                            Selenium
-                            <div>
-                                <div class="point"></div>
-                                <div class="point"></div>
-                            </div>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-center bg-transparent">
-                        Bootstrap
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center bg-transparent">
+                        Nginx
                         <div>
                             <div class="point"></div>
                             <div class="point"></div>
                         </div>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-center bg-transparent">
-                        Django
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center bg-transparent">
+                        PostgreSQL
                         <div>
                             <div class="point"></div>
                         </div>
                     </li>
-                    </div>
-                </ul>
-            </div>
-            <div class="d-flex my-2">
-                <ul class="list-group bg-transparent tech">
-                    <a data-toggle="collapse" href="#cicd" role="button" aria-expanded="false" aria-controls="cicd">
-                        <li class="list-group-item d-flex justify-content-center bg-transparent" style="border-radius: 5px 5px 0 0;">
-                        <b>CI / CD</b>
-                        </li>
-                    </a>
-                    <div class="collapse" id="cicd">
-                        <li class="list-group-item d-flex justify-content-between align-items-center bg-transparent rounded-0 border-top-0">
-                        Git
-                        <div>
-                        <div class="point"></div>
-                        <div class="point"></div>
-                        <div class="point"></div>
-                        </div>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-center bg-transparent">
-                            Jenkins
-                            <div class="row mx-1">
-                                <div class="point"></div>
-                                <div class="point"></div>
-                            </div>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-center bg-transparent">
-                            Docker
-                            <div>
-                            <div class="point"></div>
-                            <div class="point"></div>
-                            </div>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-center bg-transparent">
-                        Travis CI
-                        <div>
-                            <div class="point"></div>
-                        </div>
-                      </li>
-                    </div>
-                </ul>
-            </div>
-            <div class="d-flex my-2">
-                <ul class="list-group bg-transparent tech">
-                    <a data-toggle="collapse" href="#other" role="button" aria-expanded="false" aria-controls="other">
-                        <li class="list-group-item d-flex justify-content-center bg-transparent" style="border-radius: 5px 5px 0 0;">
-                            <b>Other</b>
-                        </li>
-                    </a>
-                    <div class="collapse" id="other">
-                        <li class="list-group-item d-flex justify-content-between align-items-center bg-transparent rounded-0 border-top-0">
-                            Linux
-                            <div>
-                                <div class="point"></div>
-                                <div class="point"></div>
-                                <div class="point"></div>
-                            </div>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-center bg-transparent">
-                            Nginx
-                            <div>
-                                <div class="point"></div>
-                                <div class="point"></div>
-                            </div>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-center bg-transparent">
-                            PostgreSQL
-                            <div>
-                                <div class="point"></div>
-                            </div>
-                        </li>
-                    </div>
-                </ul>
-            </div>
+                </div>
+            </ul>
         </div>
     </div>
-    <h5 class="cover-heading text-center mt-3">
-        <a class="text-muted" data-toggle="collapse" href="#ratingDeck" role="button" aria-expanded="false" aria-controls="ratingDeck"><small>How do I rate myself</small></a>
-    </h5>
-    <div class="card-deck collapse" id="ratingDeck">
-      <div class="card bg-transparent rate lead text-muted text-center mb-2 border-0">
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item p-1 border-0 bg-transparent">Master Jedi</li>
-          <li class="list-group-item p-1 border-0 bg-transparent">
-              <div class="row justify-content-center">
-                <div class="point"></div>
-                <div class="point"></div>
-                <div class="point"></div>
-                <div class="point"></div>
-                <div class="point"></div>
-              </div>
-          </li>
-        </ul>
-      </div>
-      <div class="card bg-transparent rate lead text-muted text-center mb-2 border-0">
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item p-1 border-0 bg-transparent">Feel confident</li>
-          <li class="list-group-item p-1 border-0 bg-transparent">
-              <div class="row justify-content-center">
-                <div class="point"></div>
-                <div class="point"></div>
-                <div class="point"></div>
-                <div class="point"></div>
-              </div>
-          </li>
-        </ul>
-      </div>
-      <div class="card bg-transparent rate lead text-muted text-center mb-2 border-0">
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item p-1 border-0 bg-transparent">Use daily</li>
-          <li class="list-group-item p-1 border-0 bg-transparent">
-              <div class="row justify-content-center">
-                <div class="point"></div>
-                <div class="point"></div>
-                <div class="point"></div>
-              </div>
-          </li>
-        </ul>
-      </div>
-      <div class="card bg-transparent rate lead text-muted text-center mb-2 border-0">
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item p-1 border-0 bg-transparent">Used a little</li>
-          <li class="list-group-item p-1 border-0 bg-transparent">
-              <div class="row justify-content-center">
-                <div class="point"></div>
-                <div class="point"></div>
-              </div>
-          </li>
-        </ul>
-      </div>
-      <div class="card bg-transparent rate lead text-muted text-center mb-2 border-0">
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item p-1 border-0 bg-transparent">Got acquainted</li>
-          <li class="list-group-item p-1 border-0 bg-transparent">
-              <div class="row justify-content-center">
-                <div class="point"></div>
-              </div>
-          </li>
-        </ul>
-      </div>
-    </div>
-    <div class="container-fluid">
+</div>
+<h5 class="cover-heading text-center mt-3">
+    <a class="text-muted" data-toggle="collapse" href="#ratingDeck" role="button" aria-expanded="false" aria-controls="ratingDeck"><small>How do I rate myself</small></a>
+</h5>
+<div class="card-deck collapse" id="ratingDeck">
+  <div class="card bg-transparent rate lead text-muted text-center mb-2 border-0">
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item p-1 border-0 bg-transparent">Master Jedi</li>
+      <li class="list-group-item p-1 border-0 bg-transparent">
+          <div class="row justify-content-center">
+            <div class="point"></div>
+            <div class="point"></div>
+            <div class="point"></div>
+            <div class="point"></div>
+            <div class="point"></div>
+          </div>
+      </li>
+    </ul>
+  </div>
+  <div class="card bg-transparent rate lead text-muted text-center mb-2 border-0">
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item p-1 border-0 bg-transparent">Feel confident</li>
+      <li class="list-group-item p-1 border-0 bg-transparent">
+          <div class="row justify-content-center">
+            <div class="point"></div>
+            <div class="point"></div>
+            <div class="point"></div>
+            <div class="point"></div>
+          </div>
+      </li>
+    </ul>
+  </div>
+  <div class="card bg-transparent rate lead text-muted text-center mb-2 border-0">
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item p-1 border-0 bg-transparent">Use daily</li>
+      <li class="list-group-item p-1 border-0 bg-transparent">
+          <div class="row justify-content-center">
+            <div class="point"></div>
+            <div class="point"></div>
+            <div class="point"></div>
+          </div>
+      </li>
+    </ul>
+  </div>
+  <div class="card bg-transparent rate lead text-muted text-center mb-2 border-0">
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item p-1 border-0 bg-transparent">Used a little</li>
+      <li class="list-group-item p-1 border-0 bg-transparent">
+          <div class="row justify-content-center">
+            <div class="point"></div>
+            <div class="point"></div>
+          </div>
+      </li>
+    </ul>
+  </div>
+  <div class="card bg-transparent rate lead text-muted text-center mb-2 border-0">
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item p-1 border-0 bg-transparent">Got acquainted</li>
+      <li class="list-group-item p-1 border-0 bg-transparent">
+          <div class="row justify-content-center">
+            <div class="point"></div>
+          </div>
+      </li>
+    </ul>
+  </div>
+</div>
+<div class="container-fluid">
         <h3 class="cover-heading text-center mt-5 w-100">Certificates & tests</h3>
         <div id="carouselIndicators" class="carousel slide" data-ride="carousel">
             <div class="w-100">
@@ -276,5 +276,5 @@ Denis Kazakov | Backend & testing
             </a>
         </div>
     </div>
-</main>
+
 {% endblock %}

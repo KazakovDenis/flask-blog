@@ -14,7 +14,7 @@
 </head>
 <body>
 <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
-    <header class="masthead mb-auto">
+    <header class="masthead">
         <nav class="navbar navbar-dark navbar-expand-lg nav-masthead d-flex w-100 justify-content-between">
             <a class="masthead-brand my-2 text-decoration-none" href="{{ url_for('get_cv') }}">Backend & testing</a>
             <button class="navbar-toggler m-2" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
@@ -32,11 +32,13 @@
             </div>
         </nav>
     </header>
+    <main role="main" class="inner cover mb-auto">
     {% block content %}
 
     {% endblock %}
-    <footer class=" mt-2">
-        <div class="d-flex inner align-items-center justify-content-center pb-3">
+    </main>
+    <footer class="my-4">
+        <div class="d-flex inner align-items-center justify-content-center">
             <div class="d-flex mr-3" id="contacts">Contact me: </div>
             <div class="d-flex mx-3">
                 <a href="https://github.com/KazakovDenis" target="_blank">
