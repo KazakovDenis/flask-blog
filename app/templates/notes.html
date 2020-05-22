@@ -33,12 +33,12 @@
             {% endfor %}
             <div class="text-center"><a href="{{ url_for('posts.index') }}">Все записи...</a></div>
         </div>
-        <div class="d-none d-sm-block">
+        <div class="d-none d-sm-block ml-5">
             <div class="mb-5">
                 {% include 'search.html' %}
             </div>
             <div class="">
-                {% include 'right_panel.html' %}
+                {% include 'tags.html' %}
             </div>
         </div>
     </div>
