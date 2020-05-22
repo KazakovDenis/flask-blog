@@ -24,16 +24,19 @@
             {% endif %}
         </div>
     </div>
-    <div class="tags mb-3">
-        {% for tag in tags %}
-            <a href="{{ url_for('posts.tag_detail', slug=tag.slug) }}" class="text-decoration-none">
-                <span class="badge badge-info">{{ tag.name }}</span>
-            </a>
-        {% endfor %}
-    </div>
     <div class="d-flex justify-content-between mb-2">
         <div class="main-content text-justify">
-            {{ post.body | safe }}
+            <h2>{{ post.title }}</h2>
+            <div class="tags mb-3">
+                {% for tag in tags %}
+                    <a href="{{ url_for('posts.tag_detail', slug=tag.slug) }}" class="text-decoration-none">
+                        <span class="badge badge-info">{{ tag.name }}</span>
+                    </a>
+                {% endfor %}
+            </div>
+            <div>
+                {{ post.body | safe }}
+            </div>
         </div>
         <div class="d-none d-sm-block ml-5">
             <div class="mb-5">
