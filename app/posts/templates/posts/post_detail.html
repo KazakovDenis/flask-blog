@@ -27,14 +27,15 @@
     <div class="d-flex justify-content-between mb-2">
         <div class="main-content text-justify">
             <h2>{{ post.title }}</h2>
-            <div class="tags mb-3">
-                {% for tag in tags %}
+            {% for tag in tags %}
+                <div class="tags mb-3">
                     <a href="{{ url_for('posts.tag_detail', slug=tag.slug) }}" class="text-decoration-none">
                         <span class="badge badge-info">{{ tag.name }}</span>
                     </a>
-                {% endfor %}
-            </div>
-            <div>
+                </div>
+            {% endfor %}
+            <small class="text-muted">{{ post.created.strftime('%d.%m.%Y %H:%M') }}</small>
+            <div class="text-justify mb-0 mt-2">
                 {{ post.body | safe }}
             </div>
         </div>
@@ -76,10 +77,9 @@
             s.setAttribute('data-timestamp', +new Date());
             (d.head || d.body).appendChild(s);
             })();
-
         </script>
-        <noscript>Please enable JavaScript to view the
-            <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        <noscript>
+            Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
         </noscript>
     </div>
 </div>

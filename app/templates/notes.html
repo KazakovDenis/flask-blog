@@ -19,16 +19,17 @@
                 <p class="h3 mb-0">
                     <a href="{{ url_for('posts.post_detail', slug=post.slug) }}">{{ post.title }}</a>
                 </p>
-                <small class="text-muted">{{ post.created.strftime('%d.%m.%Y %H:%M') }}</small>
-
-                <p class="text-justify mb-0 mt-2">{{ post.body | safe }}</p>
-
                 {% for tag in post.tags %}
-                    <a href="/blog/tag/{{ tag.slug }}">
-                        <span class="badge badge-info text-decoration-none">
-                            {{ tag }}
-                        </span></a>
+                    <div class="my-2">
+                        <a href="/blog/tag/{{ tag.slug }}">
+                            <span class="badge badge-info text-decoration-none">
+                                {{ tag }}
+                            </span>
+                        </a>
+                    </div>
                 {% endfor %}
+                <small class="text-muted">{{ post.created.strftime('%d.%m.%Y %H:%M') }}</small>
+                <div class="text-justify mb-0 mt-2">{{ post.body | safe }}</div>
                 <hr>
             {% endfor %}
             <div class="text-center"><a href="{{ url_for('posts.index') }}">Все записи...</a></div>
