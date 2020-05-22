@@ -11,6 +11,7 @@ from .forms import PostForm
 
 
 posts = Blueprint('posts', __name__, template_folder='templates', static_folder='.')
+all_tags = Tag.query.all()
 
 
 @posts.route('/<slug>/edit/', methods=['POST', 'GET'])
@@ -69,8 +70,7 @@ def index():
         posts = Post.query.order_by(Post.created.desc())
 
     pages = posts.paginate(page=page, per_page=10)   # объект pagination
-    tags = Tag.query.all()
-    return render_template('posts/index.html', paginator=pages, tags=tags)
+    return render_template('posts/index.html', paginator=pages, tags=all_tags)
 
 
 @posts.route('/<slug>/')
@@ -86,7 +86,8 @@ def post_detail(slug):
         posts_list = [post for post in posts_list if post.id != the_post.id]
         cache.extend(posts_list)
     adjacent_posts = set(cache)
-    return render_template('posts/post_detail.html', post=the_post, tags=tags, adjacent=adjacent_posts)
+    return render_template('posts/post_detail.html',
+                           post=the_post, tags=tags, all_tags=all_tags, adjacent=adjacent_posts)
 
 
 @posts.route('/tag/<slug>/')
@@ -95,6 +96,5 @@ def tag_detail(slug):
     :param slug: attribute 'slug' of the Tag object
     """
     tag = Tag.query.filter(Tag.slug == slug).first_or_404()
-    tags = Tag.query.all()
-    posts = tag.posts.order_by(Post.created.desc()).all()
-    return render_template('posts/tag_detail.html', tag=tag, tags=tags, posts=posts)
+    this_tag_posts = tag.posts.order_by(Post.created.desc()).all()
+    return render_template('posts/tag_detail.html', tag=tag, all_tags=all_tags, posts=this_tag_posts)

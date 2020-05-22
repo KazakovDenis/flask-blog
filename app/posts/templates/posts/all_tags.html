@@ -1,15 +1,13 @@
 {% if tags %}
 <div>
     <p class="text-center font-weight-bolder">Все темы:</p>
-
-{% for tag in tags %}
-    <a href="/blog/tag/{{ tag.slug }}" class="text-decoration-none">
-        <text class="badge badge-info">
-            {{ tag }}
-        </text>
-    </a>
-{% endfor %}
-
+    {% for tag in all_tags %}
+        <a href="/blog/tag/{{ tag.slug }}" class="text-decoration-none">
+            <text class="badge badge-info">
+                {{ tag }}
+            </text>
+        </a>
+    {% endfor %}
 </div>
 {% endif %}
 <!--<p class="text-center font-weight-bolder mt-3">Последние комментарии:</p>-->
