@@ -26,18 +26,5 @@
     {% else %}
     Записей не найдено
     {% endif %}
-{% endblock %}
-
-{% block rightpanel %}
-
-    <p class="text-center font-weight-bolder">Все темы:</p>
-    {% for tag in tags %}
-        <a href="/blog/tag/{{ tag.slug }}" class="text-decoration-none">
-            <text class="badge badge-info">
-                {{ tag }}
-            </text>
-        </a>
-
-    {% endfor %}
 
 {% endblock %}
