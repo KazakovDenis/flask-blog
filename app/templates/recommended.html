@@ -1,0 +1,9 @@
+<div>
+    <p class="text-center font-weight-bolder">Статьи по теме:</p>
+
+    {% for post in right_panel %}
+        <p>
+            <a href="/blog/{{ post.slug }}" class="text-decoration-none">{{ post.title }}</a>
+        </p>
+    {% endfor %}
+</div>
