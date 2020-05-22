@@ -86,7 +86,7 @@ def post_detail(slug):
         posts_list = [post for post in posts_list if post.id != the_post.id]
         cache.extend(posts_list)
     adjacent_posts = set(cache)
-    return render_template('posts/post_detail.html', post=the_post, tags=tags, right_panel=adjacent_posts)
+    return render_template('posts/post_detail.html', post=the_post, tags=tags, adjacent=adjacent_posts)
 
 
 @posts.route('/tag/<slug>/')
