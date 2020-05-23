@@ -1,5 +1,5 @@
-{% if tags %}
-<div>
+{% if all_tags %}
+<div style="max-width: 400px;">
     <p class="text-center font-weight-bolder">Все темы:</p>
     {% for tag in all_tags %}
         <a href="/blog/tag/{{ tag.slug }}" class="text-decoration-none">

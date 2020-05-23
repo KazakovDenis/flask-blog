@@ -14,8 +14,8 @@ from .models import Post, Tag
 @app.route('/notes')
 def get_notes():
     posts = Post.query.order_by(Post.created.desc()).all()[:10]
-    tags = Tag.query.all()[:50]
-    return render_template('notes.html', posts=posts, tags=tags)
+    tags = Tag.query.all()
+    return render_template('notes.html', posts=posts, all_tags=tags)
 
 
 @app.errorhandler(404)

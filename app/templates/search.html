@@ -1,4 +1,4 @@
-<div>
+<div class="d-flex justify-content-center">
     <form class="d-inline-flex align-items-center my-2 my-lg-0" method="GET" action="{{ url_for('posts.index')}}" style="min-width: 250px;">
         <div class="">
             <input class="form-control mr-sm-2" type="search" placeholder="Найти" aria-label="Search" name="q" value="{{ request.args.get('q', '') }}">

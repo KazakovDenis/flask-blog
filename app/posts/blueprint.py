@@ -70,7 +70,7 @@ def index():
         posts = Post.query.order_by(Post.created.desc())
 
     pages = posts.paginate(page=page, per_page=10)   # объект pagination
-    return render_template('posts/index.html', paginator=pages, tags=all_tags)
+    return render_template('posts/index.html', paginator=pages, all_tags=all_tags)
 
 
 @posts.route('/<slug>/')

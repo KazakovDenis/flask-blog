@@ -4,10 +4,6 @@
     {{ post.title }}
 {% endblock %}
 
-{% block content_title %}
-    {{ post.title }}
-{% endblock %}
-
 {% block content %}
 <div>
     <div class="d-sm-none mb-3">
@@ -27,13 +23,15 @@
     <div class="d-flex justify-content-between mb-2">
         <div class="main-content text-justify">
             <h2>{{ post.title }}</h2>
-            {% for tag in tags %}
+            {% if tags %}
                 <div class="tags mb-3">
-                    <a href="{{ url_for('posts.tag_detail', slug=tag.slug) }}" class="text-decoration-none">
-                        <span class="badge badge-info">{{ tag.name }}</span>
-                    </a>
+                    {% for tag in tags %}
+                        <a href="{{ url_for('posts.tag_detail', slug=tag.slug) }}" class="text-decoration-none">
+                            <span class="badge badge-info">{{ tag.name }}</span>
+                        </a>
+                    {% endfor %}
                 </div>
-            {% endfor %}
+            {% endif %}
             <small class="text-muted">{{ post.created.strftime('%d.%m.%Y %H:%M') }}</small>
             <div class="text-justify mb-0 mt-2">
                 {{ post.body | safe }}

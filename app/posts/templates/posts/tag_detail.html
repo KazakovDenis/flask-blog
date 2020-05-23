@@ -5,26 +5,41 @@
 {% endblock %}
 
 {% block content %}
-
-    <h3>Записи с тегом "{{ tag.name }}":</h3>
-    {% if posts %}
-        <div class="post">
-            {% for post in posts %}
-            <div class="row justify-content-start no-gutters mt-3 mb-3" style="font-size: 20px">
-		        <small>
-        		    <div class="col-2 text-muted">{{ post.created.strftime('%d.%m.%Y') }}</div>
-        		    <div class="col"><a href="{{ url_for('posts.post_detail', slug=post.slug) }}">{{ post.title }}</a></div>
-		        </small>
-    		</div>
-            {% endfor %}
-
+<div>
+    <div class="d-sm-none mb-3">
+        <div class="d-flex align-items-center justify-content-center">
+            {% include 'search.html' %}
         </div>
-        <br>
-        <div class="main-content">
-
+    </div>
+    <div class="d-flex justify-content-between mb-2">
+        <div class="main-content text-justify">
+            <h3>Записи с тегом "{{ tag.name }}":</h3>
+            {% if posts %}
+                <div class="post">
+                    {% for post in posts %}
+                    <div class="row justify-content-start no-gutters mt-3 mb-3" style="font-size: 20px">
+                        <small>
+                            <div class="col-2 text-muted">{{ post.created.strftime('%d.%m.%Y') }}</div>
+                            <div class="col"><a href="{{ url_for('posts.post_detail', slug=post.slug) }}">{{ post.title }}</a></div>
+                        </small>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                Записей не найдено
+            {% endif %}
         </div>
-    {% else %}
-    Записей не найдено
-    {% endif %}
-
+        <div class="d-none d-sm-block ml-5">
+            <div class="mb-5">
+                {% include 'search.html' %}
+            </div>
+            <div class="">
+                {% include 'posts/all_tags.html' %}
+            </div>
+        </div>
+    </div>
+    <div class="d-sm-none mb-3">
+        {% include 'posts/all_tags.html' %}
+    </div>
+</div>
 {% endblock %}
