@@ -9,54 +9,60 @@
 {% endblock %}
 
 {% block content %}
-    {% for post in paginator.items %}
-    <div class="row justify-content-start no-gutters mt-3 mb-3" style="font-size: 20px">
-        <small>
-        <div class="col-2 text-muted">{{ post.created.strftime('%d.%m.%Y') }}</div>
-        <div class="col"><a href="{{ url_for('posts.post_detail', slug=post.slug) }}">{{ post.title }}</a></div>
-        </small>
+<div>
+    <div class="d-sm-none mb-3">
+        <div class="d-flex align-items-center justify-content-center">
+            {% include 'search.html' %}
+        </div>
     </div>
-    {% endfor %}
+    <div class="d-flex justify-content-between mb-2">
+        <div class="main-content text-justify">
+            {% for post in paginator.items %}
+                <div class="row justify-content-start no-gutters mt-3 mb-3" style="font-size: 20px">
+            <small>
+            <div class="col-2 text-muted">{{ post.created.strftime('%d.%m.%Y') }}</div>
+            <div class="col"><a href="{{ url_for('posts.post_detail', slug=post.slug) }}">{{ post.title }}</a></div>
+            </small>
+        </div>
+            {% endfor %}
+        </div>
+        <div class="d-none d-sm-block ml-5" style="max-width: 35%;">
+            <div class="mb-5">
+                {% include 'search.html' %}
+            </div>
+            <div class="">
+                {% include 'posts/all_tags.html' %}
+            </div>
+        </div>
+    </div>
+    <div class="">
+        <nav aria-label="Page navigation example">
+          <ul class="pagination justify-content-center">
 
-    <nav aria-label="Page navigation example">
-      <ul class="pagination justify-content-center">
-
-        <li {% if not paginator.has_prev %} class="page-item disabled" {% endif %}>
-          <a class="page-link" href="./?page={{ paginator.prev_num }}" aria-label="Previous"><span aria-hidden="true">&laquo;</span>
-          </a>
-        </li>
-
-          {% for page in paginator.iter_pages() %}
-
-            <li {% if page == paginator.page %} class="page-item active" {% endif %}>
-                <a class="page-link" href="./?page={{ page }}">{{ page }}</a>
+            <li {% if not paginator.has_prev %} class="page-item disabled" {% endif %}>
+              <a class="page-link bg-transparent" href="./?page={{ paginator.prev_num }}" aria-label="Previous"><span aria-hidden="true">&laquo;</span>
+              </a>
             </li>
 
-          {% endfor %}
+              {% for page in paginator.iter_pages() %}
 
-        <li {% if not paginator.has_next %} class="page-item disabled" {% endif %}>
-          <a class="page-link" href="./?page={{ paginator.next_num }}" aria-label="Next"><span aria-hidden="true">&raquo;</span>
-          </a>
-        </li>
+                <li {% if page == paginator.page %} class="page-item" {% endif %}>
+                    <a class="page-link bg-info text-decoration-none" href="./?page={{ page }}">{{ page }}</a>
+                </li>
 
-      </ul>
-    </nav>
-{% endblock %}
+              {% endfor %}
 
-{% block rightpanel %}
+            <li class="page-item {% if not paginator.has_next %}disabled{% endif %}" >
+              <a class="page-link bg-transparent" href="./?page={{ paginator.next_num }}" aria-label="Next">
+                  <span aria-hidden="true">&raquo;</span>
+              </a>
+            </li>
 
-    <p class="text-center font-weight-bolder">Все темы:</p>
-    {% for tag in tags %}
-        <a href="/blog/tag/{{ tag.slug }}" class="text-decoration-none">
-            <text class="badge badge-info">
-                {{ tag }}
-            </text>
-        </a>
-    {% endfor %}
-
-    <p class="text-center font-weight-bolder mt-3">Последние комментарии:</p>
-    <script type="text/javascript"
-            src="https://kazakov-ru-net.disqus.com/recent_comments_widget.js?num_items=10&hide_avatars=0&avatar_size=40&excerpt_length=200"></script>
-
-
+          </ul>
+        </nav>
+    </div>
+    <div class="d-sm-none mb-3">
+        {% include 'posts/all_tags.html' %}
+    </div>
+</div>
 {% endblock %}
