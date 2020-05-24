@@ -11,7 +11,6 @@ from .forms import PostForm
 
 
 posts = Blueprint('posts', __name__, template_folder='templates')
-all_tags = Tag.query.all()
 
 
 @posts.route('/<slug>/edit/', methods=['POST', 'GET'])
@@ -69,6 +68,7 @@ def index():
     else:
         posts = Post.query.order_by(Post.created.desc())
 
+    all_tags = Tag.query.all()
     pages = posts.paginate(page=page, per_page=10)   # объект pagination
     return render_template('posts/index.html', paginator=pages, all_tags=all_tags)
 
@@ -80,12 +80,15 @@ def post_detail(slug):
     """
     the_post = Post.query.filter(Post.slug == slug).first_or_404()
     tags = the_post.tags
+
     # создаём список смежных постов для правой панели
     cache = []
     for posts_list in [tag.posts.all() for tag in tags if tag.name != 'projects']:
         posts_list = [post for post in posts_list if post.id != the_post.id]
         cache.extend(posts_list)
+
     adjacent_posts = set(cache)
+    all_tags = Tag.query.all()
     return render_template('posts/post_detail.html',
                            post=the_post, tags=tags, all_tags=all_tags, adjacent=adjacent_posts)
 
@@ -97,4 +100,5 @@ def tag_detail(slug):
     """
     tag = Tag.query.filter(Tag.slug == slug).first_or_404()
     this_tag_posts = tag.posts.order_by(Post.created.desc()).all()
+    all_tags = Tag.query.all()
     return render_template('posts/tag_detail.html', tag=tag, all_tags=all_tags, posts=this_tag_posts)
