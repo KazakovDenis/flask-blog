@@ -4,26 +4,25 @@
     Написать новую статью
 {% endblock %}
 
-{% block content_title %}
-    Написать новую статью
-{% endblock %}
-
 {% block content %}
-    <div class="col h-100">
-        {% if post %}
-        <form action="{{ url_for('posts.create_post', slug=post.slug)}}" method="POST" enctype="multipart/form-data" class="mb-3">
-        {% else %}
-        <form action="{{ url_for('posts.create_post')}}" method="POST" enctype="multipart/form-data" class="mb-3">
-        {% endif %}
+    <div class="">
+        <form action="
+            {% if post %}
+                {{ url_for('posts.create_post', slug=post.slug)}}
+            {% else %}
+                {{ url_for('posts.create_post')}}
+            {% endif %}
+        " method="POST" enctype="multipart/form-data" class="mb-3">
+
             {% for field in form %}
             <div class="form-group">
                 {{ field.label(class='control-label') }}
                 {{ field(rows='10', class='form-control') }}
             </div>
             {% endfor %}
-            <button type="submit" class="btn btn-success">Опубликовать</button>
-        </form>
 
+            <button type="submit" class="btn btn-info">Опубликовать</button>
+        </form>
         <form method="POST" enctype="multipart/form-data" id="uploadForm">
             <div class="input-group mb-3">
               <div class="custom-file">
@@ -39,10 +38,6 @@
     </div>
 {% endblock %}
 
-{% block rightpanel %}
-    <div id="right-panel" class="container"></div>
-{% endblock %}
-
 {% block scripts %}
-<script src="{{ url_for('posts.static', filename='upload.js') }}"></script>
+<script src="{{ url_for('static', filename='js/upload.js') }}"></script>
 {% endblock %}

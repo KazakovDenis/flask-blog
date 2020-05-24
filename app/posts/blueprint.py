@@ -10,7 +10,7 @@ from app.models import Post, Tag
 from .forms import PostForm
 
 
-posts = Blueprint('posts', __name__, template_folder='templates', static_folder='.')
+posts = Blueprint('posts', __name__, template_folder='templates')
 all_tags = Tag.query.all()
 
 
