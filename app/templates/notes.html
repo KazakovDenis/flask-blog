@@ -12,20 +12,22 @@
                 <p class="h3 mb-0">
                     <a href="{{ url_for('posts.post_detail', slug=post.slug) }}">{{ post.title }}</a>
                 </p>
+                <div class="my-2">
                 {% for tag in post.tags %}
-                    <div class="my-2">
-                        <a href="/blog/tag/{{ tag.slug }}">
-                            <span class="badge badge-info text-decoration-none">
-                                {{ tag }}
-                            </span>
-                        </a>
-                    </div>
+                    <a href="/blog/tag/{{ tag.slug }}">
+                        <span class="badge badge-info text-decoration-none">
+                            {{ tag }}
+                        </span>
+                    </a>
                 {% endfor %}
+                </div>
                 <small class="text-muted">{{ post.created.strftime('%d.%m.%Y %H:%M') }}</small>
                 <div class="text-justify mb-0 mt-2">{{ post.body | safe }}</div>
-                <hr>
+                <hr class="bg-info">
             {% endfor %}
-            <div class="text-center"><a href="{{ url_for('posts.index') }}">Все записи...</a></div>
+            <div class="text-center"><a href="{{ url_for('posts.index') }}">
+                <h5><b>Все записи...</b></h5></a>
+            </div>
         </div>
         <div class="d-none d-sm-block ml-5">
             <div class="mb-5">
