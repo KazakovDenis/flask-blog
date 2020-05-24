@@ -26,17 +26,17 @@ window.addEventListener('DOMContentLoaded', () => {
 
     function addButtons() {
         let panel = document.createElement('div');
-        panel.classList.add('row');
-        panel.classList.add('justify-content-around');
+        panel.classList.add('d-flex', 'flex-wrap', 'justify-content-center');
 
         Object.keys(editions).forEach(elem => {
             let btn = document.createElement('div');
+            btn.classList.add('my-1', 'mx-1');
             btn.innerHTML = `
-            <button type="button" class="btn btn-outline-dark col" id="${elem}">${editions[elem][1]}</button>`;
+            <button type="button" class="btn btn-outline-light" id="${elem}">${editions[elem][1]}</button>`;
             panel.appendChild(btn);
         });
 
-        document.querySelector('#right-panel').appendChild(panel);
+        document.querySelector('#editor').appendChild(panel);
     };
 
     addButtons();
