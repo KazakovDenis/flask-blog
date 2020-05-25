@@ -1,8 +1,12 @@
 // Обработчик формы загрузки изображения при создании и редактировании поста
 window.addEventListener('DOMContentLoaded', () => {
 
-    let form = document.querySelector('#uploadForm');
-    let textArea = form.inputGroupFile02;
+    // форма редактирования поста
+    let textArea = document.querySelector('#postFormBody');
+
+    // форма загрузки файла
+    let uploadForm = document.querySelector('#uploadForm');
+    let fileArea = uploadForm.inputGroupFile02;
     let fileInput = document.querySelector('input#inputGroupFile02');
 
     // ============== добавляем кнопки редактирования текста и вешаем на них события
@@ -32,7 +36,7 @@ window.addEventListener('DOMContentLoaded', () => {
             let btn = document.createElement('div');
             btn.classList.add('my-1', 'mx-1');
             btn.innerHTML = `
-            <button type="button" class="btn btn-outline-light" id="${elem}">${editions[elem][1]}</button>`;
+            <button type="button" class="editor-btn btn btn-outline-secondary btn-sm" id="${elem}">${editions[elem][1]}</button>`;
             panel.appendChild(btn);
         });
 
@@ -41,17 +45,9 @@ window.addEventListener('DOMContentLoaded', () => {
 
     addButtons();
 
-    document.querySelectorAll('.btn-outline-dark').forEach(elem => {
-        elem.addEventListener('click', () => {
-            let btn_id = elem.getAttribute('id');
-            addToText(editions[btn_id][0]);
-        });
-    });
-    // ============== кнопки добавлены
-
     // добавляем текст в textarea
     function addToText(text_or_url, title='', link=false) {
-        let template;
+        let text;
 
         if (link === true) {
             text = ` [${title}](${text_or_url}) `;
@@ -62,9 +58,17 @@ window.addEventListener('DOMContentLoaded', () => {
         textArea.append(text);
     };
 
+    document.querySelectorAll('.editor-btn').forEach(elem => {
+        elem.addEventListener('click', () => {
+            let btn_id = elem.getAttribute('id');
+            addToText(editions[btn_id][0]);
+        });
+    });
+    // ============== кнопки добавлены
+
     function addToLabel() {
-        if (textArea.files.length > 0) {
-            form.querySelector('label.custom-file-label').append(form.inputGroupFile02.files[0].name);
+        if (fileArea.files.length > 0) {
+            uploadForm.querySelector('label.custom-file-label').append(uploadForm.inputGroupFile02.files[0].name);
         };
     };
 
@@ -95,13 +99,13 @@ window.addEventListener('DOMContentLoaded', () => {
     function upload(e) {
         e.preventDefault();  // сбрасывает действие по умолчанию - перезагрузку страницы
 
-        let filename = form.inputGroupFile02.files[0].name;
-        let formData = new FormData(form);
+        let filename = uploadForm.inputGroupFile02.files[0].name;
+        let formData = new FormData(uploadForm);
 
         send_request('/upload', data=formData)
             .then(url => addLink(url, filename))
             .catch(err => console.error('No response from server'));
     };
 
-    form.addEventListener('submit', (e) => upload(e));
+    uploadForm.addEventListener('submit', (e) => upload(e));
 });

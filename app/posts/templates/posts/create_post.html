@@ -6,13 +6,13 @@
 
 {% block content %}
     <div class="">
-        <form action="
+        <form id="postForm" method="POST" enctype="multipart/form-data" class="mb-3" action="
             {% if post %}
                 {{ url_for('posts.create_post', slug=post.slug)}}
             {% else %}
                 {{ url_for('posts.create_post')}}
             {% endif %}
-        " method="POST" enctype="multipart/form-data" class="mb-3">
+        ">
 
             <div class="form-group">
                 {{ form.title.label(class='control-label') }}
@@ -21,12 +21,12 @@
             <div id="editor"></div>
             <div class="form-group">
                 {{ form.body.label(class='control-label') }}
-                {{ form.body(rows='15', class='form-control') }}
+                {{ form.body(rows='15', class='form-control', id='postFormBody') }}
             </div>
 
             <button type="submit" class="btn btn-info">Опубликовать</button>
         </form>
-        <form method="POST" enctype="multipart/form-data" id="uploadForm">
+        <form id="uploadForm" method="POST" enctype="multipart/form-data">
             <div class="input-group mb-3">
               <div class="custom-file">
                 <input type="file" class="custom-file-input" id="inputGroupFile02" name="file">
