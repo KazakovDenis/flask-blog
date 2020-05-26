@@ -1,4 +1,4 @@
-// Обработчик формы загрузки изображения при создании и редактировании поста
+// Обработчик формы загрузки изображения при создании и редактировании поста + кнопки редактирования текста
 window.addEventListener('DOMContentLoaded', () => {
 
     // форма редактирования поста
@@ -9,7 +9,7 @@ window.addEventListener('DOMContentLoaded', () => {
     let fileArea = uploadForm.inputGroupFile02;
     let fileInput = document.querySelector('input#inputGroupFile02');
 
-    // ============== добавляем кнопки редактирования текста и вешаем на них события
+    // добавляем кнопки редактирования текста и вешаем на них события
     let editions = {
         'btn-bold': [' **text**', '<strong>Жирный</strong>'],
         'btn-italic': [' _text_', '<em>Курсив</em>'],
@@ -28,6 +28,7 @@ window.addEventListener('DOMContentLoaded', () => {
         'btn-line': ['  \n  ***  ', 'Линия'],
     };
 
+    // добавляем кнопки на страницу
     function addButtons() {
         let panel = document.createElement('div');
         panel.classList.add('d-flex', 'flex-wrap', 'justify-content-center');
@@ -58,6 +59,7 @@ window.addEventListener('DOMContentLoaded', () => {
         textArea.append(text);
     };
 
+    // вешаем событие на клик по кнопке
     document.querySelectorAll('.editor-btn').forEach(elem => {
         elem.addEventListener('click', () => {
             let btn_id = elem.getAttribute('id');
@@ -65,14 +67,6 @@ window.addEventListener('DOMContentLoaded', () => {
         });
     });
     // ============== кнопки добавлены
-
-    function addToLabel() {
-        if (fileArea.files.length > 0) {
-            uploadForm.querySelector('label.custom-file-label').append(uploadForm.inputGroupFile02.files[0].name);
-        };
-    };
-
-    addToLabel();
 
     // добавляем ссылку на загруженный файл под форму
     function addLink(item_url, item_title) {
@@ -82,6 +76,7 @@ window.addEventListener('DOMContentLoaded', () => {
         addToText(item_url, item_title, link=true);
     };
 
+    // отправляем post-запрос
     async function send_request(url, data={}, headers={}) {
         const resp = await fetch(url, {
             method: 'POST',
@@ -96,6 +91,7 @@ window.addEventListener('DOMContentLoaded', () => {
         return await resp.text();
     };
 
+    // отправляем данные формы загрузки файла на бэкенд
     function upload(e) {
         e.preventDefault();  // сбрасывает действие по умолчанию - перезагрузку страницы
 
