@@ -1,0 +1,37 @@
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+        <li class="page-item {% if not paginator.has_prev %}disabled{% endif %}">
+            <a class="page-link bg-transparent border border-secondary" href="./?page=1" aria-label="First">
+                <span aria-hidden="true" class="text-info">&laquo;&laquo;</span>
+            </a>
+        </li>
+        <li class="page-item {% if not paginator.has_prev %}disabled{% endif %}">
+            <a class="page-link bg-transparent border border-secondary" href="./?page={{ paginator.prev_num }}" aria-label="Previous">
+                <span aria-hidden="true" class="text-info">&laquo;</span>
+            </a>
+        </li>
+            {% for page in paginator.iter_pages(left_edge=0, right_edge=0, right_current=3) %}
+                {% if page %}
+                    {% if page != paginator.page %}
+                        <li class="page-item">
+                            <a class="page-link bg-transparent text-info border border-secondary" href="./?page={{ page }}">{{ page }}</a>
+                        </li>
+                    {% else %}
+                        <li class="page-item active">
+                            <a class="page-link bg-info text-dark border border-secondary" href="#">{{ page }}</a>
+                        </li>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+        <li class="page-item {% if not paginator.has_next %}disabled{% endif %}" >
+            <a class="page-link bg-transparent border border-secondary" href="./?page={{ paginator.next_num }}" aria-label="Next">
+              <span aria-hidden="true" class="text-info">&raquo;</span>
+            </a>
+        </li>
+        <li class="page-item {% if not paginator.has_next %}disabled{% endif %}" >
+            <a class="page-link bg-transparent border border-secondary" href="./?page={{ paginator.pages }}" aria-label="Last">
+              <span aria-hidden="true" class="text-info">&raquo;&raquo;</span>
+            </a>
+        </li>
+    </ul>
+</nav>

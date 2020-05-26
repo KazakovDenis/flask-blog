@@ -43,24 +43,5 @@
 {% endblock %}
 
 {% block footer %}
-<nav aria-label="Page navigation example">
-    <ul class="pagination justify-content-center">
-        <li {% if not paginator.has_prev %} class="page-item disabled" {% endif %}>
-            <a class="page-link bg-transparent" href="./?page={{ paginator.prev_num }}" aria-label="Previous"><span aria-hidden="true">&laquo;</span>
-          </a>
-        </li>
-            {% for page in paginator.iter_pages() %}
-
-            <li {% if page == paginator.page %} class="page-item" {% endif %}>
-                <a class="page-link bg-info text-decoration-none" href="./?page={{ page }}">{{ page }}</a>
-            </li>
-
-            {% endfor %}
-        <li class="page-item {% if not paginator.has_next %}disabled{% endif %}" >
-            <a class="page-link bg-transparent" href="./?page={{ paginator.next_num }}" aria-label="Next">
-              <span aria-hidden="true">&raquo;</span>
-            </a>
-        </li>
-    </ul>
-</nav>
+    {% include 'posts/pagination.html' %}
 {% endblock %}
