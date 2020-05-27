@@ -1,16 +1,11 @@
 {% extends 'base.html' %}
 
 {% block title %}
-
-    Страница не найдена (404)
-
+    Страница не найдена (404) | kazakov.ru.net
 {% endblock %}
 
 {% block content %}
-
 <h2 class="text-center my-3">Такой страницы не существует (404)</h2>
 <div class="text-center my-3">Для поиска воспользуйтесь формой ниже</div>
-<div class="mw-75">
-    {% include 'search.html' %}
-</div>
+<div class="mw-75">{% include 'search.html' %}</div>
 {% endblock %}
