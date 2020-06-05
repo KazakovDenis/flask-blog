@@ -5,13 +5,15 @@
 {% endblock %}
 
 {% block content %}
-<div class="mt-sm-5">
+<div>
     <!-- Search form on XS -->
-    <div class="d-sm-none align-items-start mb-4 mb-sm-0">
-        {% include 'search.html' %}
+    <div class="d-sm-none mb-3">
+        <div class="d-flex align-items-center justify-content-center">
+            {% include 'search.html' %}
+        </div>
     </div>
-    <div class="d-inline-flex">
-        <div class="">
+    <div class="d-flex justify-content-between mb-2">
+        <div class="main-content text-justify" style="min-width: 65%;">
             {% for post in posts %}
                 <p class="h3 mb-0">
                     <a href="{{ url_for('posts.post_detail', slug=post.slug) }}">{{ post.title }}</a>
@@ -33,14 +35,17 @@
                 <h5><b>Все записи...</b></h5></a>
             </div>
         </div>
-        <div class="d-none d-sm-block ml-5">
+        <div class="d-none d-sm-block ml-5" style="max-width: 35%;">
             <div class="mb-5">
                 {% include 'search.html' %}
             </div>
-            <div class="">
+            <div>
                 {% include 'posts/all_tags.html' %}
             </div>
         </div>
+    </div>
+    <div class="d-sm-none mb-3">
+        {% include 'posts/all_tags.html' %}
     </div>
 </div>
 {% endblock %}
