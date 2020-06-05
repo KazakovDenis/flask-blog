@@ -3,6 +3,8 @@ Module executes functions to start the project and contains functions to manage 
 """
 import os
 import re
+from subprocess import check_call
+
 
 from app.blog import user_datastore, db, log
 from app.config import PATH
@@ -108,14 +110,14 @@ def main():
         add_new_role(name='subscriber', description='A member of society')
         add_new_user(email='admin@admin.com', password='admin123', role='admin')
 
-        manager = os.path.join(PATH, 'app', 'manage.py')
-        os.system(f'python3 {manager} db init')
-        os.system(f'python3 {manager} db migrate')
-        os.system(f'python3 {manager} db upgrade')
+        db_manager = ['python3', '-m', 'app.manage', 'db']
+        check_call(db_manager + ['init'])
+        check_call(db_manager + ['migrate'])
+        check_call(db_manager + ['upgrade'])
 
         tag = Tag(name='projects')
         add_to_db(tag)
-        log.info('Now you can test the project by >> python3 manage.py runserver')
+        log.info('Now you can test the project by >> python3 -m app.manage runserver')
     else:
         log.info('Aborted.')
 
