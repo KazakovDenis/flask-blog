@@ -9,12 +9,21 @@ from app.config import PATH
 from app.models import User, Role, Tag
 
 
+def make_dirs():
+    """Creates necessary folders"""
+    static_folders = ['uploads', 'img']
+    static = os.path.join(PATH, 'app', 'static')
+    if not os.path.exists(static):
+        os.mkdir(static)
+
+    for folder in static_folders:
+        folder_path = os.path.join(static, folder)
+        if not os.path.exists(folder_path):
+            os.mkdir(folder_path)
+
+
 def init_tables_from_models():
     """Initializes database tables if not created"""
-    static_folders = ['uploads', 'img']
-    static = ' '.join([os.path.join(PATH, 'app', folder) for folder in static_folders])
-    test_db = os.path.join(PATH, 'app', 'data')
-    os.system(f'mkdir {test_db} {static}')
     db.create_all()
     db.session.commit()
     log.info('Tables have been created!')
@@ -77,13 +86,13 @@ def add_to_db(obj: db.Model):
     log.info(f'Object "{obj}" has been created!')
 
 
-def delete_from_db(obj, confirm: str=None):
+def delete_from_db(obj, confirm: str = None):
     """Deletes a record from db
     :param obj: an instance of db.Model
     :param confirm: 'y' to delete without confirmation
     """
     confirm = confirm or input('Are you sure? [y/n] --> ').lower()
-    if confirm == 'y':
+    if confirm in ['y', 'yes', 'д', 'да']:
         db.session.delete(obj)
         db.session.commit()
         log.info(f'Object "{obj}" has been deleted!')
@@ -91,7 +100,9 @@ def delete_from_db(obj, confirm: str=None):
 
 def main():
     check = input('Are you sure the database has been created and environment variables are set? [y/n] --> ').lower()
-    if check == 'y':
+    if check in ['y', 'yes', 'д', 'да']:
+        make_dirs()
+
         init_tables_from_models()
         add_new_role(name='admin', description='A head of project')
         add_new_role(name='subscriber', description='A member of society')
@@ -101,6 +112,7 @@ def main():
         os.system(f'python3 {manager} db init')
         os.system(f'python3 {manager} db migrate')
         os.system(f'python3 {manager} db upgrade')
+
         tag = Tag(name='projects')
         add_to_db(tag)
         log.info('Now you can test the project by >> python3 manage.py runserver')

@@ -23,9 +23,9 @@ class Configuration:
     DEBUG = False
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_DATABASE_URI = f'postgresql+psycopg2://{DB_USER}:{DB_PASS}@localhost/blog'
-    # SQLALCHEMY_DATABASE_URI = 'sqlite:///data/test.db'
+    # SQLALCHEMY_DATABASE_URI = 'sqlite:///test.db'
     SECRET_KEY = os.environ.get('FLASK_SECRET')
-    UPLOAD_FOLDER = os.path.abspath('../static/uploads/')
+    UPLOAD_FOLDER = os.path.join(PATH, 'app', 'static', 'uploads')
     ALLOWED_EXTENSIONS = ('txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif')
     MAX_CONTENT_LENGTH = 16 * 1024 * 1024
 
