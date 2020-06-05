@@ -3,11 +3,11 @@
 import os
 
 
-PATH = os.path.abspath('..')
+PATH = os.path.abspath(os.path.curdir)
 
 # database
-USER = os.environ.get('USER')
-PASSWORD = os.environ.get('DB_PASS')
+DB_USER = os.environ.get('DB_USER')
+DB_PASS = os.environ.get('DB_PASS')
 
 # Github webhooks
 GH_SECRET = os.environ.get('GH_SECRET')
@@ -22,7 +22,7 @@ LOG_FORMAT = "[%(asctime)s] @%(name)s  %(levelname)s in %(module)s: %(message)s"
 class Configuration:
     DEBUG = False
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    SQLALCHEMY_DATABASE_URI = f'postgresql+psycopg2://{USER}:{PASSWORD}@localhost/blog'
+    SQLALCHEMY_DATABASE_URI = f'postgresql+psycopg2://{DB_USER}:{DB_PASS}@localhost/blog'
     # SQLALCHEMY_DATABASE_URI = 'sqlite:///data/test.db'
     SECRET_KEY = os.environ.get('FLASK_SECRET')
     UPLOAD_FOLDER = os.path.abspath('../static/uploads/')
