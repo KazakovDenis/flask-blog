@@ -4,13 +4,17 @@ Module executes functions to start the project and contains functions to manage 
 import os
 import re
 
-from blog import user_datastore, db, log
-from models import User, Role, Tag
+from app.blog import user_datastore, db, log
+from app.config import PATH
+from app.models import User, Role, Tag
 
 
 def init_tables_from_models():
     """Initializes database tables if not created"""
-    os.system('mkdir data static/uploads static/img')
+    static_folders = ['uploads', 'img']
+    static = ' '.join([os.path.join(PATH, 'app', folder) for folder in static_folders])
+    test_db = os.path.join(PATH, 'app', 'data')
+    os.system(f'mkdir {test_db} {static}')
     db.create_all()
     db.session.commit()
     log.info('Tables have been created!')
@@ -92,14 +96,16 @@ def main():
         add_new_role(name='admin', description='A head of project')
         add_new_role(name='subscriber', description='A member of society')
         add_new_user(email='admin@admin.com', password='admin123', role='admin')
-        os.system('python3 manage.py db init')
-        os.system('python3 manage.py db migrate')
-        os.system('python3 manage.py db upgrade')
+
+        manager = os.path.join(PATH, 'app', 'manage.py')
+        os.system(f'python3 {manager} db init')
+        os.system(f'python3 {manager} db migrate')
+        os.system(f'python3 {manager} db upgrade')
         tag = Tag(name='projects')
         add_to_db(tag)
         log.info('Now you can test the project by >> python3 manage.py runserver')
     else:
-        log.info('Aborting')
+        log.info('Aborted.')
 
 
 if __name__ == '__main__':
