@@ -2,7 +2,7 @@ from os import path as op
 
 from flask import redirect, url_for, request
 from flask_admin.contrib.fileadmin import FileAdmin
-from flask_admin import Admin, AdminIndexView
+from flask_admin import Admin, AdminIndexView, expose
 from flask_admin.menu import MenuLink
 from flask_admin.contrib.sqla import ModelView
 from flask_security import current_user
@@ -30,7 +30,9 @@ class AdminView(AdminMixin, ModelView):
 
 
 class HomeAdminView(AdminMixin, AdminIndexView):
-    pass
+    @expose()
+    def index(self):
+        return self.render('admin.html')
 
 
 class PostAdminView(AdminMixin, BaseModelView):
