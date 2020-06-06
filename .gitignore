@@ -7,6 +7,8 @@ test.py
 migrations/
 data/
 uploads/
+test.db
+
 
 # Created by https://www.gitignore.io/api/flask,python,windows,pycharm
 # Edit at https://www.gitignore.io/?templates=flask,python,windows,pycharm
@@ -304,6 +306,3 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.gitignore.io/api/flask,python,windows,pycharm
-/config/supervisor.conf
-/config/nginx.conf
-/app/data/
