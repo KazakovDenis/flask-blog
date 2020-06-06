@@ -11,13 +11,14 @@ $ sudo apt install postgresql
 Clone the repo and install all dependencies:
 ```sh
 $ git clone https://github.com/KazakovDenis/MyBlog.git
-$ pip install -r requirements.txt
+$ pip install -r requirements/production.txt
 ```
 ### Configuring
 Set environment variables (GH is Github). 
 
 for ~/.bashrc (or ~/.profile):
 ```
+export DB_USER="database_user"
 export DB_PASS="database_password"
 export FLASK_SECRET="random_string1"
 export FLASK_SALT="random_string2"
@@ -28,7 +29,7 @@ for supervisor config
 ```
 [program:blog]
 environment=
-    USER="username",
+    DB_USER="database_user",
     DB_PASS="database_password",
     FLASK_SECRET="random_string1",
     FLASK_SALT="random_string2",
@@ -45,7 +46,7 @@ $ cd your/app/root/directory/
 $ source venv/bin/activate
 $ python startproject.py
 > Are you sure the database has been created and environment variables are set? [y/n] --> y
-$ python manage.py runserver
+$ python3 -m app.manage runserver
 ```
 Visit `127.0.0.1:5000` and log in by using admin@admin.com / admin123.
 **Enjoy!**
