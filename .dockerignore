@@ -1,0 +1,8 @@
+venv
+tests
+**/migrations
+static/uploads/*
+**/*.log
+**/.idea
+test.db
+README.md
