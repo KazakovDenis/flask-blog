@@ -1,5 +1,6 @@
 venv
 tests
+log
 **/migrations
 static/uploads/*
 **/*.log
