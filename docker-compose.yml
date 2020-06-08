@@ -1,0 +1,15 @@
+version: '3'
+  services:
+    blog:
+      build: .
+      command: python3 -m app.manage runserver -p 8000 -h 0.0.0.0
+      restart: always
+        environment:
+          DB_USER: '${DB_USER}'
+          DB_PASS: '${DB_PASS}'
+          DB_ADDRESS: '${DB_ADDRESS}'
+          FLASK_SECRET: '${FLASK_SECRET}'
+      volumes:
+        - /var/run/postgresql:/tmp
+      ports:
+        - "80:8000"
