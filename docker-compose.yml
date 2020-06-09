@@ -1,8 +1,9 @@
-version: '3'
+version: '3.8'
   services:
     blog:
       build: .
       command: python3 -m app.manage runserver -p 8000 -h 0.0.0.0
+#      command: /usr/local/bin/supervisord -c /etc/supervisor/supervisor.conf
       restart: always
         environment:
           DB_USER: '${DB_USER}'
