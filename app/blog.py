@@ -14,7 +14,7 @@ app = Flask(__name__)
 app.config.from_object(Configuration)
 app.wsgi_app = ProxyFix(app.wsgi_app)
 
-db = SQLAlchemy(app)
+db = SQLAlchemy(app, engine_options=DB_OPTIONS)
 migrate = Migrate(app, db)
 
 manager = Manager(app)

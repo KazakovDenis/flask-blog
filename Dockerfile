@@ -3,10 +3,9 @@
 # cmd to run:
   # docker run
       #-p 8000:8000
-      #-v /var/run/postgresql:/tmp
+      #-v /var/run/postgresql:/run/postgresql
       #--env DB_USER=$DB_USER
       #--env DB_PASS=$DB_PASS
-      #--env DB_ADDRESS=/tmp
       #--env FLASK_SECRET=$FLASK_SECRET
       #--name production
       #blog-image:v1 python3 -m app.manage runserver -h 0.0.0.0 -p 8000
