@@ -10,7 +10,8 @@ version: '3.8'
           DB_PASS: '${DB_PASS}'
           DB_ADDRESS: '${DB_ADDRESS}'
           FLASK_SECRET: '${FLASK_SECRET}'
+          FLASK_SALT: '${FLASK_SALT}'
       volumes:
-        - /var/run/postgresql:/tmp
+        - /var/run/postgresql:/run/postgresql
       ports:
         - "80:8000"

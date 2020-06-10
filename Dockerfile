@@ -9,6 +9,7 @@
     # --env DB_PASS=$DB_PASS
     # --env DB_ADDRESS=$DB_ADDRESS
     # --env FLASK_SECRET=$FLASK_SECRET
+    # --env FLASK_SALT=$FLASK_SALT
     # --name blog
     # blog-image:v1 python3 -m app.manage runserver -h 0.0.0.0 -p 8000
 
