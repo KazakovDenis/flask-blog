@@ -2,19 +2,20 @@
 # cmd to build:
     # docker build -t blog:1.0 .
 # cmd to run:
-    # docker run
-    # -p 8000:8000
-    # -v /var/run/postgresql:/run/postgresql
-    # -v /home/log:/blog/log
-    # -v /home/uploads:/blog/app/static/uploads
-    # --env DB_USER=$DB_USER
-    # --env DB_PASS=$DB_PASS
-    # --env DB_ADDRESS=$DB_ADDRESS
-    # --env FLASK_SECRET=$FLASK_SECRET
-    # --env FLASK_SALT=$FLASK_SALT
-    # --name blog
-    # blog:1.0
-    # /usr/local/bin/gunicorn app:app -c /blog/configs/gunicorn_conf.py
+#     docker run -d \
+#     --restart=on-failure:3 \
+#     -p 127.0.0.1:8000:8000 \
+#     -v /var/run/postgresql:/run/postgresql \
+#     -v /home/log:/blog/log \
+#     -v /home/uploads:/blog/app/static/uploads \
+#     --env DB_USER=$DB_USER \
+#     --env DB_PASS=$DB_PASS \
+#     --env DB_ADDRESS=$DB_ADDRESS \
+#     --env FLASK_SECRET=$FLASK_SECRET \
+#     --env FLASK_SALT=$FLASK_SALT \
+#     --name blog \
+#     blog:1.0 \
+#     gunicorn app:app -c /blog/configs/gunicorn_conf.py
 
 # creating base image with env
 FROM debian:10 as base

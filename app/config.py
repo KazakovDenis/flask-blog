@@ -3,13 +3,13 @@
 import os
 
 
+# common
 PATH = os.path.abspath(os.path.curdir)
 
 # database
 DB_USER = os.environ.get('DB_USER')
 DB_PASS = os.environ.get('DB_PASS')
 DB_ADDRESS = os.environ.get('DB_ADDRESS', '')
-DB_OPTIONS = {'host': DB_ADDRESS, 'user': DB_USER, 'password': DB_PASS, 'dbname': 'blog'}
 
 # Github webhooks
 GH_SECRET = os.environ.get('GH_SECRET')
@@ -17,10 +17,11 @@ GH_SENDER_ID = os.environ.get('GH_SENDER_ID')
 GH_REPO_ID = os.environ.get('GH_REPO_ID')
 
 # logging
-LOG_LEVEL = 20
+LOG_LEVEL = 30
 LOG_FORMAT = "[%(asctime)s] @%(name)s  %(levelname)s in %(module)s: %(message)s"
 
 
+# Flask app
 class Configuration:
     DEBUG = False
     DEBUG_DB = 'sqlite:///test.db'
