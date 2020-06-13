@@ -26,8 +26,8 @@
                 <a class="nav-link" href="{{ url_for('posts.tag_detail', slug='projects') }}">Projects</a>
                 <a class="nav-link" href="#contacts">Contacts</a>
                 {% if current_user.has_role('admin') %}
-                    <a class="nav-link" href="{{ url_for('posts.create_post') }}">Новый пост</a>
-                    <a class="nav-link" href="{{ url_for('admin.index') }}">Админка</a>
+                    <a class="nav-link" href="{{ url_for('posts.create_post') }}">New post</a>
+                    <a class="nav-link" href="{{ url_for('admin.index') }}">Admin</a>
                 {% endif %}
             </div>
         </nav>

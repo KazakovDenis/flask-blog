@@ -46,7 +46,7 @@
                     {% if current_user.has_role('admin') %}
                     <div class="d-flex justify-content-center mb-3">
                         <a href="{{ url_for('posts.create_post', slug=post.slug) }}" class="text-decoration-none">
-                            <span class="btn btn-info">Редактировать запись</span>
+                            <span class="btn btn-info">Редактировать</span>
                         </a>
                     </div>
                     {% endif %}

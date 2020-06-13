@@ -19,4 +19,4 @@ def slugify(txt: str) -> str:
     txt = rusify(txt.lower())
     pattern = r'[^a-z0-9]+'            # replaces all special symbols with dashes
     slug = re.sub(pattern, '-', txt)
-    return slug
+    return slug.strip('-')

@@ -6,4 +6,6 @@ static/uploads/*
 **/*.log
 **/.idea
 test.db
+.dockerignore
+Dockerfile
 README.md
