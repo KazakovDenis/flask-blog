@@ -17,10 +17,12 @@ FROM debian:10
 LABEL maintainer="https://github.com/KazakovDenis"
 WORKDIR /blog
 COPY . .
+COPY requirements/production.txt production.txt
 COPY configs/supervisor.conf /etc/supervisor/supervisord.conf
 
+RUN mkdir -p log/flask log/gunicorn log/supervisor app/static/uploads
 RUN apt-get update && apt-get install -y python3 python3-pip python3-dev libpq-dev
-RUN pip3 install --no-cache-dir -r requirements/production.txt
+RUN pip3 install --no-cache-dir -r production.txt
 RUN apt-get autoclean && apt-get autoremove
 
 EXPOSE 8000 5000

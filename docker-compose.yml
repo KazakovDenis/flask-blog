@@ -3,7 +3,8 @@ version: '3.8'
     blog:
       build: .
       command: python3 -m app.manage runserver -p 8000 -h 0.0.0.0
-#      command: /usr/local/bin/supervisord -c /etc/supervisor/supervisor.conf
+      #command: /usr/local/bin/gunicorn app:app -b 0.0.0.0:8000 -c /blog/configs/gunicorn_conf.py
+      #command: /usr/local/bin/supervisord -c /etc/supervisor/supervisor.conf
       restart: always
         environment:
           DB_USER: '${DB_USER}'
