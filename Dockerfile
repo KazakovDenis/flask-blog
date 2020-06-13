@@ -2,12 +2,13 @@
 # cmd to build:
     # docker build -t blog:1.0 .
 # cmd to run:
+#     mkdir -p $HOME/log/flask $HOME/log/flask HOME/uploads && \
 #     docker run -d \
 #     --restart=on-failure:3 \
 #     -p 127.0.0.1:8000:8000 \
 #     -v /var/run/postgresql:/run/postgresql \
-#     -v /home/log:/blog/log \
-#     -v /home/uploads:/blog/app/static/uploads \
+#     -v $HOME/log:/blog/log \
+#     -v $HOME/uploads:/blog/app/static/uploads \
 #     --env DB_USER=$DB_USER \
 #     --env DB_PASS=$DB_PASS \
 #     --env DB_ADDRESS=$DB_ADDRESS \
