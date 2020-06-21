@@ -1,6 +1,4 @@
 from copy import copy
-from datetime import datetime
-from logging import getLogger
 
 
 class FuncMock:

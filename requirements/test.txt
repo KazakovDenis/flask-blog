@@ -1,3 +1,8 @@
 production.txt
+certifi>=2017.4.17
+chardet<4,>=3.0.2
+idna<3,>=2.5
 pytest==5.3.5
 pytest-flask==0.15.1
+requests==2.24.0
+urllib3!=1.25.0,!=1.25.1,<1.26,>=1.21.1
