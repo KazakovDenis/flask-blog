@@ -1,4 +1,4 @@
-production.txt
+-r production.txt
 certifi>=2017.4.17
 chardet<4,>=3.0.2
 idna<3,>=2.5
