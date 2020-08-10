@@ -7,7 +7,7 @@ from flask_script import Manager
 from flask_security import SQLAlchemyUserDatastore, Security
 from werkzeug.middleware.proxy_fix import ProxyFix
 
-from .config import *
+from app.config import *
 
 
 app = Flask(__name__)
@@ -20,17 +20,17 @@ migrate = Migrate(app, db)
 manager = Manager(app)
 manager.add_command('db', MigrateCommand)
 
-from .services import log
-from .posts.blueprint import posts
+from app.services import log
+from app.posts.blueprint import posts
 app.register_blueprint(posts, url_prefix='/blog/')
 
-from .api.blueprint import api
+from app.api.blueprint import api
 app.register_blueprint(api, url_prefix='/api/')
 
-from .models import User, Role
+from app.models import User, Role
 user_datastore = SQLAlchemyUserDatastore(db, User, Role)
 security = Security(app, user_datastore)
 
-from .admin import admin
-from .sitemap import sm_view
+from app.admin import admin
+from app.sitemap import sm_view
 app.add_url_rule('/sitemap.xml', endpoint='sitemap', view_func=sm_view)

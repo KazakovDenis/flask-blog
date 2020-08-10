@@ -1,11 +1,12 @@
-from .blog import app
-from .models import Post, Tag
-from .services import FlaskSitemap, sm_log
+from app.blog import app
+from app.models import Post, Tag
+from app.services import FlaskSitemap, sm_log
 
 
 class SMConfig:
     DEBUG = False
     FOLDER = ('static',)
+    TEMPLATE_FOLDER = ('app', 'templates',)
     # todo: что за '/blog/./' ???
     IGNORED = ['/admin', '/edit', '/static', '/upload', '/blog/./']
     INDEX_PRIORITY = 1.0
