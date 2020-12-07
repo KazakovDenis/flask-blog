@@ -1,6 +1,7 @@
 -r production.txt
 certifi>=2017.4.17
 chardet<4,>=3.0.2
+coverage==5.3
 idna<3,>=2.5
 pytest==5.3.5
 pytest-flask==0.15.1
