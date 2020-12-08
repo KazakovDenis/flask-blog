@@ -21,10 +21,6 @@ LOG_LEVEL = 30
 LOG_FORMAT = "[%(asctime)s] @%(name)s  %(levelname)s in %(module)s: %(message)s"
 LOG_DIR = os.path.join(PATH, 'log')
 
-for name in ('flask', 'gunicorn'):
-    folder = os.path.join(LOG_DIR, name)
-    os.makedirs(folder, exist_ok=True)
-
 
 # Flask app
 class Configuration:

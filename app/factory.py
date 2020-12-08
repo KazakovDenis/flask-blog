@@ -5,6 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 from werkzeug.middleware.proxy_fix import ProxyFix
 
 from .config import Configuration
+from .functions import configure_logger
 
 
 db = SQLAlchemy()
@@ -17,7 +18,10 @@ def create_app(config: type = Configuration, datastore: SQLAlchemyUserDatastore 
     app = Flask(__name__)
     app.config.from_object(config)
     app.wsgi_app = ProxyFix(app.wsgi_app)
+
     db.init_app(app)
     migrate.init_app(app, db)
     security.init_app(app, datastore)
+
+    configure_logger(app)
     return app

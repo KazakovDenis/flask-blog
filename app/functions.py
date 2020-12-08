@@ -10,6 +10,10 @@ from . import config
 
 def configure_logger(app) -> logging.Logger:
     """Configure an app logger"""
+    for name in ('flask', 'gunicorn'):
+        folder = os.path.join(config.LOG_DIR, name)
+        os.makedirs(folder, exist_ok=True)
+
     logger = app.logger
     logger.setLevel(config.LOG_LEVEL)
     fh = logging.FileHandler(os.path.join(config.LOG_DIR, 'flask', 'app.log'), encoding='utf-8')
