@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # https://github.com/KazakovDenis
 from datetime import datetime
-from flask_security import UserMixin, RoleMixin
+from flask_security import UserMixin, RoleMixin, SQLAlchemyUserDatastore
 
 from .factory import db
 from .functions import slugify
@@ -73,3 +73,6 @@ class Role(db.Model, RoleMixin):
 
     def __repr__(self):
         return self.name
+
+
+user_datastore = SQLAlchemyUserDatastore(db, User, Role)
