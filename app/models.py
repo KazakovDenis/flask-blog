@@ -4,7 +4,7 @@ from datetime import datetime
 from flask_security import UserMixin, RoleMixin, SQLAlchemyUserDatastore
 
 from .factory import db
-from .functions import slugify
+from app.services.functions import slugify
 
 
 post_tags = db.Table('post_tags',

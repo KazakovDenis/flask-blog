@@ -1,7 +1,7 @@
 from .admin import create_admin
 from .factory import create_app, db
 from .models import user_datastore
-from .sitemap import create_sitemap
+from .services.sitemap import create_sitemap
 
 from .posts.blueprint import posts
 from .api.blueprint import api

@@ -1,6 +1,6 @@
 from dynamic_sitemap import FlaskSitemap
 
-from .models import Post, Tag
+from app.models import Post, Tag
 
 
 class SMConfig:

@@ -5,7 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 from werkzeug.middleware.proxy_fix import ProxyFix
 
 from .config import Configuration
-from .functions import configure_logger
+from .services.functions import configure_logger
 
 
 db = SQLAlchemy()

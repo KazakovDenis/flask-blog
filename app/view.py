@@ -8,8 +8,7 @@ from werkzeug.utils import secure_filename
 
 from .blog import app
 from .config import Configuration
-from .factory import db
-from .functions import rusify
+from .services.functions import rusify
 from .models import Post, Tag
 
 
