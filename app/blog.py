@@ -1,24 +1,29 @@
 # -*- coding: utf-8 -*-
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from flask_migrate import Migrate, MigrateCommand
-from flask_script import Manager
+from flask_migrate import Migrate
 
 from flask_security import SQLAlchemyUserDatastore, Security
 from werkzeug.middleware.proxy_fix import ProxyFix
 
-from app.config import *
+from .config import *
 
 
-app = Flask(__name__)
-app.config.from_object(Configuration)
-app.wsgi_app = ProxyFix(app.wsgi_app)
+db = SQLAlchemy()
+migrate = Migrate()
 
-db = SQLAlchemy(app)
-migrate = Migrate(app, db)
 
-manager = Manager(app)
-manager.add_command('db', MigrateCommand)
+def create_app(config=Configuration):
+    """Create a configured app"""
+    application = Flask(__name__)
+    application.config.from_object(config)
+    application.wsgi_app = ProxyFix(application.wsgi_app)
+    db.init_app(application)
+    migrate.init_app(application, db)
+    return application
+
+
+app = create_app()
 
 from app.services import log
 from app.posts.blueprint import posts
