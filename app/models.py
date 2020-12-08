@@ -3,8 +3,8 @@
 from datetime import datetime
 from flask_security import UserMixin, RoleMixin
 
-from app.blog import db
-from app.functions import slugify
+from .factory import db
+from .functions import slugify
 
 
 post_tags = db.Table('post_tags',
