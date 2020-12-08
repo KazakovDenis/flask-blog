@@ -6,7 +6,8 @@ from datetime import datetime
 from flask import redirect, url_for, request, render_template, flash
 from werkzeug.utils import secure_filename
 
-from app.blog import db, Configuration, log, app
+from app.blog import app, db, log
+from app.config import Configuration
 from app.functions import rusify
 from app.models import Post, Tag
 
