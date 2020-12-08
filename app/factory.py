@@ -4,7 +4,7 @@ from flask_security import Security, SQLAlchemyUserDatastore
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.middleware.proxy_fix import ProxyFix
 
-from .config import *
+from .config import Configuration
 
 
 db = SQLAlchemy()

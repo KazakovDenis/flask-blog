@@ -11,7 +11,6 @@ from .config import Configuration
 from .factory import db
 from .functions import rusify
 from .models import Post, Tag
-from .services import log
 
 
 @app.route('/notes')

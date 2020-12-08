@@ -1,6 +1,22 @@
+import logging
+import os
 import re
-from transliterate import translit
 from uuid import uuid4
+
+from transliterate import translit
+
+from . import config
+
+
+def configure_logger(app) -> logging.Logger:
+    """Configure an app logger"""
+    logger = app.logger
+    logger.setLevel(config.LOG_LEVEL)
+    fh = logging.FileHandler(os.path.join(config.LOG_DIR, 'flask', 'app.log'), encoding='utf-8')
+    fh.setLevel(config.LOG_LEVEL)
+    fh.setFormatter(logging.Formatter(config.LOG_FORMAT))
+    logger.addHandler(fh)
+    return logger
 
 
 def rusify(txt: str) -> str:
