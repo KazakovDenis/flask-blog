@@ -1,11 +1,10 @@
 venv
-tests
-log
 **/migrations
-static/uploads/*
+**/static/*
+**/tests/*
+**/log/*
 **/*.log
+**/__pycache__
 **/.idea
-test.db
-.dockerignore
-Dockerfile
+**/test.db
 README.md

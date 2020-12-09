@@ -2,8 +2,9 @@ version: '2'
 services:
   blog:
     build: .
+    image: blog:1.0
     container_name: blog
-    command: /usr/local/bin/gunicorn app:app -b 0.0.0.0:8000 -c /blog/configs/gunicorn_conf.py
+    command: gunicorn blog.wsgi:app -c guniconf.py
     restart: on-failure
     environment:
       DB_USER: '${DB_USER}'
@@ -13,6 +14,13 @@ services:
       FLASK_SECRET: '${FLASK_SECRET}'
     volumes:
       - /var/run/postgresql:/run/postgresql
-      - /home/uploads:/blog/app/static/uploads
+#      - /home/blog/log:/www/log
+#      - /home/blog/static:/www/blog/static
+#      - /home/blog/templates:/www/blog/templates
     ports:
       - "8000:8000"
+    networks:
+      - blog
+
+networks:
+  blog:

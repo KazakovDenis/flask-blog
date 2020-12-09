@@ -1,5 +1,6 @@
 import logging
 import os
+from pathlib import Path
 import re
 from uuid import uuid4
 
@@ -13,13 +14,12 @@ __all__ = 'configure_logger', 'russify', 'slugify'
 
 def configure_logger(app) -> logging.Logger:
     """Configure an app logger"""
-    for name in ('flask', 'gunicorn'):
-        folder = os.path.join(config.LOG_DIR, name)
-        os.makedirs(folder, exist_ok=True)
+    folder = Path(config.LOG_DIR, 'flask')
+    os.makedirs(folder, exist_ok=True)
 
     logger = app.logger
     logger.setLevel(config.LOG_LEVEL)
-    fh = logging.FileHandler(os.path.join(config.LOG_DIR, 'flask', 'app.log'), encoding='utf-8')
+    fh = logging.FileHandler(folder / 'blog.log', encoding='utf-8')
     fh.setLevel(config.LOG_LEVEL)
     fh.setFormatter(logging.Formatter(config.LOG_FORMAT))
     logger.addHandler(fh)
