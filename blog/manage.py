@@ -1,10 +1,10 @@
 from flask_migrate import MigrateCommand
 from flask_script import Manager
 
-from app.blog import app
-from app import view
+from .init import init_app
 
 
+app = init_app()
 manager = Manager(app)
 manager.add_command('db', MigrateCommand)
 

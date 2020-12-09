@@ -2,7 +2,7 @@ import multiprocessing
 from os.path import join
 from sys import platform
 
-from app.config import PATH
+from blog.config import PATH
 
 
 bind = '0.0.0.0:8000'

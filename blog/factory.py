@@ -15,7 +15,7 @@ security = Security()
 
 def create_app(config: type = Configuration, datastore: SQLAlchemyUserDatastore = None) -> Flask:
     """Create a configured app"""
-    app = Flask(__name__)
+    app = Flask(__package__)
     app.config.from_object(config)
     app.wsgi_app = ProxyFix(app.wsgi_app)
 

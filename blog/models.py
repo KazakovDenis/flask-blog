@@ -4,12 +4,14 @@ from datetime import datetime
 from flask_security import UserMixin, RoleMixin, SQLAlchemyUserDatastore
 
 from .factory import db
-from app.services.functions import slugify
+from .services.functions import slugify
 
 
-post_tags = db.Table('post_tags',
-                     db.Column('post_id', db.Integer, db.ForeignKey('post.id')),
-                     db.Column('tag_id', db.Integer, db.ForeignKey('tag.id')))
+post_tags = db.Table(
+    'post_tags',
+    db.Column('post_id', db.Integer, db.ForeignKey('post.id')),
+    db.Column('tag_id', db.Integer, db.ForeignKey('tag.id'))
+)
 
 
 class Post(db.Model):
@@ -50,9 +52,11 @@ class Tag(db.Model):
 
 
 # Flask security
-roles_users = db.Table('roles_users',
-                       db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
-                       db.Column('role_id', db.Integer, db.ForeignKey('role.id')))
+roles_users = db.Table(
+    'roles_users',
+    db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
+    db.Column('role_id', db.Integer, db.ForeignKey('role.id'))
+)
 
 
 class User(db.Model, UserMixin):

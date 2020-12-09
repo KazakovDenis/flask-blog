@@ -1,12 +1,12 @@
 from dynamic_sitemap import FlaskSitemap
 
-from app.models import Post, Tag
+from blog.models import Post, Tag
 
 
 class SMConfig:
     DEBUG = False
     FOLDER = ('static',)
-    TEMPLATE_FOLDER = ('app', 'templates',)
+    TEMPLATE_FOLDER = ('blog', 'templates',)
     # todo: что за '/blog/./' ???
     IGNORED = ['/admin', '/edit', '/static', '/upload', '/blog/./']
     INDEX_PRIORITY = 1.0

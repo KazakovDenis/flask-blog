@@ -5,7 +5,7 @@ from uuid import uuid4
 
 from transliterate import translit
 
-from app import config
+from blog import config
 
 
 def configure_logger(app) -> logging.Logger:

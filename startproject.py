@@ -6,15 +6,15 @@ import re
 from subprocess import check_call
 
 
-from app.blog import user_datastore, db, log
-from app.config import PATH
-from app.models import User, Role, Tag
+from blog.blog import user_datastore, db, log
+from blog.config import PATH
+from blog.models import User, Role, Tag
 
 
 def make_dirs():
     """Creates necessary folders"""
     static_folders = ['uploads', 'img']
-    static = os.path.join(PATH, 'app', 'static')
+    static = os.path.join(PATH, 'blog', 'static')
     if not os.path.exists(static):
         os.mkdir(static)
 
