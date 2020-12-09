@@ -1,10 +1,10 @@
-# -*- coding: utf-8 -*-
-# https://github.com/KazakovDenis
 import os
+from pathlib import Path
 
 
 # common
-PATH = os.path.abspath(os.path.curdir)
+DOMAIN = 'https://kazakov.ru.net'
+PATH = Path(__file__).parent.absolute()
 
 # database
 DB_USER = os.environ.get('DB_USER')
@@ -19,7 +19,7 @@ GH_REPO_ID = os.environ.get('GH_REPO_ID')
 # logging
 LOG_LEVEL = 30
 LOG_FORMAT = "[%(asctime)s] @%(name)s  %(levelname)s in %(module)s: %(message)s"
-LOG_DIR = os.path.join(PATH, 'log')
+LOG_DIR = PATH.parent / 'log'
 
 
 # Flask app

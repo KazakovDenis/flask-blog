@@ -8,6 +8,9 @@ from transliterate import translit
 from blog import config
 
 
+__all__ = 'configure_logger', 'russify', 'slugify'
+
+
 def configure_logger(app) -> logging.Logger:
     """Configure an app logger"""
     for name in ('flask', 'gunicorn'):
@@ -23,7 +26,7 @@ def configure_logger(app) -> logging.Logger:
     return logger
 
 
-def rusify(txt: str) -> str:
+def russify(txt: str) -> str:
     """Turns given text from Cyrillic symbols to Latin"""
     pattern = r'[^\w{IsCyrillic}]'
     txt += ' '                         # it may not work for clean Cyrillic
@@ -36,7 +39,7 @@ def slugify(txt: str) -> str:
     """Makes text adapted for URL"""
     if txt is None:
         return str(uuid4())
-    txt = rusify(txt.lower())
+    txt = russify(txt.lower())
     pattern = r'[^a-z0-9]+'            # replaces all special symbols with dashes
     slug = re.sub(pattern, '-', txt)
     return slug.strip('-')
