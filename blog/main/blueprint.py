@@ -7,7 +7,7 @@ from flask import Blueprint, redirect, url_for, request, render_template, flash
 from werkzeug.utils import secure_filename
 
 from blog.config import Configuration
-from blog.services.functions import rusify
+from blog.services.functions import russify
 from blog.models import Post, Tag
 
 
@@ -31,7 +31,7 @@ def upload_file():
     if request.method == 'POST':
         file = request.files.get('file')
         if file:
-            filename, extension = rusify(file.filename.rsplit('.', 1)[0]), file.filename.rsplit('.', 1)[-1]
+            filename, extension = russify(file.filename.rsplit('.', 1)[0]), file.filename.rsplit('.', 1)[-1]
 
             if extension in Configuration.ALLOWED_EXTENSIONS:
                 filename = f"{secure_filename(filename)}{datetime.now().strftime('%Y%m%d-%H%M%S')}.{extension}"

@@ -6,9 +6,12 @@ import re
 from subprocess import check_call
 
 
-from blog.blog import user_datastore, db, log
+from blog.wsgi import app
 from blog.config import PATH
-from blog.models import User, Role, Tag
+from blog.models import User, Role, Tag, db, user_datastore
+
+
+log = app.logger
 
 
 def make_dirs():
