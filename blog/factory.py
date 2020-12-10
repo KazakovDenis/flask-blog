@@ -13,14 +13,17 @@ migrate = Migrate()
 security = Security()
 
 
-def create_app(config: type = Configuration, datastore: SQLAlchemyUserDatastore = None) -> Flask:
+def create_app(
+        config: type = Configuration,
+        datastore: SQLAlchemyUserDatastore = None,
+        migrations_dir: str = '') -> Flask:
     """Create a configured app"""
     app = Flask(__package__)
     app.config.from_object(config)
     app.wsgi_app = ProxyFix(app.wsgi_app)
 
     db.init_app(app)
-    migrate.init_app(app, db)
+    migrate.init_app(app, db, directory=migrations_dir)
     security.init_app(app, datastore)
 
     configure_logger(app)
