@@ -3,7 +3,7 @@
 import json
 from flask import Blueprint, request, Response
 
-from app.models import Post, Tag
+from blog.models import Post, Tag
 
 
 api = Blueprint('api', __name__, template_folder='templates')

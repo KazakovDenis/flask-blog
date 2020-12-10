@@ -1,10 +1,10 @@
-# -*- coding: utf-8 -*-
-# https://github.com/KazakovDenis
 import os
+from pathlib import Path
 
 
 # common
-PATH = os.path.abspath(os.path.curdir)
+DOMAIN = 'https://kazakov.ru.net'
+PATH = Path(__file__).parent.absolute()
 
 # database
 DB_USER = os.environ.get('DB_USER')
@@ -19,12 +19,12 @@ GH_REPO_ID = os.environ.get('GH_REPO_ID')
 # logging
 LOG_LEVEL = 30
 LOG_FORMAT = "[%(asctime)s] @%(name)s  %(levelname)s in %(module)s: %(message)s"
+LOG_DIR = PATH.parent / 'log'
 
 
 # Flask app
 class Configuration:
     DEBUG = False
-    DEBUG_DB = 'sqlite:///test.db'
     SQLALCHEMY_ECHO = DEBUG
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_DATABASE_URI = f'postgresql+psycopg2://{DB_USER}:{DB_PASS}@{DB_ADDRESS}/blog'

@@ -5,8 +5,8 @@ from flask_security import login_required
 from html2text import html2text
 from markdown import markdown
 
-from app.blog import db, log
-from app.models import Post, Tag
+from blog.factory import db
+from blog.models import Post, Tag
 from .forms import PostForm
 
 
@@ -40,7 +40,9 @@ def create_post(slug=None):
                     db.session.commit()
                 return redirect(url_for('posts.post_detail', slug=post.slug))
             except Exception as e:
-                log.error(e)
+                # TODO: !!!
+                # logger.error(e)
+                print(e)
         return redirect(url_for('posts.index'))
 
     if post:

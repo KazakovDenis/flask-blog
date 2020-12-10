@@ -1,15 +1,17 @@
 # -*- coding: utf-8 -*-
 # https://github.com/KazakovDenis
 from datetime import datetime
-from flask_security import UserMixin, RoleMixin
+from flask_security import UserMixin, RoleMixin, SQLAlchemyUserDatastore
 
-from app.blog import db
-from app.functions import slugify
+from .factory import db
+from .services.functions import slugify
 
 
-post_tags = db.Table('post_tags',
-                     db.Column('post_id', db.Integer, db.ForeignKey('post.id')),
-                     db.Column('tag_id', db.Integer, db.ForeignKey('tag.id')))
+post_tags = db.Table(
+    'post_tags',
+    db.Column('post_id', db.Integer, db.ForeignKey('post.id')),
+    db.Column('tag_id', db.Integer, db.ForeignKey('tag.id'))
+)
 
 
 class Post(db.Model):
@@ -50,9 +52,11 @@ class Tag(db.Model):
 
 
 # Flask security
-roles_users = db.Table('roles_users',
-                       db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
-                       db.Column('role_id', db.Integer, db.ForeignKey('role.id')))
+roles_users = db.Table(
+    'roles_users',
+    db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
+    db.Column('role_id', db.Integer, db.ForeignKey('role.id'))
+)
 
 
 class User(db.Model, UserMixin):
@@ -73,3 +77,6 @@ class Role(db.Model, RoleMixin):
 
     def __repr__(self):
         return self.name
+
+
+user_datastore = SQLAlchemyUserDatastore(db, User, Role)

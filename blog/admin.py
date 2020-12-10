@@ -7,7 +7,6 @@ from flask_admin.menu import MenuLink
 from flask_admin.contrib.sqla import ModelView
 from flask_security import current_user
 
-from .blog import app, db
 from .models import Post, Tag, User, Role
 
 
@@ -57,10 +56,12 @@ class MyFileAdmin(AdminMixin, FileAdmin):
     pass
 
 
-admin = Admin(app, 'Admin panel', url='/admin', index_view=HomeAdminView(), template_mode='bootstrap3')
-admin.add_view(PostAdminView(Post, db.session))
-admin.add_view(TagAdminView(Tag, db.session))
-admin.add_view(UserAdminView(User, db.session))
-admin.add_view(RoleAdminView(Role, db.session))
-admin.add_view(MyFileAdmin(op.join(op.dirname(__file__), 'static'), '/static/', name='Files'))
-admin.add_link(MenuLink('Back to app', endpoint='get_notes'))
+def create_admin(app, db):
+    admin = Admin(app, 'Admin panel', url='/admin', index_view=HomeAdminView(), template_mode='bootstrap3')
+    admin.add_view(PostAdminView(Post, db.session))
+    admin.add_view(TagAdminView(Tag, db.session))
+    admin.add_view(UserAdminView(User, db.session))
+    admin.add_view(RoleAdminView(Role, db.session))
+    admin.add_view(MyFileAdmin(op.join(op.dirname(__file__), 'static'), '/static/', name='Files'))
+    admin.add_link(MenuLink('Back to app', endpoint='main.get_notes'))
+    return admin

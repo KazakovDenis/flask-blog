@@ -16,13 +16,13 @@
 <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
     <header class="masthead">
         <nav class="navbar navbar-dark navbar-expand-lg nav-masthead d-flex w-100 justify-content-between">
-            <a class="masthead-brand my-2 text-decoration-none" href="{{ url_for('get_cv') }}"><b>Backend & testing</b></a>
+            <a class="masthead-brand my-2 text-decoration-none" href="{{ url_for('main.get_cv') }}"><b>Backend & testing</b></a>
             <button class="navbar-toggler m-2" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="justify-content-end collapse navbar-collapse" id="navbarToggler">
-                <a class="nav-link ml-3" href="{{ url_for('get_cv') }}">CV</a>
-                <a class="nav-link" href="{{ url_for('get_notes') }}">Notes</a>
+                <a class="nav-link ml-3" href="{{ url_for('main.get_cv') }}">CV</a>
+                <a class="nav-link" href="{{ url_for('main.get_notes') }}">Notes</a>
                 <a class="nav-link" href="{{ url_for('posts.tag_detail', slug='projects') }}">Projects</a>
                 <a class="nav-link" href="#contacts">Contacts</a>
                 {% if current_user.has_role('admin') %}
