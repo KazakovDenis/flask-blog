@@ -1,5 +1,5 @@
 # Flask manager
-MANAGER=python3 -m blog.manage
+MANAGER=python3 -m manage
 
 all:
 	@echo "Use 'make' for simple commands such as 'make shell' or in a string for complex: 'make \"runserver -p 8000\"'"
