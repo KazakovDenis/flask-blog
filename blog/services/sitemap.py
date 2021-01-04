@@ -1,6 +1,6 @@
 from dynamic_sitemap import FlaskSitemap
 
-from blog.config import DOMAIN, ROOT
+from blog.config import DOMAIN, APP_ROOT
 from blog.models import Post, Tag
 
 
@@ -9,7 +9,7 @@ __all__ = 'create_sitemap',
 
 class SMConfig:
     DEBUG = False
-    APP_ROOT = ROOT
+    APP_ROOT = APP_ROOT
     FOLDER = ('static',)
     TEMPLATE_FOLDER = ('templates',)
     # todo: что за '/blog/./' ???

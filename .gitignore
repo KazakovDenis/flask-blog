@@ -1,6 +1,7 @@
 nginx.conf
 .idea/
 test.db
+*.sqlite3
 
 
 # Created by https://www.gitignore.io/api/flask,python,windows,pycharm
