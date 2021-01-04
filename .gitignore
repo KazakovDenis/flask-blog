@@ -1,12 +1,5 @@
-prod.py
 nginx.conf
-manual.txt
-release.txt
 .idea/
-test.py
-migrations/
-data/
-uploads/
 test.db
 
 

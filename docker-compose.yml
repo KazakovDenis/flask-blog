@@ -6,12 +6,7 @@ services:
     container_name: blog
     command: gunicorn blog.wsgi:app -c guniconf.py
     restart: on-failure
-    environment:
-      DB_USER: '${DB_USER}'
-      DB_PASS: '${DB_PASS}'
-      DB_ADDRESS: '${DB_ADDRESS}'
-      FLASK_SALT: '${FLASK_SALT}'
-      FLASK_SECRET: '${FLASK_SECRET}'
+    env_file: .env
     volumes:
       - /var/run/postgresql:/run/postgresql
 #      - /home/blog/log:/www/log

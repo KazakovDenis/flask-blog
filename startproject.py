@@ -1,29 +1,14 @@
 """
 Module executes functions to start the project and contains functions to manage the project manually
 """
-import os
 import re
 from subprocess import check_call
 
-from blog.config import PATH
 from blog.models import User, Role, Tag, db, user_datastore
 from blog.wsgi import app
 
 
 log = app.logger
-
-
-def make_dirs():
-    """Creates necessary folders"""
-    static_folders = ['uploads', 'img']
-    static = os.path.join(PATH, 'static')
-    if not os.path.exists(static):
-        os.mkdir(static)
-
-    for folder in static_folders:
-        folder_path = os.path.join(static, folder)
-        if not os.path.exists(folder_path):
-            os.mkdir(folder_path)
 
 
 def add_new_role(name: str, description: str) -> Role:
@@ -63,8 +48,6 @@ def add_new_user(email='', password='', role='subscriber'):
 def main():
     check = input('Are you sure the database has been created and environment variables are set? [y/n] --> ').lower()
     if check in ['y', 'yes', 'д', 'да']:
-        make_dirs()
-
         db.create_all()
         db.session.commit()
         log.info('Tables have been created!')

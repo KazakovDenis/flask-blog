@@ -9,11 +9,6 @@
 #     -v $HOME/blog/log:/www/log \
 #     -v $HOME/blog/static:/www/blog/static \
 #     -v $HOME/blog/templates:/www/blog/templates \
-#     --env DB_USER=$DB_USER \
-#     --env DB_PASS=$DB_PASS \
-#     --env DB_ADDRESS=$DB_ADDRESS \
-#     --env FLASK_SECRET=$FLASK_SECRET \
-#     --env FLASK_SALT=$FLASK_SALT \
 #     blog:1.0
 
 FROM python:3.8

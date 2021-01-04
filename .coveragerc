@@ -1,0 +1,14 @@
+[run]
+branch = True
+command_line = -m pytest
+source =
+    blog
+omit =
+    /tests/*
+    */templates/*
+    */static/*
+
+[report]
+fail_under = 90
+show_missing = True
+sort = Stmts
