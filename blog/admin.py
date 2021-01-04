@@ -62,6 +62,6 @@ def create_admin(app, db):
     admin.add_view(TagAdminView(Tag, db.session))
     admin.add_view(UserAdminView(User, db.session))
     admin.add_view(RoleAdminView(Role, db.session))
-    admin.add_view(MyFileAdmin(op.join(op.dirname(__file__), 'static'), '/static/', name='Files'))
+    admin.add_view(MyFileAdmin(op.join(op.dirname(__file__), 'public/static'), '/static/', name='Files'))
     admin.add_link(MenuLink('Back to app', endpoint='main.get_notes'))
     return admin

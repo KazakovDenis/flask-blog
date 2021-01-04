@@ -4,6 +4,8 @@ from pathlib import Path
 
 APP_ROOT = Path(__file__).parent.absolute()
 PROJECT_DIR = APP_ROOT.parent
+STATIC_DIR = APP_ROOT / 'public' / 'static'
+TEMPLATES_DIR = APP_ROOT / 'public' / 'templates'
 
 parser = ConfigParser()
 parser.read(PROJECT_DIR / '.env')
@@ -45,7 +47,7 @@ class Configuration:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_DATABASE_URI = DB_URI
     SECRET_KEY = get_env('FLASK_SECRET')
-    UPLOAD_FOLDER = Path(APP_ROOT, 'static', 'uploads')
+    UPLOAD_FOLDER = Path(APP_ROOT, 'public/static', 'uploads')
     ALLOWED_EXTENSIONS = ('txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif')
     MAX_CONTENT_LENGTH = 16 * 1024 * 1024
 

@@ -1,6 +1,6 @@
 venv
 **/migrations
-**/static/*
+blog/public/static/*
 **/tests/*
 **/log/*
 **/*.log

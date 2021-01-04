@@ -4,15 +4,16 @@ CV page & notes manager.
 ## Prerequisites
 * Python 3.6+
 * Flask 1.1.1+
+* PostgreSQL
 
 ## Getting started
-First of all rename example.env to .env & set your secrets.  
-
-### Using Docker
+First, rename example.env to .env & set your secrets.  
+Then run using docker:
 ```sh
 $ docker-compose up
 ```
-### In the local env
+
+## Development
 Install postgresql or do not if you're going to use SQLite.
 ```sh
 sudo apt install postgresql
@@ -35,4 +36,4 @@ make run
 ```
 
 ## Usage
-Enter the admin panel with next credentials: admin@admin.com / admin  
+Login to the admin panel using admin@admin.com / admin credentials.  

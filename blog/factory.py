@@ -4,7 +4,7 @@ from flask_security import Security, SQLAlchemyUserDatastore
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.middleware.proxy_fix import ProxyFix
 
-from .config import Configuration
+from .config import Configuration, TEMPLATES_DIR
 from .services.functions import configure_logger
 
 
@@ -18,7 +18,7 @@ def create_app(
         datastore: SQLAlchemyUserDatastore = None,
         migrations_dir: str = '') -> Flask:
     """Create a configured app"""
-    app = Flask(__package__)
+    app = Flask(__package__, template_folder=TEMPLATES_DIR)
     app.config.from_object(config)
     app.wsgi_app = ProxyFix(app.wsgi_app)
 
