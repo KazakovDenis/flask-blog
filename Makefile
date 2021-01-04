@@ -10,5 +10,8 @@ run:
 migrate:
 	$(MANAGER) db migrate -d blog/migrations
 
+upgrade:
+	$(MANAGER) db upgrade -d blog/migrations
+
 %:
 	$(MANAGER) $@

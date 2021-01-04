@@ -33,3 +33,6 @@ Then run the server and visit http://localhost:8000:
 ```sh
 make run
 ```
+
+## Usage
+Enter the admin panel with next credentials: admin@admin.com / admin  

@@ -2,6 +2,7 @@
 Module executes functions to start the project and contains functions to manage the project manually
 """
 import os
+import logging
 
 from flask_migrate import init, migrate, upgrade
 from flask_script import Command
@@ -10,6 +11,9 @@ from sqlalchemy.exc import IntegrityError
 from blog import wsgi
 from blog.config import APP_ROOT
 from blog.models import Tag, db, user_datastore
+
+
+logger = logging.getLogger(__name__)
 
 
 class InitAppCommand(Command):
@@ -23,27 +27,27 @@ class InitAppCommand(Command):
         self.migrate()
         self.create_admin()
         self.create_projects_tag()
-        print('The application is ready!')
+        logger.info('The application is ready!')
 
     @staticmethod
     def create_tables():
-        print('Creating tables...')
+        logger.info('Creating tables...')
         db.create_all()
         db.session.commit()
-        print('SUCCESSFULLY')
+        logger.info('SUCCESSFULLY')
 
     @staticmethod
     def create_admin():
-        print('Creating admin user...')
+        logger.info('Creating admin user...')
         try:
             role = user_datastore.create_role(name='admin', description='A head of project')
             user = user_datastore.create_user(email='admin@admin.com', password='admin')
             user_datastore.add_role_to_user(user, role)
             db.session.commit()
-            print('SUCCESSFULLY')
+            logger.info('SUCCESSFULLY')
         except IntegrityError:
             db.session.rollback()
-            print('Admin role or user already exists.')
+            logger.warning('Admin role or user already exists.')
 
     # FIXME: tag dependency
     @staticmethod
@@ -56,7 +60,7 @@ class InitAppCommand(Command):
             db.session.rollback()
 
     def migrate(self):
-        print('Applying migrations...')
+        logger.info('Applying migrations...')
         directory = str(self.migrate_dir)
 
         if not self.migrate_dir.exists():
@@ -65,7 +69,7 @@ class InitAppCommand(Command):
         with wsgi.app.app_context():
             migrate(directory, message='initial')
             upgrade(directory)
-        print('SUCCESSFULLY')
+        logger.info('SUCCESSFULLY')
 
 
 init_command = InitAppCommand()
