@@ -4,8 +4,9 @@ from pathlib import Path
 
 APP_ROOT = Path(__file__).parent.absolute()
 PROJECT_DIR = APP_ROOT.parent
-STATIC_DIR = APP_ROOT / 'public' / 'static'
-TEMPLATES_DIR = APP_ROOT / 'public' / 'templates'
+PUBLIC_DIR = APP_ROOT / 'public'
+STATIC_DIR = PUBLIC_DIR / 'static'
+TEMPLATES_DIR = PUBLIC_DIR / 'templates'
 
 parser = ConfigParser()
 parser.read(PROJECT_DIR / '.env')

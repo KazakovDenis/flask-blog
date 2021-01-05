@@ -10,11 +10,13 @@ from blog.services.sitemap import create_sitemap
 @pytest.fixture(scope='session')
 def config():
     """Test configuration"""
+    Configuration.TESTING = True
+    Configuration.SECRET_KEY = 'secret'
+    Configuration.WTF_CSRF_ENABLED = False
+    Configuration.SQLALCHEMY_DATABASE_URI = 'sqlite:///:memory:'
+
     class Conf:
-        TESTING = True
-        SECRET_KEY = 'secret'
-        WTF_CSRF_ENABLED = False
-        DB_URI = 'sqlite:///:memory:'
+        FLASK = Configuration
         MIGRATE_DIR = 'test_migrations'
         DOMAIN = 'http://test.com'
     return Conf
@@ -23,11 +25,7 @@ def config():
 @pytest.fixture(scope='session')
 def app(config):
     """Create and configure an app instance for tests"""
-    Configuration.TESTING = config.TESTING
-    Configuration.SECRET_KEY = config.SECRET_KEY
-    Configuration.WTF_CSRF_ENABLED = config.WTF_CSRF_ENABLED
-    Configuration.SQLALCHEMY_DATABASE_URI = config.DB_URI
-    test_app = create_app(Configuration, migrations_dir=config.MIGRATE_DIR)
+    test_app = create_app(config.FLASK, migrations_dir=config.MIGRATE_DIR)
 
     with test_app.app_context():
         db.create_all()

@@ -5,6 +5,9 @@ MIGRATE_DIR=blog/migrations
 all:
 	@echo "Use 'make' for simple commands such as 'make shell' or in a string for complex: 'make \"runserver -p 8000\"'"
 
+gun:
+	gunicorn blog.wsgi:app --log-file=- -c configs/guniconf.py
+
 run:
 	$(MANAGER) runserver -p 8000 -h 127.0.0.1
 
