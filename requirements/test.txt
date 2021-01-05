@@ -1,4 +1,4 @@
--r production.txt
+-r prod.txt
 certifi>=2017.4.17
 chardet<4,>=3.0.2
 coverage==5.3

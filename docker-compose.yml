@@ -4,8 +4,8 @@ services:
     build: .
     image: blog:1.0
     container_name: blog
-    command: gunicorn blog.wsgi:app -c guniconf.py
-    restart: on-failure
+    command: make prod
+    restart: always
     env_file: .env
     volumes:
       - /var/run/postgresql:/run/postgresql

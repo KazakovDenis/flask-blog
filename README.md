@@ -24,7 +24,7 @@ git clone https://github.com/KazakovDenis/MyBlog.git
 cd MyBlog
 python3 -m venv venv
 source venv/bin/activate
-pip install -r requirements/production.txt
+pip install -r requirements/prod.txt
 ```
 Prepare the database:
 ```sh
