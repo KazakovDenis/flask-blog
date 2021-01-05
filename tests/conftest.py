@@ -4,32 +4,41 @@ from blog.config import Configuration
 from blog.factory import create_app
 from blog.init import register_blueprints
 from blog.models import Tag, db, user_datastore as datastore
+from blog.services.sitemap import create_sitemap
 
 
 @pytest.fixture(scope='session')
-def app(request):
+def config():
+    """Test configuration"""
+    class Conf:
+        TESTING = True
+        SECRET_KEY = 'secret'
+        WTF_CSRF_ENABLED = False
+        DB_URI = 'sqlite:///:memory:'
+        MIGRATE_DIR = 'test_migrations'
+        DOMAIN = 'http://test.com'
+    return Conf
+
+
+@pytest.fixture(scope='session')
+def app(config):
     """Create and configure an app instance for tests"""
-    Configuration.TESTING = True
-    Configuration.SECRET_KEY = 'secret'
-    Configuration.WTF_CSRF_ENABLED = False
-    Configuration.SQLALCHEMY_DATABASE_URI = 'sqlite:///:memory:'
-    migrations_dir = 'test_migrations'
-    test_app = create_app(Configuration, migrations_dir=migrations_dir)
+    Configuration.TESTING = config.TESTING
+    Configuration.SECRET_KEY = config.SECRET_KEY
+    Configuration.WTF_CSRF_ENABLED = config.WTF_CSRF_ENABLED
+    Configuration.SQLALCHEMY_DATABASE_URI = config.DB_URI
+    test_app = create_app(Configuration, migrations_dir=config.MIGRATE_DIR)
 
-    ctx = test_app.app_context()
-    ctx.push()
-    db.create_all()
-    register_blueprints(test_app)
+    with test_app.app_context():
+        db.create_all()
 
-    tag = Tag(name='projects')
-    db.session.add(tag)
-    db.session.commit()
+        tag = Tag(name='projects')
+        db.session.add(tag)
+        db.session.commit()
 
-    def teardown():
-        ctx.pop()
-
-    request.addfinalizer(teardown)
-    return test_app
+        register_blueprints(test_app)
+        create_sitemap(test_app, config.DOMAIN)
+        yield test_app
 
 
 @pytest.fixture

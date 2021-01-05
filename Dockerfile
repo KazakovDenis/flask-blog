@@ -7,8 +7,7 @@
 #     -p 127.0.0.1:8000:8000 \
 #     -v /var/run/postgresql:/run/postgresql \
 #     -v $HOME/blog/log:/www/log \
-#     -v $HOME/blog/static:/www/blog/static \
-#     -v $HOME/blog/templates:/www/blog/templates \
+#     -v $HOME/blog/public:/www/blog/public \
 #     blog:1.0
 
 FROM python:3.8-slim

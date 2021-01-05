@@ -2,7 +2,7 @@ from flask import render_template, Flask
 from flask_security import SQLAlchemyUserDatastore
 
 from .admin import create_admin
-from .config import Configuration
+from .config import Configuration, DOMAIN
 from .factory import db, create_app
 from .models import user_datastore
 from .services.sitemap import create_sitemap
@@ -22,11 +22,13 @@ def register_blueprints(app: Flask):
     app.register_blueprint(posts, url_prefix='/blog/')
     app.register_blueprint(api, url_prefix='/api/')
     create_admin(app, db)
-    create_sitemap(app)
 
 
-def init_app(config: type = Configuration, datastore: SQLAlchemyUserDatastore = user_datastore):
+def init_app(config: type = Configuration,
+             datastore: SQLAlchemyUserDatastore = user_datastore,
+             domain: str = DOMAIN) -> Flask:
     """Initialize the app"""
     application = create_app(config, datastore)
     register_blueprints(application)
+    create_sitemap(application, domain=domain)
     return application
