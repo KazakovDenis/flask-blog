@@ -10,7 +10,7 @@ services:
     volumes:
       - /var/run/postgresql:/run/postgresql
       - ${VOLUME_PATH}/log:/www/log
-      - ${VOLUME_PATH}/public:/www/blog/public
+      - ${VOLUME_PATH}/public:/www/blog/public/volume
     ports:
       - "8000:8000"
     networks:

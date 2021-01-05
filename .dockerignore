@@ -1,11 +1,10 @@
 venv
 **/migrations
-blog/public/static/*
-**/tests/*
-**/log/*
+**/test*
 **/*.log
 **/__pycache__
+**/.pytest_cache
 **/.idea
 **/test.db
-*.sqlite3
+**/*.sqlite3
 README.md

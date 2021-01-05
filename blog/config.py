@@ -1,10 +1,15 @@
+import os
 from configparser import ConfigParser
 from pathlib import Path
 
 
 APP_ROOT = Path(__file__).parent.absolute()
+
 PROJECT_DIR = APP_ROOT.parent
 PUBLIC_DIR = APP_ROOT / 'public'
+if os.getenv('DOCKER'):
+    PUBLIC_DIR /= 'volume'
+
 STATIC_DIR = PUBLIC_DIR / 'static'
 TEMPLATES_DIR = PUBLIC_DIR / 'templates'
 
