@@ -1,11 +1,12 @@
-#!/bin/bash
+#!/bin/sh
 # This script is for initial deployment only
 # Docker & git should be installed
 # Copy current directory to the server
 # & run the script as a superuser
 
 # set env vars & aliases
-source host.env
+sudo sh -c 'cat host.env >> /etc/environment'
+source /etc/environment
 
 # create working dirs
 sudo mkdir -p $DEPLOY_DIR $STATIC_REPO

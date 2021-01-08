@@ -1,4 +1,5 @@
-#!/bin/bash
+#!/bin/sh
 # The script to update static files from Github
-source host.env
+
+source /etc/environment
 pullstatic

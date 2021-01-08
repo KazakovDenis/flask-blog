@@ -1,7 +1,7 @@
 #!/bin/bash
 # The script to handle webhooks from the Docker hub
 
-source host.env
+source /etc/environment
 IMAGE=kazakovdu/blog
 
 # Get the last tag
