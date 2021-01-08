@@ -6,12 +6,6 @@ from pathlib import Path
 APP_ROOT = Path(__file__).parent.absolute()
 
 PROJECT_DIR = APP_ROOT.parent
-PUBLIC_DIR = APP_ROOT / 'public'
-if os.getenv('DOCKER'):
-    PUBLIC_DIR /= 'volume'
-
-STATIC_DIR = PUBLIC_DIR / 'static'
-TEMPLATES_DIR = PUBLIC_DIR / 'templates'
 
 parser = ConfigParser()
 parser.read(PROJECT_DIR / '.env')
@@ -19,6 +13,19 @@ parser.read(PROJECT_DIR / '.env')
 
 def get_env(name, default=None):
     return parser.get('env', name, fallback=default)
+
+
+PUBLIC_DIR = PROJECT_DIR / 'public'
+if os.getenv('DOCKER'):
+    PUBLIC_DIR /= 'volume'
+
+TEMPLATES_DIR = PUBLIC_DIR / 'templates'
+
+STATIC_DIR = PUBLIC_DIR / 'static'
+
+UPLOADS_DIR = PUBLIC_DIR / 'uploads'
+
+ALLOWED_EXTENSIONS = ('txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif')
 
 
 # database
@@ -49,14 +56,10 @@ DOMAIN = get_env('DOMAIN')
 # Flask app
 class Configuration:
     DEBUG = False
+    MAX_CONTENT_LENGTH = 16 * 1024 * 1024
+    SECRET_KEY = get_env('FLASK_SECRET')
+    SECURITY_PASSWORD_SALT = get_env('FLASK_SALT')
+    SECURITY_PASSWORD_HASH = 'sha512_crypt'
     SQLALCHEMY_ECHO = DEBUG
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_DATABASE_URI = DB_URI
-    SECRET_KEY = get_env('FLASK_SECRET')
-    UPLOAD_FOLDER = Path(APP_ROOT, 'public/static', 'uploads')
-    ALLOWED_EXTENSIONS = ('txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif')
-    MAX_CONTENT_LENGTH = 16 * 1024 * 1024
-
-    # flask security
-    SECURITY_PASSWORD_SALT = get_env('FLASK_SALT')
-    SECURITY_PASSWORD_HASH = 'sha512_crypt'

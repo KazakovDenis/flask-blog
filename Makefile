@@ -2,8 +2,8 @@ MANAGER=python3 -m manage
 MIGRATE_DIR=blog/migrations
 
 # should be equivalent to config.py vars
-PUBLIC_DIR=blog/public
-VOLUME_DIR=blog/public/volume
+PUBLIC_DIR=public
+VOLUME_DIR=public/volume
 
 all:
 	@echo "Use 'make help' to get targets"
@@ -46,7 +46,7 @@ cover:
 #? ----------------------- FOR DOCKER CONTAINER PURPOSES -----------------------
 #? publish:   Copy static files and templates into a volume
 publish:
-	cp -R $(PUBLIC_DIR)/templates $(PUBLIC_DIR)/static $(VOLUME_DIR)
+	cp -R $(PUBLIC_DIR)/templates $(PUBLIC_DIR)/static $(PUBLIC_DIR)/uploads $(VOLUME_DIR)
 
 #? prod:      make publish & run gunicorn
 prod: publish

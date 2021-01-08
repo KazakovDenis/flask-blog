@@ -25,7 +25,7 @@ if [[ $NEXT_TAG != $PREV_TAG ]]; then
         -p 127.0.0.1:8000:8000 \
         -v /var/run/postgresql:/run/postgresql \
         -v $LOG_VOLUME:/www/log \
-        -v $STATIC_VOLUME:/www/blog/public/volume \
+        -v $STATIC_VOLUME:/www/public/volume \
         $IMAGE:$NEXT_TAG
 
     # Clean up
