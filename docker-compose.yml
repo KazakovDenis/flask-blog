@@ -6,7 +6,8 @@ services:
     container_name: blog
     command: make prod
     restart: always
-    env_file: .env
+    environment:
+      - VOLUME_PATH=./volumes
     volumes:
       - /var/run/postgresql:/run/postgresql
       - ${VOLUME_PATH}/log:/www/log

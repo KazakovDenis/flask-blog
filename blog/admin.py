@@ -62,7 +62,7 @@ def create_admin(app, db):
         TagAdminView(Tag, db.session),
         UserAdminView(User, db.session),
         RoleAdminView(Role, db.session),
-        FilesAdminView(PUBLIC_DIR, '/public/', name='Files', url='/admin/files/'),
+        FilesAdminView(PUBLIC_DIR, name='Files', url='/admin/files/'),
     )
     admin.add_links(
         MenuLink('Back to app', endpoint='main.get_notes'),

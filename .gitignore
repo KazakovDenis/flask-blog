@@ -1,3 +1,4 @@
+*.secrets*
 .idea/
 test.db
 *.sqlite3

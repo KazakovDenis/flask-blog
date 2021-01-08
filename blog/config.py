@@ -8,11 +8,11 @@ APP_ROOT = Path(__file__).parent.absolute()
 PROJECT_DIR = APP_ROOT.parent
 
 parser = ConfigParser()
-parser.read(PROJECT_DIR / '.env')
+parser.read(PROJECT_DIR / '.secrets')
 
 
-def get_env(name, default=None):
-    return parser.get('env', name, fallback=default)
+def get_secret(name, default=None):
+    return parser.get('secrets', name, fallback=default)
 
 
 PUBLIC_DIR = PROJECT_DIR / 'public'
@@ -27,11 +27,10 @@ UPLOADS_DIR = PUBLIC_DIR / 'uploads'
 
 ALLOWED_EXTENSIONS = ('txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif')
 
-
 # database
-DB_USER = get_env('POSTGRES_USER')
-DB_PASS = get_env('POSTGRES_PASS')
-DB_ADDRESS = get_env('POSTGRES_ADDRESS')
+DB_USER = get_secret('POSTGRES_USER')
+DB_PASS = get_secret('POSTGRES_PASS')
+DB_ADDRESS = get_secret('POSTGRES_ADDRESS')
 
 if DB_USER and DB_PASS and DB_ADDRESS:
     DB_URI = f'postgresql+psycopg2://{DB_USER}:{DB_PASS}@{DB_ADDRESS}/blog'
@@ -45,20 +44,20 @@ LOG_FORMAT = "[%(asctime)s] @%(name)s  %(levelname)s in %(module)s: %(message)s"
 LOG_DIR = PROJECT_DIR / 'log'
 
 # Github webhooks
-GH_SECRET = get_env('GH_SECRET')
-GH_SENDER_ID = get_env('GH_SENDER_ID')
-GH_REPO_ID = get_env('GH_REPO_ID')
+GH_SECRET = get_secret('GH_SECRET')
+GH_SENDER_ID = get_secret('GH_SENDER_ID')
+GH_REPO_ID = get_secret('GH_REPO_ID')
 
 # sitemap
-DOMAIN = get_env('DOMAIN')
+DOMAIN = get_secret('DOMAIN')
 
 
 # Flask app
 class Configuration:
     DEBUG = False
     MAX_CONTENT_LENGTH = 16 * 1024 * 1024
-    SECRET_KEY = get_env('FLASK_SECRET')
-    SECURITY_PASSWORD_SALT = get_env('FLASK_SALT')
+    SECRET_KEY = get_secret('FLASK_SECRET')
+    SECURITY_PASSWORD_SALT = get_secret('FLASK_SALT')
     SECURITY_PASSWORD_HASH = 'sha512_crypt'
     SQLALCHEMY_ECHO = DEBUG
     SQLALCHEMY_TRACK_MODIFICATIONS = False

@@ -7,7 +7,7 @@ CV page & notes manager.
 * PostgreSQL
 
 ## Getting started
-First, rename example.env to .env & set your secrets.  
+First, rename example.secrets to .secrets & set your values.  
 Then run using docker:
 ```sh
 $ docker-compose up
