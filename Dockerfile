@@ -1,5 +1,5 @@
 # cmd to build:
-    # docker build -t blog:1.0 .
+    # docker build -t kazakovdu/blog:1.1 .
 # cmd to run:
 #     docker run -d \
 #     --name blog \
@@ -8,7 +8,7 @@
 #     -v /var/run/postgresql:/run/postgresql \
 #     -v $PWD/volumes/log:/www/log \
 #     -v $PWD/volumes/public:/www/public/volume \
-#     blog:1.0
+#     blog:1.1
 
 FROM python:3.8-slim
 LABEL maintainer="https://github.com/KazakovDenis"

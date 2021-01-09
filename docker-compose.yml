@@ -2,7 +2,7 @@ version: '2'
 services:
   blog:
     build: .
-    image: blog:1.0
+    image: kazakovdu/blog:1.1
     container_name: blog
     command: make prod
     restart: always

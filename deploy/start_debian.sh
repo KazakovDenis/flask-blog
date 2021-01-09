@@ -2,8 +2,9 @@
 # This script is for initial deployment only
 # Docker & git should be installed
 # Copy current directory to the server
-# & run the script as a superuser:
-# sudo bash start_debian.sh
+# $ scp -r deploy/ user@host:/www/
+# and run the script as a superuser:
+# $ sudo bash start_debian.sh
 
 # set env vars & aliases
 sudo sh -c 'cat host.env | grep "^export" >> /etc/environment'
