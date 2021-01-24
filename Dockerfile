@@ -1,5 +1,5 @@
 # cmd to build:
-    # docker build -t kazakovdu/blog:1.1 .
+#     docker build -t kazakovdu/blog:$TAG .
 # cmd to run:
 #     docker run -d \
 #     --name blog \
@@ -8,24 +8,27 @@
 #     -v /var/run/postgresql:/run/postgresql \
 #     -v $PWD/volumes/log:/www/log \
 #     -v $PWD/volumes/public:/www/public/volume \
-#     blog:1.1
+#     -v $PWD/.secrets:/www/.secrets \
+#     blog:$TAG
 
-FROM python:3.8-slim
+FROM python:3.8-slim as base
 LABEL maintainer="https://github.com/KazakovDenis"
+WORKDIR /www
+COPY requirements/prod.txt requirements.txt
+RUN apt update && apt install -y libpq-dev make
+RUN python3 -m pip install --upgrade pip && \
+    pip install --no-cache-dir -r requirements.txt && \
+    rm requirements.txt
+
+FROM base as source
 EXPOSE 8000
 ARG FLASK_APP="blog/wsgi.py"
 ENV FLASK_APP=$FLASK_APP
 ENV DOCKER=1
-
-WORKDIR /www
-COPY Makefile manage.py .secrets configs/guniconf.py requirements/prod.txt ./
+COPY Makefile manage.py configs/guniconf.py ./
 COPY public ./public
 COPY blog ./blog
+COPY deploy/entrypoint.sh entrypoint.sh
 
-RUN apt-get update && apt-get install -y libpq-dev make
-RUN python3 -m pip install --upgrade pip && \
-    pip install --no-cache-dir -r prod.txt && \
-    rm prod.txt && \
-    make init_app
-
+ENTRYPOINT ./entrypoint.sh
 CMD make prod

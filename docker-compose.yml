@@ -2,12 +2,12 @@ version: '2'
 services:
   blog:
     build: .
-    image: kazakovdu/blog:1.1
     container_name: blog
     command: make prod
     restart: always
     volumes:
       - /var/run/postgresql:/run/postgresql
+      - $PWD/.secrets:/www/.secrets
       - $PWD/volumes/log:/www/log
       - $PWD/volumes/public:/www/public/volume
     ports:

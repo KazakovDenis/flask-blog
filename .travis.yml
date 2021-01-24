@@ -21,5 +21,4 @@ deploy:
   provider: script
   script: docker push $IMAGE:$TRAVIS_TAG
   on:
-    branch: master
     tags: true
