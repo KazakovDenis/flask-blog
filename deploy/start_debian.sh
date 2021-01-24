@@ -5,6 +5,7 @@
 # $ scp -r deploy/ user@host:/www/
 # and run the script as a superuser:
 # $ sudo bash start_debian.sh
+set -e
 
 # set env vars & aliases
 sudo sh -c 'cat host.env | grep "^export" >> /etc/environment'

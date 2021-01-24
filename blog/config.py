@@ -20,9 +20,7 @@ if os.getenv('DOCKER'):
     PUBLIC_DIR /= 'volume'
 
 TEMPLATES_DIR = PUBLIC_DIR / 'templates'
-
 STATIC_DIR = PUBLIC_DIR / 'static'
-
 UPLOADS_DIR = PUBLIC_DIR / 'uploads'
 
 ALLOWED_EXTENSIONS = ('txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif')
@@ -42,11 +40,6 @@ else:
 LOG_LEVEL = 30
 LOG_FORMAT = "[%(asctime)s] @%(name)s  %(levelname)s in %(module)s: %(message)s"
 LOG_DIR = PROJECT_DIR / 'log'
-
-# Github webhooks
-GH_SECRET = get_secret('GH_SECRET')
-GH_SENDER_ID = get_secret('GH_SENDER_ID')
-GH_REPO_ID = get_secret('GH_REPO_ID')
 
 # sitemap
 DOMAIN = get_secret('DOMAIN')

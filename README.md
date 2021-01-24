@@ -10,7 +10,7 @@ CV page & notes manager.
 First, rename example.secrets to .secrets & set your values.  
 Then run using docker:
 ```sh
-$ docker-compose up
+docker-compose up
 ```
 
 ## Development
@@ -36,4 +36,4 @@ make run
 ```
 
 ## Usage
-Login to the admin panel using admin@admin.com / admin credentials.  
+Login to the admin panel using **admin@admin.com / admin** credentials.  
