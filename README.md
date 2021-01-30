@@ -37,3 +37,9 @@ make run
 
 ## Usage
 Login to the admin panel using **admin@admin.com / admin** credentials.  
+
+## CI/CD
+- [ **.travis.yml** ] after `git push` or creating a pull request test are run in Travis-CI environment
+- if tags are pushed and tests completed successfully, Travis-CI builds an image and pushes it to Docker Hub
+- Docker Hub sends a webhook to the production server on a push event
+- [ **deploy/dockerhub_webhook.sh** ] The production server handles a webhook, validates it and restart containers with a newer image

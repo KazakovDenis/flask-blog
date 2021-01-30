@@ -1,8 +1,8 @@
 #!/bin/bash
 # This script is for initial deployment only
 # Docker & git should be installed
-# Copy current directory to the server
-# $ scp -r deploy/ user@host:/www/
+# Copy current directory and secrets to the server
+# $ scp -r deploy/ .secrets user@host:/www/
 # and run the script as a superuser:
 # $ sudo bash start_debian.sh
 set -e

@@ -1,5 +1,6 @@
 #!/bin/bash
 # The script to handle webhooks from the Docker hub
+set -e
 echo ">>>>> Restarting the app container with a new image"
 
 source /etc/environment
@@ -32,6 +33,7 @@ if [[ $NEXT_TAG != $PREV_TAG ]]; then
         --restart always \
         -p 127.0.0.1:8000:8000 \
         -v /var/run/postgresql:/run/postgresql \
+        -v $WORK_DIR/.secrets:/www/.secrets \
         -v $LOG_VOLUME:/www/log \
         -v $PUBLIC_VOLUME:/www/public/volume \
         $IMAGE:$NEXT_TAG
