@@ -12,8 +12,3 @@ services:
       - $PWD/volumes/public:/www/public/volume
     ports:
       - "8000:8000"
-    networks:
-      - blog
-
-networks:
-  blog:

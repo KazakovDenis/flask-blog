@@ -1,18 +1,6 @@
 import os
-from configparser import ConfigParser
-from pathlib import Path
 
-
-APP_ROOT = Path(__file__).parent.absolute()
-
-PROJECT_DIR = APP_ROOT.parent
-
-parser = ConfigParser()
-parser.read(PROJECT_DIR / '.secrets')
-
-
-def get_secret(name, default=None):
-    return parser.get('secrets', name, fallback=default)
+from .parser import *
 
 
 PUBLIC_DIR = PROJECT_DIR / 'public'

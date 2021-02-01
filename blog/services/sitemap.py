@@ -1,3 +1,5 @@
+import os
+
 from flask import Flask
 from dynamic_sitemap import FlaskSitemap
 
@@ -20,6 +22,9 @@ class SMConfig:
 
 def create_sitemap(app: Flask, domain: str) -> FlaskSitemap:
     """Create an endpoint for a sitemap"""
+    # todo: убрать после устранения в dynamic-sitemap
+    os.makedirs(SMConfig.TEMPLATE_FOLDER, exist_ok=True)
+
     sm = FlaskSitemap(app, base_url=domain, orm='sqlalchemy', config_obj=SMConfig)
     sm.add_rule('/blog', Post, loc_attr='slug', lastmod_attr='created')
     sm.add_rule('/blog/tag', Tag, loc_attr='slug', priority=0.8)
