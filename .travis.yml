@@ -11,6 +11,8 @@ env:
 
 install: pip install -r requirements/test.txt
 
+before_script: cp example.secrets .secrets
+
 script: make test
 
 before_deploy:
