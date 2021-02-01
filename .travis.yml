@@ -1,11 +1,24 @@
 language: python
+
 python:
   - "3.6"
-  - "3.7"
-  - "3.8"
 
-install:
-  - pip install -r requirements/test.txt
+services:
+  - docker
 
-script:
-  - python -m pytest -v tests
+env:
+  - IMAGE=kazakovdu/blog
+
+install: pip install -r requirements/test.txt
+
+script: make test
+
+before_deploy:
+    - echo "$DOCKER_PASSWORD" | docker login -u $DOCKER_USERNAME --password-stdin
+    - docker build -t $IMAGE:$TRAVIS_TAG .
+
+deploy:
+  provider: script
+  script: docker push $IMAGE:$TRAVIS_TAG
+  on:
+    tags: true

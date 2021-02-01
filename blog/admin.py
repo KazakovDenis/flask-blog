@@ -1,5 +1,3 @@
-from os import path as op
-
 from flask import redirect, url_for, request
 from flask_admin.contrib.fileadmin import FileAdmin
 from flask_admin import Admin, AdminIndexView, expose
@@ -7,6 +5,7 @@ from flask_admin.menu import MenuLink
 from flask_admin.contrib.sqla import ModelView
 from flask_security import current_user
 
+from .config import PUBLIC_DIR
 from .models import Post, Tag, User, Role
 
 
@@ -52,16 +51,20 @@ class RoleAdminView(AdminMixin, ModelView):
     pass
 
 
-class MyFileAdmin(AdminMixin, FileAdmin):
+class FilesAdminView(AdminMixin, FileAdmin):
     pass
 
 
 def create_admin(app, db):
     admin = Admin(app, 'Admin panel', url='/admin', index_view=HomeAdminView(), template_mode='bootstrap3')
-    admin.add_view(PostAdminView(Post, db.session))
-    admin.add_view(TagAdminView(Tag, db.session))
-    admin.add_view(UserAdminView(User, db.session))
-    admin.add_view(RoleAdminView(Role, db.session))
-    admin.add_view(MyFileAdmin(op.join(op.dirname(__file__), 'static'), '/static/', name='Files'))
-    admin.add_link(MenuLink('Back to app', endpoint='main.get_notes'))
+    admin.add_views(
+        PostAdminView(Post, db.session),
+        TagAdminView(Tag, db.session),
+        UserAdminView(User, db.session),
+        RoleAdminView(Role, db.session),
+        FilesAdminView(PUBLIC_DIR, name='Files', url='/admin/files/'),
+    )
+    admin.add_links(
+        MenuLink('Back to app', endpoint='main.get_notes'),
+    )
     return admin

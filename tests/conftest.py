@@ -4,32 +4,39 @@ from blog.config import Configuration
 from blog.factory import create_app
 from blog.init import register_blueprints
 from blog.models import Tag, db, user_datastore as datastore
+from blog.services.sitemap import create_sitemap
 
 
 @pytest.fixture(scope='session')
-def app(request):
-    """Create and configure an app instance for tests"""
+def config():
+    """Test configuration"""
     Configuration.TESTING = True
     Configuration.SECRET_KEY = 'secret'
     Configuration.WTF_CSRF_ENABLED = False
     Configuration.SQLALCHEMY_DATABASE_URI = 'sqlite:///:memory:'
-    migrations_dir = 'test_migrations'
-    test_app = create_app(Configuration, migrations_dir=migrations_dir)
 
-    ctx = test_app.app_context()
-    ctx.push()
-    db.create_all()
-    register_blueprints(test_app)
+    class Conf:
+        FLASK = Configuration
+        MIGRATE_DIR = 'test_migrations'
+        DOMAIN = 'http://test.com'
+    return Conf
 
-    tag = Tag(name='projects')
-    db.session.add(tag)
-    db.session.commit()
 
-    def teardown():
-        ctx.pop()
+@pytest.fixture(scope='session')
+def app(config):
+    """Create and configure an app instance for tests"""
+    test_app = create_app(config.FLASK, migrations_dir=config.MIGRATE_DIR)
 
-    request.addfinalizer(teardown)
-    return test_app
+    with test_app.app_context():
+        db.create_all()
+
+        tag = Tag(name='projects')
+        db.session.add(tag)
+        db.session.commit()
+
+        register_blueprints(test_app)
+        create_sitemap(test_app, config.DOMAIN)
+        yield test_app
 
 
 @pytest.fixture

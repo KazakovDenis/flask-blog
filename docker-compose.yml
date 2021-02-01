@@ -2,25 +2,13 @@ version: '2'
 services:
   blog:
     build: .
-    image: blog:1.0
     container_name: blog
-    command: gunicorn blog.wsgi:app -c guniconf.py
-    restart: on-failure
-    environment:
-      DB_USER: '${DB_USER}'
-      DB_PASS: '${DB_PASS}'
-      DB_ADDRESS: '${DB_ADDRESS}'
-      FLASK_SALT: '${FLASK_SALT}'
-      FLASK_SECRET: '${FLASK_SECRET}'
+    command: make prod
+    restart: always
     volumes:
       - /var/run/postgresql:/run/postgresql
-#      - /home/blog/log:/www/log
-#      - /home/blog/static:/www/blog/static
-#      - /home/blog/templates:/www/blog/templates
+      - $PWD/.secrets:/www/.secrets
+      - $PWD/volumes/log:/www/log
+      - $PWD/volumes/public:/www/public/volume
     ports:
       - "8000:8000"
-    networks:
-      - blog
-
-networks:
-  blog:

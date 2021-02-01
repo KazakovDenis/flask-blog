@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
 # https://github.com/KazakovDenis
-import os
 from datetime import datetime
 
 from flask import Blueprint, redirect, url_for, request, render_template, flash
 from werkzeug.utils import secure_filename
 
-from blog.config import Configuration
+from blog import config
 from blog.services.functions import russify
 from blog.models import Post, Tag
 
@@ -33,13 +32,15 @@ def upload_file():
         if file:
             filename, extension = russify(file.filename.rsplit('.', 1)[0]), file.filename.rsplit('.', 1)[-1]
 
-            if extension in Configuration.ALLOWED_EXTENSIONS:
-                filename = f"{secure_filename(filename)}{datetime.now().strftime('%Y%m%d-%H%M%S')}.{extension}"
-                checked_file = os.path.join(Configuration.UPLOAD_FOLDER, filename)
+            if extension in config.ALLOWED_EXTENSIONS:
+                fn = secure_filename(filename)
+                timestamp = datetime.now().strftime('%Y%m%d-%H%M%S')
+                filename = f'{fn}{timestamp}.{extension}'
+                checked_file = str(config.UPLOADS_DIR / filename)
                 file.save(checked_file)
                 file.close()
                 flash('File uploaded')
-                return f'/static/uploads/{filename}'
+                return f'/static/uploads/{filename}'    # todo
             else:
                 return 'Bad file', 400
         return 'No file', 406

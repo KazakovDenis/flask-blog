@@ -1,13 +1,8 @@
-prod.py
-nginx.conf
-manual.txt
-release.txt
+.secrets*
 .idea/
-test.py
-migrations/
-data/
-uploads/
 test.db
+*.sqlite3
+volumes
 
 
 # Created by https://www.gitignore.io/api/flask,python,windows,pycharm
@@ -117,7 +112,7 @@ celerybeat-schedule
 *.sage.py
 
 # Environments
-.env
+.env*
 .venv
 env/
 venv/
