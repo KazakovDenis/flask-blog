@@ -7,6 +7,10 @@
 # $ sudo bash start_debian.sh
 set -e
 
+if [[ $UID -ne 0 ]]; then
+  echo -e "Run the script as a superuser" && exit 1;
+fi
+
 # set env vars & aliases
 sudo sh -c 'cat host.env | grep "^export" >> /etc/environment'
 source /etc/environment
