@@ -17,6 +17,7 @@ script: make test
 
 before_deploy:
     - echo "$DOCKER_PASSWORD" | docker login -u $DOCKER_USERNAME --password-stdin
+    - chmod +x deploy/entrypoint.sh
     - docker build -t $IMAGE:$TRAVIS_TAG .
 
 deploy:
