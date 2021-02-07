@@ -13,8 +13,8 @@ env:
     - HOST_CHECK="StrictHostKeyChecking=no"
 
 _deploy_if: &deploy_condition
-  if: branch = master AND \
-      tag IS present
+  if: branch = master AND tag IS present
+  install: skip
 
 jobs:
   include:
@@ -33,7 +33,6 @@ jobs:
     - stage: push
       name: "Push an image to Docker Hub"
       <<: *deploy_condition
-      install: skip
       before_script:
         - echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
       script: docker push $IMAGE:$TAG
@@ -41,7 +40,6 @@ jobs:
     - stage: update
       name: "Update the app on the server"
       <<: *deploy_condition
-      install: skip
       before_script:
         - echo -e $SSH_KEY | sed 's/\$ /\n/g' > ssh_key
         - chmod 600 ssh_key
