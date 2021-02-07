@@ -8,6 +8,7 @@ services:
 
 env:
   - IMAGE=kazakovdu/blog
+  - HOST_CHECK="StrictHostKeyChecking=no"
 
 _deploy_if: &deploy_condition
   if: branch = master AND \
@@ -23,23 +24,25 @@ jobs:
 
     - stage: build
       name: "Build a docker image"
+      install: skip
       before_script: chmod +x deploy/entrypoint.sh
-      script: docker build -t $IMAGE:1 .
-#      script: docker build -t $IMAGE:$TRAVIS_TAG .
+      script: docker build -t $IMAGE:$TRAVIS_TAG .
 
-#    - stage: push
-#      name: "Push an image to Docker Hub"
-#      *deploy_condition
-#      before_script:
-#        - echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
-#      script: docker push $IMAGE:$TRAVIS_TAG
+    - stage: push
+      name: "Push an image to Docker Hub"
+      *deploy_condition
+      install: skip
+      before_script:
+        - echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+      script: docker push $IMAGE:$TRAVIS_TAG
 
     - stage: update
       name: "Update the app on the server"
-#      *deploy_condition
+      *deploy_condition
+      install: skip
       before_script:
         - echo -e $SSH_KEY | sed 's/\$ /\n/g' > ssh_key
         - chmod 600 ssh_key
-        - ssh -i ssh_key -o "StrictHostKeyChecking=no" -p $SSH_PORT $SSH_TARGET
-      script: echo "travis via ssh" > hello
-#      script: ./update.sh
+        - chmod +x deploy/update.sh
+      script:
+        - ssh -i ssh_key -o $HOST_CHECK -p $SSH_PORT $SSH_TARGET "bash -s" < deploy/update.sh
