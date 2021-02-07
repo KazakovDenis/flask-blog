@@ -33,15 +33,7 @@ fi
 
 echo ">>>>> Starting a new container..."
 # "--rm" & "--restart always" conflict
-docker run -d \
-    --name blog \
-    --restart always \
-    -p 127.0.0.1:8000:8000 \
-    -v /var/run/postgresql:/run/postgresql \
-    -v $WORK_DIR/.secrets:/www/.secrets \
-    -v $LOG_VOLUME:/www/log \
-    -v $PUBLIC_VOLUME:/www/public/volume \
-    $IMAGE:$NEXT_TAG
+./run.sh $NEXT_TAG
 
 SUCCESS=$(docker ps --filter name=blog --filter status=running)
 
@@ -61,15 +53,7 @@ else
     docker rm blog
 
     echo ">>>>> Restarting the previous container..."
-    docker run -d \
-        --name blog \
-        --restart always \
-        -p 127.0.0.1:8000:8000 \
-        -v /var/run/postgresql:/run/postgresql \
-        -v $WORK_DIR/.secrets:/www/.secrets \
-        -v $LOG_VOLUME:/www/log \
-        -v $PUBLIC_VOLUME:/www/public/volume \
-        $IMAGE:$PREV_TAG
+    ./run.sh $PREV_TAG
 
     echo ">>>>> Update failed!"
     exit 1
