@@ -26,18 +26,19 @@ jobs:
       before_script: chmod +x deploy/entrypoint.sh
       script: docker build -t $IMAGE:$TRAVIS_TAG .
 
-    - stage: push
-      name: "Push an image to Docker Hub"
-      *deploy_condition
-      before_script:
-        - echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
-      script: docker push $IMAGE:$TRAVIS_TAG
+#    - stage: push
+#      name: "Push an image to Docker Hub"
+#      *deploy_condition
+#      before_script:
+#        - echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+#      script: docker push $IMAGE:$TRAVIS_TAG
 
     - stage: update
       name: "Update the app on the server"
-      *deploy_condition
+#      *deploy_condition
       before_script:
         - echo -e $SSH_KEY | sed 's/\$ /\n/g' > ssh_key
         - chmod 600 ssh_key
         - ssh -i ssh_key -o "StrictHostKeyChecking=no" -p $SSH_PORT $SSH_TARGET
-      script: ./update.sh
+      script: echo "travis via ssh" > hello
+#      script: ./update.sh
