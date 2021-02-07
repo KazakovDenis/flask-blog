@@ -7,8 +7,9 @@ services:
   - docker
 
 env:
-  - IMAGE=kazakovdu/blog
-  - HOST_CHECK="StrictHostKeyChecking=no"
+  global:
+    - IMAGE=kazakovdu/blog
+    - HOST_CHECK="StrictHostKeyChecking=no"
 
 _deploy_if: &deploy_condition
   if: branch = master AND \
