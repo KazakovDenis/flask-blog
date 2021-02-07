@@ -9,6 +9,7 @@ services:
 env:
   global:
     - IMAGE=kazakovdu/blog
+    - TAG=${TRAVIS_TAG:-1}
     - HOST_CHECK="StrictHostKeyChecking=no"
 
 _deploy_if: &deploy_condition
@@ -27,7 +28,7 @@ jobs:
       name: "Build a docker image"
       install: skip
       before_script: chmod +x deploy/entrypoint.sh
-      script: docker build -t $IMAGE:$TRAVIS_TAG .
+      script: docker build -t $IMAGE:$TAG .
 
     - stage: push
       name: "Push an image to Docker Hub"
@@ -35,7 +36,7 @@ jobs:
       install: skip
       before_script:
         - echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
-      script: docker push $IMAGE:$TRAVIS_TAG
+      script: docker push $IMAGE:$TAG
 
     - stage: update
       name: "Update the app on the server"
