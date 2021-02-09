@@ -12,10 +12,6 @@ env:
     - TAG=${TRAVIS_TAG:-1}
     - HOST_CHECK="StrictHostKeyChecking=no"
 
-_deploy_if: &deploy_condition
-  if: branch = master AND tag IS present
-  install: skip
-
 jobs:
   include:
     - stage: test
@@ -32,17 +28,25 @@ jobs:
 
     - stage: push
       name: "Push an image to Docker Hub"
-      <<: *deploy_condition
+      install: skip
       before_script:
         - echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
       script: docker push $IMAGE:$TAG
 
     - stage: update
       name: "Update the app on the server"
-      <<: *deploy_condition
+      install: skip
       before_script:
         - echo -e $SSH_KEY | sed 's/\$ /\n/g' > ssh_key
         - chmod 600 ssh_key
         - chmod +x deploy/update.sh
       script:
         - ssh -i ssh_key -o $HOST_CHECK -p $SSH_PORT $SSH_TARGET "bash -s" < deploy/update.sh
+
+stages:
+  - test
+  - build
+  - name: push
+    if: (branch = master) AND (tag IS present)
+  - name: update
+    if: (branch = master) AND (tag IS present)
