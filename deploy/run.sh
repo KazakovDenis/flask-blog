@@ -11,6 +11,7 @@ if [[ -z $1 ]]; then
     TAG=$(cat tag)
 fi
 
+# "--rm" & "--restart always" conflict
 docker run -d \
     --name blog \
     --restart always \

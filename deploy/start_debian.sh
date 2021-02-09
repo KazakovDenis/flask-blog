@@ -2,8 +2,9 @@
 # This script is for initial deployment only
 # Docker & git should be installed
 # Copy current directory and secrets to the server
-# $ scp -r deploy/ .secrets user@host:/www/
 # and run the script as a superuser:
+# $ scp -r deploy/ .secrets user@host:
+# $ ssh user@host
 # $ sudo bash start_debian.sh
 set -e
 
@@ -20,11 +21,14 @@ source /etc/profile.d/aliases.sh
 
 # create working dirs
 sudo mkdir -p $DEPLOY_DIR $STATIC_REPO
+sudo chown -R $USER $WORK_DIR
 echo 1.0 > $DEPLOY_DIR/tag
-cp host.env dockerhub_webhook.sh static_webhook.sh $DEPLOY_DIR
+mv ../.secrets $WORK_DIR
+chmod +x run.sh
+cp run.sh $DEPLOY_DIR
 git init $STATIC_REPO
 git -C $STATIC_REPO remote add origin $ORIGIN_REPO
 
 # start project
-source static_webhook.sh
-source dockerhub_webhook.sh
+source update.sh
+rm $(ls)
