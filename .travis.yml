@@ -47,6 +47,6 @@ stages:
   - test
   - build
   - name: push
-    if: (branch = master) AND (tag IS present)
+    if: tag IS present
   - name: update
-    if: (branch = master) AND (tag IS present)
+    if: tag IS present
