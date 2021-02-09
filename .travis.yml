@@ -26,12 +26,15 @@ jobs:
       before_script: chmod +x deploy/entrypoint.sh
       script: docker build -t $IMAGE:$TAG .
 
-    - stage: push
-      name: "Push an image to Docker Hub"
+    - stage: build & push
+      name: "Build and push an image to Docker Hub"
       install: skip
       before_script:
+        - chmod +x deploy/entrypoint.sh
         - echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
-      script: docker push $IMAGE:$TAG
+      script:
+        - docker build -t $IMAGE:$TAG .
+        - docker push $IMAGE:$TAG
 
     - stage: update
       name: "Update the app on the server"
@@ -45,8 +48,9 @@ jobs:
 
 stages:
   - test
-  - build
-  - name: push
+  - name: build
+    if: tag IS blank
+  - name: build & push
     if: tag IS present
   - name: update
     if: tag IS present
