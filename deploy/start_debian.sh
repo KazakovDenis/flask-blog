@@ -20,7 +20,7 @@ source /etc/profile.d/aliases.sh
 
 # create working dirs
 sudo mkdir -p $DEPLOY_DIR $STATIC_REPO
-touch $DEPLOY_DIR/tag
+echo 1.0 > $DEPLOY_DIR/tag
 cp host.env dockerhub_webhook.sh static_webhook.sh $DEPLOY_DIR
 git init $STATIC_REPO
 git -C $STATIC_REPO remote add origin $ORIGIN_REPO

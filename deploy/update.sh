@@ -33,7 +33,7 @@ fi
 
 echo ">>>>> Starting a new container..."
 # "--rm" & "--restart always" conflict
-./run.sh $NEXT_TAG
+.$DEPLOY_DIR/run.sh $NEXT_TAG
 
 SUCCESS=$(docker ps --filter name=blog --filter status=running)
 
@@ -52,8 +52,10 @@ else
     docker stop blog
     docker rm blog
 
-    echo ">>>>> Restarting the previous container..."
-    ./run.sh $PREV_TAG
+    if [[ $PREV_TAG ]]; then
+      echo ">>>>> Restarting the previous container..."
+      .$DEPLOY_DIR/run.sh $PREV_TAG
+    fi
 
     echo ">>>>> Update failed!"
     exit 1

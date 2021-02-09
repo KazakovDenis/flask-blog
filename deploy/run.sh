@@ -7,7 +7,7 @@ source /etc/environment
 IMAGE=kazakovdu/blog
 TAG=$1
 
-if [[ -n $1 ]]; then
+if [[ -z $1 ]]; then
     TAG=$(cat tag)
 fi
 
