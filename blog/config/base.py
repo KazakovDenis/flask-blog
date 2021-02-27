@@ -16,12 +16,12 @@ ALLOWED_EXTENSIONS = ('txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif')
 # database
 DB_USER = get_secret('POSTGRES_USER')
 DB_PASS = get_secret('POSTGRES_PASS')
-DB_ADDRESS = get_secret('POSTGRES_ADDRESS')
+DB_ADDRESS = get_secret('POSTGRES_ADDRESS', '')     # defaults to unix socket
 
-if DB_USER and DB_PASS and DB_ADDRESS:
+if DB_USER and DB_PASS:
     DB_URI = f'postgresql+psycopg2://{DB_USER}:{DB_PASS}@{DB_ADDRESS}/blog'
 else:
-    db_name = APP_ROOT / 'blog.sqlite3'
+    db_name = PROJECT_DIR / 'blog.sqlite3'
     DB_URI = f'sqlite:///{db_name}'
 
 # logging
