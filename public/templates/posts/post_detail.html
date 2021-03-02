@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    {{ post.title }} | kazakov.ru.net
+    {{ post.title }} | {{ DOMAIN }}
 {% endblock %}
 
 {% block content %}
@@ -65,13 +65,13 @@
         <div id="disqus_thread"></div>
         <script>
             var disqus_config = function () {
-            this.page.url = 'http://kazakov.ru.net/blog/{{ post.slug }}';
-            this.page.identifier = {{ post.slug }};
+                this.page.url = '{{ DOMAIN }}/blog/{{ post.slug }}';
+                this.page.identifier = {{ post.slug }};
             };
 
             (function() { // DON'T EDIT BELOW THIS LINE
             var d = document, s = d.createElement('script');
-            s.src = 'https://kazakov-ru-net.disqus.com/embed.js';
+            s.src = '{{ DISQUS_URL }}/embed.js';
             s.setAttribute('data-timestamp', +new Date());
             (d.head || d.body).appendChild(s);
             })();

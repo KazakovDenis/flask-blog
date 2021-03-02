@@ -4,8 +4,7 @@
 #     docker run -d \
 #     --name blog \
 #     --restart always \
-#     -p 127.0.0.1:8000:8000 \
-#     -v /var/run/postgresql:/run/postgresql \
+#     --network host \
 #     -v $PWD/volumes/log:/www/log \
 #     -v $PWD/volumes/public:/www/public/volume \
 #     -v $PWD/.secrets:/www/.secrets \

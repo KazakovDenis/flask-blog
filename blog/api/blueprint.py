@@ -3,11 +3,12 @@
 import json
 from flask import Blueprint, request, Response
 
+from blog.config import DOMAIN
 from blog.models import Post, Tag
 
 
 api = Blueprint('api', __name__, template_folder='templates')
-site = 'https://kazakov.ru.net/blog/'
+site = f'{DOMAIN}/blog/'
 headers = {
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Headers': 'Access-Control-Allow-Origin, Content-Type',

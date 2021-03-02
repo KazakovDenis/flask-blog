@@ -13,7 +13,7 @@ UPLOADS_DIR = PUBLIC_DIR / 'uploads'
 
 ALLOWED_EXTENSIONS = ('txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif')
 
-# database
+# Database
 DB_USER = get_secret('POSTGRES_USER')
 DB_PASS = get_secret('POSTGRES_PASS')
 DB_ADDRESS = get_secret('POSTGRES_ADDRESS', '')     # defaults to unix socket
@@ -24,13 +24,19 @@ else:
     db_name = PROJECT_DIR / 'blog.sqlite3'
     DB_URI = f'sqlite:///{db_name}'
 
-# logging
+# Common
+DOMAIN = get_secret('DOMAIN')
 LOG_LEVEL = 30
 LOG_FORMAT = "[%(asctime)s] @%(name)s  %(levelname)s in %(module)s: %(message)s"
 LOG_DIR = PROJECT_DIR / 'log'
 
-# sitemap
-DOMAIN = get_secret('DOMAIN')
+# Comment service
+DISQUS_URL = get_secret('DISQUS_URL')
+
+# Contacts
+CONTACT_EMAIL = get_secret('CONTACT_EMAIL')
+CONTACT_GITHUB = get_secret('CONTACT_GITHUB')
+CONTACT_TELEGRAM = get_secret('CONTACT_TELEGRAM')
 
 
 # Flask app
