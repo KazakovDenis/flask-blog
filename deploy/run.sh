@@ -15,6 +15,7 @@ docker run -d \
     --name blog \
     --restart always \
     --network host \
+    -e DOMAIN=$DOMAIN \
     -v $WORK_DIR/.secrets:/www/.secrets \
     -v $LOG_VOLUME:/www/log \
     -v $PUBLIC_VOLUME:/www/public/volume \

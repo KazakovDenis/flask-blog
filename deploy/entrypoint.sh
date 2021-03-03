@@ -4,6 +4,7 @@ set -e
 
 if [ -e .secrets ]; then
   make init_app
+  sed -i "s/domain/$DOMAIN/g" public/static/robots.txt
 
   if [ -ne $@ ]; then
     make prod

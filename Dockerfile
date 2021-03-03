@@ -5,6 +5,7 @@
 #     --name blog \
 #     --restart always \
 #     --network host \
+#     -e DOMAIN=$DOMAIN \
 #     -v $PWD/volumes/log:/www/log \
 #     -v $PWD/volumes/public:/www/public/volume \
 #     -v $PWD/.secrets:/www/.secrets \

@@ -13,13 +13,15 @@ migrate = Migrate()
 security = Security()
 
 
-def set_jinja_globals(app):
+def set_jinja_globals(app: Flask):
     """Set Jinja2 environment globals"""
-    app.jinja_env.globals['DOMAIN'] = config.DOMAIN
-    app.jinja_env.globals['DISQUS_URL'] = config.DISQUS_URL
-    app.jinja_env.globals['CONTACT_EMAIL'] = config.CONTACT_EMAIL
-    app.jinja_env.globals['CONTACT_GITHUB'] = config.CONTACT_GITHUB
-    app.jinja_env.globals['CONTACT_TELEGRAM'] = config.CONTACT_TELEGRAM
+    app.jinja_env.globals.update(
+        DOMAIN=config.DOMAIN,
+        DISQUS_URL=config.DISQUS_URL,
+        CONTACT_EMAIL=config.CONTACT_EMAIL,
+        CONTACT_GITHUB=config.CONTACT_GITHUB,
+        CONTACT_TELEGRAM=config.CONTACT_TELEGRAM,
+    )
 
 
 def create_app(

@@ -4,16 +4,16 @@ Allow: /
 Allow: /blog
 Disallow: /admin
 # Use your URL
-Sitemap: https://www.kazakov.ru.net/sitemap.xml
+Sitemap: https://domain/sitemap.xml
 
 User-agent: Googlebot
 Allow: /
 Allow: /blog
 Disallow: /admin
-Sitemap: https://www.kazakov.ru.net/sitemap.xml
+Sitemap: https://domain/sitemap.xml
 
 User-agent: Yandex
 Allow: /
 Allow: /blog
 Disallow: /admin
-Sitemap: https://www.kazakov.ru.net/sitemap.xml
+Sitemap: https://domain/sitemap.xml

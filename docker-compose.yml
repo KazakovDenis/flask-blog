@@ -4,6 +4,8 @@ services:
     build: .
     container_name: blog
     command: make prod
+    environment:
+      - DOMAIN=$DOMAIN
     restart: always
     volumes:
       - /var/run/postgresql:/run/postgresql
