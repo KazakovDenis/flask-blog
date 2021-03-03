@@ -21,6 +21,8 @@ def set_jinja_globals(app: Flask):
         CONTACT_EMAIL=config.CONTACT_EMAIL,
         CONTACT_GITHUB=config.CONTACT_GITHUB,
         CONTACT_TELEGRAM=config.CONTACT_TELEGRAM,
+        YANDEX_METRIKA_ID=config.YANDEX_METRIKA_ID,
+        GOOGLE_ANALYTICS_ID=config.GOOGLE_ANALYTICS_ID,
     )
 
 

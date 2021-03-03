@@ -30,13 +30,15 @@ LOG_LEVEL = 30
 LOG_FORMAT = "[%(asctime)s] @%(name)s  %(levelname)s in %(module)s: %(message)s"
 LOG_DIR = PROJECT_DIR / 'log'
 
-# Comment service
-DISQUS_URL = get_secret('DISQUS_URL')
-
 # Contacts
 CONTACT_EMAIL = get_secret('CONTACT_EMAIL')
 CONTACT_GITHUB = get_secret('CONTACT_GITHUB')
 CONTACT_TELEGRAM = get_secret('CONTACT_TELEGRAM')
+
+# Integrations
+DISQUS_URL = get_secret('DISQUS_URL')
+YANDEX_METRIKA_ID = get_secret('YANDEX_METRIKA_ID')
+GOOGLE_ANALYTICS_ID = get_secret('GOOGLE_ANALYTICS_ID')
 
 
 # Flask app
