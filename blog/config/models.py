@@ -20,14 +20,22 @@ class Parameter(db.Model):
 
     @property
     def value(self):
-        type_ = TYPES[self.type]
-        try:
-            return type_(self.content)
-        except ValueError:
-            return None
+        return self.get_type()(self.content)
 
     @validates('type')
     def validate_type(self, key, vartype):
         vartype = vartype.lower()
-        assert vartype in TYPES
+        choices = ', '.join(TYPES.keys())
+        assert vartype in TYPES, f'Incorrect target type, use one of the following: {choices}'
         return vartype
+
+    @validates('content')
+    def validate_content(self, key, content):
+        type_ = self.get_type()
+        try:
+            return type_(content)
+        except (TypeError, ValueError):
+            raise AssertionError(f'Cannot convert "{content}" to "{type_}"')
+
+    def get_type(self):
+        return TYPES[self.type]
