@@ -5,7 +5,7 @@ from flask_admin.menu import MenuLink
 from flask_admin.contrib.sqla import ModelView
 from flask_security import current_user
 
-from .config import PUBLIC_DIR
+from .config import PUBLIC_DIR, Parameter
 from .models import Post, Tag, User, Role
 
 
@@ -25,6 +25,11 @@ class BaseModelView(ModelView):
         return super(BaseModelView, self).on_model_change(form, model, is_created)
 
 
+class ParameterAdminView(AdminMixin, ModelView):
+    pass
+
+
+# FIXME: not used
 class AdminView(AdminMixin, ModelView):
     pass
 
@@ -65,6 +70,7 @@ def create_admin(app, db):
         UserAdminView(User, db.session),
         RoleAdminView(Role, db.session),
         FilesAdminView(PUBLIC_DIR, name='Files', url='/admin/files/'),
+        ParameterAdminView(Parameter, db.session, name='Settings'),
     )
     admin.add_links(
         MenuLink('Back to app', endpoint='main.get_notes'),
