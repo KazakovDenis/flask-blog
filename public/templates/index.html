@@ -1,16 +1,16 @@
 {% extends 'base.html' %}
 
 {% block title %}
-Denis Kazakov | Backend developer
+    {{ MAINTAINER }} | Backend developer
 {% endblock %}
 
 {% block content %}
 
 <div class="d-flex flex-wrap justify-content-center">
     <div class="text-wrap text-justify px-5 mb-5" style="max-width: 40em;">
-        <h1 class="cover-heading">Denis Kazakov</h1>
-        <p class="lead">Hello, let's get acquainted!</p>
-        <p class="lead">I'm a programmer living in Russia, Moscow. This page is intended to make you find me out. Technologies I have deal with are listed below.</p>
+        <h1 class="cover-heading">{{ MAINTAINER }}</h1>
+        <p class="lead">{{ header }}</p>
+        <p class="lead">{{ description }}</p>
         <p class="lead mt-2 text-center text-sm-left">
           <a href="https://profile-summary-for-github.com/user/{{ GITHUB_USER }}" class="btn btn-md btn-info" target="_blank">Github overview</a>
         </p>

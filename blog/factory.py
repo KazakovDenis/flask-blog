@@ -16,11 +16,17 @@ security = Security()
 def set_jinja_globals(app: Flask):
     """Set Jinja2 environment globals"""
     app.jinja_env.globals.update(
+        # Common
         DOMAIN=config.DOMAIN,
-        DISQUS_URL=config.DISQUS_URL,
+        MAINTAINER=config.MAINTAINER,
+
+        # Contacts
+        GITHUB_USER=config.GITHUB_USER,
         CONTACT_EMAIL=config.CONTACT_EMAIL,
-        CONTACT_GITHUB=config.CONTACT_GITHUB,
         CONTACT_TELEGRAM=config.CONTACT_TELEGRAM,
+
+        # Integrations
+        DISQUS_URL=config.DISQUS_URL,
         YANDEX_METRIKA_ID=config.YANDEX_METRIKA_ID,
         GOOGLE_ANALYTICS_ID=config.GOOGLE_ANALYTICS_ID,
     )

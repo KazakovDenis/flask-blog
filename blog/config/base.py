@@ -26,13 +26,14 @@ else:
 
 # Common
 DOMAIN = get_secret('DOMAIN')
+MAINTAINER = get_secret('MAINTAINER')
 LOG_LEVEL = 30
 LOG_FORMAT = "[%(asctime)s] @%(name)s  %(levelname)s in %(module)s: %(message)s"
 LOG_DIR = PROJECT_DIR / 'log'
 
 # Contacts
+GITHUB_USER = get_secret('GITHUB_USER')
 CONTACT_EMAIL = get_secret('CONTACT_EMAIL')
-CONTACT_GITHUB = get_secret('CONTACT_GITHUB')
 CONTACT_TELEGRAM = get_secret('CONTACT_TELEGRAM')
 
 # Integrations

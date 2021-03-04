@@ -10,10 +10,12 @@ from .models import Post, Tag, User, Role
 
 
 class AdminMixin:
-    def is_accessible(self):
+    @staticmethod
+    def is_accessible():
         return current_user.has_role('admin')
 
-    def inaccessible_callback(self, name, **kwargs):
+    @staticmethod
+    def inaccessible_callback(name, **kwargs):
         return redirect(url_for('security.login', next=request.url))
 
 
