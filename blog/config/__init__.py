@@ -1,2 +1,2 @@
 from .base import *
-from .models import Parameter
+from .models import Parameter, parameter

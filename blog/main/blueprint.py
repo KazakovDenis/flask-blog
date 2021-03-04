@@ -4,6 +4,7 @@ from flask import Blueprint, redirect, url_for, request, render_template, flash
 from werkzeug.utils import secure_filename
 
 from blog import config
+from blog.config import parameter
 from blog.services.functions import russify
 from blog.models import Post, Tag
 
@@ -13,10 +14,11 @@ main = Blueprint('main', __name__, template_folder='templates')
 
 @main.route('/')
 def get_cv():
-    header = "Hello, let's get acquainted!"
-    description = ("I'm a programmer living in Russia, Moscow. This page is intended to make you find me out. "
-                   "Technologies I have deal with are listed below.")
-    return render_template('index.html', header=header, description=description)
+    return render_template(
+        'index.html',
+        header=parameter('index_header').value,
+        description=parameter('index_description').value,
+    )
 
 
 @main.route('/notes')

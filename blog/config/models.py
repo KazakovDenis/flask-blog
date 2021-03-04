@@ -1,3 +1,5 @@
+from typing import Optional
+
 from sqlalchemy.orm import validates
 
 from blog.factory import db
@@ -43,3 +45,8 @@ class Parameter(db.Model):
 
     def __repr__(self):
         return f'<Parameter: {self.name}>'
+
+
+def parameter(name: str) -> Optional[Parameter]:
+    """A shortcut to get parameters"""
+    return Parameter.query.filter(Parameter.name == name).first()
