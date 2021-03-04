@@ -15,8 +15,8 @@ class Parameter(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(64), unique=True, index=True, nullable=False)
     group = db.Column(db.String(64), nullable=True)
-    content = db.Column(db.Text, nullable=False)
     type = db.Column(db.String(16), default='string')
+    content = db.Column(db.Text, nullable=False)
 
     @property
     def value(self):
@@ -33,9 +33,13 @@ class Parameter(db.Model):
     def validate_content(self, key, content):
         type_ = self.get_type()
         try:
-            return type_(content)
+            type_(content)
         except (TypeError, ValueError):
-            raise AssertionError(f'Cannot convert "{content}" to "{type_}"')
+            raise AssertionError(f'Cannot convert "{content}" to "{type_.__name__}"')
+        return content
 
     def get_type(self):
         return TYPES[self.type]
+
+    def __repr__(self):
+        return f'<Parameter: {self.name}>'
