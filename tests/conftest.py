@@ -1,6 +1,6 @@
 import pytest
 
-from blog.config import Configuration
+from blog.config import Configuration, Parameter
 from blog.factory import create_app
 from blog.init import register_blueprints
 from blog.models import Tag, db, user_datastore as datastore
@@ -31,7 +31,9 @@ def app(config):
         db.create_all()
 
         tag = Tag(name='projects')
-        db.session.add(tag)
+        header = Parameter(name='index_header', type='string', content='header')
+        description = Parameter(name='index_description', type='string', content='description')
+        db.session.add_all([tag, header, description])
         db.session.commit()
 
         register_blueprints(test_app)

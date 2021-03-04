@@ -17,7 +17,7 @@ class Parameter(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(64), unique=True, index=True, nullable=False)
     group = db.Column(db.String(64), nullable=True)
-    type = db.Column(db.String(16), default='string')
+    type = db.Column(db.String(16), default='string', nullable=False)
     content = db.Column(db.Text, nullable=False)
 
     @property
@@ -41,10 +41,13 @@ class Parameter(db.Model):
         return content
 
     def get_type(self):
-        return TYPES[self.type]
+        try:
+            return TYPES[self.type]
+        except ValueError:
+            raise AssertionError('"type" attr should be set before "content"')
 
     def __repr__(self):
-        return f'<Parameter: {self.name}>'
+        return f'<Parameter "{self.name}">'
 
 
 def parameter(name: str) -> Optional[Parameter]:
