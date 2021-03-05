@@ -1,4 +1,7 @@
+import json
 from logging import getLogger
+from pathlib import Path
+from typing import List, Any
 
 from werkzeug.utils import import_string
 
@@ -26,3 +29,54 @@ def create_instance(data: dict):
         )
 
     return instance
+
+
+def check_path(path: Any) -> Path:
+    """Check path is correct"""
+    if isinstance(path, str):
+        path = Path(path)
+
+    if not isinstance(path, Path):
+        raise TypeError(f'Wrong file path "{path}", type: "{type(path)}"')
+
+    if not path.exists():
+        raise FileNotFoundError(f'No such fixture source: {path}')
+
+    return path
+
+
+def load_json(path: Path) -> List[dict]:
+    """Load fixtures data from file"""
+    path = check_path(path)
+
+    with open(path) as file:
+        data = json.load(file)
+        if not isinstance(data, list):
+            raise TypeError(f'Fixtures in "{path}" need to put in list')
+
+    return data
+
+
+def get_loader(fmt: str):
+    """Get fixture source loader"""
+    if fmt == 'json':
+        loader = load_json
+    else:
+        raise NotImplementedError(f'The loader from {fmt} is not implemented yet.')
+
+    return loader
+
+
+def load_fixtures(*paths: Path, fmt: str = 'json') -> list:
+    """Load fixtures from a file"""
+    loader = get_loader(fmt)
+
+    instances = []
+    for path in paths:
+        data = loader(path)
+
+        for i in data:
+            obj = create_instance(i)
+            instances.append(obj)
+
+    return instances
