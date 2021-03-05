@@ -1,7 +1,7 @@
 import json
 from logging import getLogger
 from pathlib import Path
-from typing import Any, List, Union
+from typing import Any, List, Union, Type
 
 from werkzeug.utils import import_string
 
@@ -12,6 +12,10 @@ logger = getLogger(__name__)
 def create_instance(data: dict):
     """Create instance from fixture data"""
     import_name = data.get('class')
+    if not import_name:
+        logger.warning(f'"class" key not found')
+        return None
+
     try:
         cls = import_string(import_name)
     except (ImportError, ModuleNotFoundError):
@@ -45,22 +49,35 @@ def check_path(path: Any) -> Path:
     return path
 
 
-def load_json(path: Union[str, Path]) -> List[dict]:
-    """Load fixtures data from file"""
-    path = check_path(path)
+class Loader:
+    """Loaders base class"""
 
-    with open(path) as file:
-        data = json.load(file)
-        if not isinstance(data, list):
-            raise TypeError(f'Fixtures in "{path}" need to put in list')
+    def __init__(self, path: Union[str, Path]):
+        self.path = path
 
-    return data
+    def load(self) -> List[dict]:
+        """Load fixtures data from the file"""
+        raise NotImplementedError
 
 
-def get_loader(fmt: str):
-    """Get fixture source loader"""
+class JSONLoader(Loader):
+
+    def load(self) -> List[dict]:
+        """Load fixtures data from the file"""
+        path = check_path(self.path)
+
+        with open(path) as file:
+            data = json.load(file)
+            if not isinstance(data, list):
+                raise TypeError(f'Fixtures in "{path}" need to put in list')
+
+        return data
+
+
+def get_loader_cls(fmt: str) -> Type[Loader]:
+    """Get fixture source loader type"""
     if fmt == 'json':
-        loader = load_json
+        loader = JSONLoader
     else:
         raise NotImplementedError(f'The loader from {fmt} is not implemented yet.')
 
@@ -69,11 +86,12 @@ def get_loader(fmt: str):
 
 def load_fixtures(*paths: Union[str, Path], fmt: str = 'json') -> list:
     """Load fixtures from a file"""
-    loader = get_loader(fmt)
+    loader_cls = get_loader_cls(fmt)
 
     instances = []
     for path in paths:
-        data = loader(path)
+        loader = loader_cls(path)
+        data = loader.load()
 
         for i in data:
             obj = create_instance(i)
