@@ -1,4 +1,10 @@
 [
+    {
+    "class": "blog.models.Tag",
+    "kwargs": {
+      "name": "projects"
+    }
+  },
   {
     "class": "blog.config.Parameter",
     "kwargs": {

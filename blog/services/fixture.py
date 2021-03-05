@@ -1,7 +1,7 @@
 import json
 from logging import getLogger
 from pathlib import Path
-from typing import List, Any
+from typing import Any, List, Union
 
 from werkzeug.utils import import_string
 
@@ -45,7 +45,7 @@ def check_path(path: Any) -> Path:
     return path
 
 
-def load_json(path: Path) -> List[dict]:
+def load_json(path: Union[str, Path]) -> List[dict]:
     """Load fixtures data from file"""
     path = check_path(path)
 
@@ -67,7 +67,7 @@ def get_loader(fmt: str):
     return loader
 
 
-def load_fixtures(*paths: Path, fmt: str = 'json') -> list:
+def load_fixtures(*paths: Union[str, Path], fmt: str = 'json') -> list:
     """Load fixtures from a file"""
     loader = get_loader(fmt)
 

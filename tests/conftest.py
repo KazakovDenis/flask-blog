@@ -1,10 +1,16 @@
+from pathlib import Path
+
 import pytest
 
-from blog.config import Configuration, Parameter
+from blog.config import Configuration
 from blog.factory import create_app
 from blog.init import register_blueprints
-from blog.models import Tag, db, user_datastore as datastore
+from blog.models import db, user_datastore as datastore
+from blog.services.fixture import load_fixtures
 from blog.services.sitemap import create_sitemap
+
+
+FIXTURES_PATH = Path('blog', 'fixtures', 'initial.json')
 
 
 @pytest.fixture(scope='session')
@@ -29,11 +35,8 @@ def app(config):
 
     with test_app.app_context():
         db.create_all()
-
-        tag = Tag(name='projects')
-        header = Parameter(name='index_header', type='string', content='header')
-        description = Parameter(name='index_description', type='string', content='description')
-        db.session.add_all([tag, header, description])
+        objects = load_fixtures(FIXTURES_PATH)
+        db.session.add_all(objects)
         db.session.commit()
 
         register_blueprints(test_app)
