@@ -1,10 +1,12 @@
 from flask import render_template, Flask
 from flask_security import SQLAlchemyUserDatastore
+from sqlalchemy.exc import IntegrityError
 
 from .admin import create_admin
-from .config import Configuration, DOMAIN
+from .config import Configuration, DOMAIN, INITIAL_FIXTURES
 from .factory import db, create_app
 from .models import user_datastore
+from .services.fixture import load_fixtures
 from .services.sitemap import create_sitemap
 
 from .api.blueprint import api
@@ -22,6 +24,16 @@ def register_blueprints(app: Flask):
     app.register_blueprint(posts, url_prefix='/blog/')
     app.register_blueprint(api, url_prefix='/api/')
     create_admin(app, db)
+
+
+def load_initial_data():
+    """Load instances necessary to start the app"""
+    try:
+        objects = load_fixtures(INITIAL_FIXTURES)
+        db.session.add_all(objects)
+        db.session.commit()
+    except IntegrityError:
+        db.session.rollback()
 
 
 def init_app(config: type = Configuration,

@@ -1,16 +1,10 @@
-from pathlib import Path
-
 import pytest
 
 from blog.config import Configuration
 from blog.factory import create_app
-from blog.init import register_blueprints
+from blog.init import register_blueprints, load_initial_data
 from blog.models import db, user_datastore as datastore
-from blog.services.fixture import load_fixtures
 from blog.services.sitemap import create_sitemap
-
-
-FIXTURES_PATH = Path('blog', 'fixtures', 'initial.json')
 
 
 @pytest.fixture(scope='session')
@@ -35,10 +29,7 @@ def app(config):
 
     with test_app.app_context():
         db.create_all()
-        objects = load_fixtures(FIXTURES_PATH)
-        db.session.add_all(objects)
-        db.session.commit()
-
+        load_initial_data()
         register_blueprints(test_app)
         create_sitemap(test_app, config.DOMAIN)
         yield test_app

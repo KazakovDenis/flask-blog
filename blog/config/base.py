@@ -11,6 +11,7 @@ TEMPLATES_DIR = PUBLIC_DIR / 'templates'
 STATIC_DIR = PUBLIC_DIR / 'static'
 UPLOADS_DIR = PUBLIC_DIR / 'uploads'
 
+INITIAL_FIXTURES = APP_ROOT / 'fixtures' / 'initial.json'
 ALLOWED_EXTENSIONS = ('txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif')
 
 # Database

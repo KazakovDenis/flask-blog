@@ -10,7 +10,8 @@ from sqlalchemy.exc import IntegrityError
 
 from blog import wsgi
 from blog.config import APP_ROOT
-from blog.models import Tag, db, user_datastore
+from blog.init import load_initial_data
+from blog.models import db, user_datastore
 
 
 logger = logging.getLogger(__name__)
@@ -26,7 +27,7 @@ class InitAppCommand(Command):
         self.create_tables()
         self.migrate()
         self.create_admin()
-        self.create_projects_tag()
+        load_initial_data()
         logger.info('The application is ready!')
 
     @staticmethod
@@ -48,16 +49,6 @@ class InitAppCommand(Command):
         except IntegrityError:
             db.session.rollback()
             logger.warning('Admin role or user already exists.')
-
-    # FIXME: tag dependency
-    @staticmethod
-    def create_projects_tag():
-        try:
-            tag = Tag(name='projects')
-            db.session.add(tag)
-            db.session.commit()
-        except IntegrityError:
-            db.session.rollback()
 
     def migrate(self):
         logger.info('Applying migrations...')
