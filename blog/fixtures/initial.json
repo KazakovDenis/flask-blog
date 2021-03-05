@@ -1,0 +1,18 @@
+[
+  {
+    "class": "blog.config.Parameter",
+    "kwargs": {
+      "name": "index_header",
+      "type": "string",
+      "content": "Set the \"index_header\" parameter in admin settings to change this header"
+    }
+  },
+  {
+    "class": "blog.config.Parameter",
+    "kwargs": {
+      "name": "index_description",
+      "type": "string",
+      "content": "Set the \"index_description\" parameter in admin settings to change this description"
+    }
+  }
+]
