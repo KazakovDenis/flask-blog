@@ -26,9 +26,10 @@ else:
     DB_URI = f'sqlite:///{db_name}'
 
 # Common
-DEBUG = get_secret('DEBUG')
+DEBUG = get_secret('DEBUG', False)
 DOMAIN = get_secret('DOMAIN')
 MAINTAINER = get_secret('MAINTAINER')
+OCCUPATION = get_secret('OCCUPATION')
 LOG_LEVEL = 30
 LOG_FORMAT = "[%(asctime)s] @%(name)s  %(levelname)s in %(module)s: %(message)s"
 LOG_DIR = PROJECT_DIR / 'log'

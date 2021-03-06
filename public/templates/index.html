@@ -1,12 +1,16 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    {{ MAINTAINER }} | Backend developer
+    {{ MAINTAINER }} | {{ OCCUPATION }}
 {% endblock %}
 
 {% block content %}
     {% include 'index/greeting.html' %}
-    {% include 'index/skills.html' %}
-    {% include 'index/rating.html' %}
-    {% include 'index/certificates.html' %}
+    {% if skill_groups %}
+        {% include 'index/skills.html' %}
+        {% include 'index/rating.html' %}
+    {% endif %}
+    {% if certificates %}
+        {% include 'index/certificates.html' %}
+    {% endif %}
 {% endblock %}

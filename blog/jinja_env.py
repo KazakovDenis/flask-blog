@@ -30,6 +30,7 @@ def set_jinja_env(app: Flask):
         # Common
         DOMAIN=config.DOMAIN,
         MAINTAINER=config.MAINTAINER,
+        OCCUPATION=config.OCCUPATION,
 
         # Contacts
         GITHUB_USER=config.GITHUB_USER,

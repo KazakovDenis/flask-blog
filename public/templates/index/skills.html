@@ -1,4 +1,3 @@
-{% if skill_groups %}
 <h3 class="cover-heading text-center mt-5 w-100">Skills</h3>
 <div class="container-fluid">
     <div class="d-flex flex-wrap justify-content-around">
@@ -17,7 +16,8 @@
                             <li class="list-group-item d-flex justify-content-between align-items-center bg-transparent {% if loop.index == 1 %}rounded-0 border-top-0{% endif %}">
                                 {{ skill.name }}
                                 <div class="row mx-1">
-                                    {% for i in range(skill.value) %}
+                                    {% set rate = skill.value|int %}
+                                    {% for i in range(rate) %}
                                         <div class="point"></div>
                                     {% endfor %}
                                 </div>
@@ -29,4 +29,3 @@
         {% endfor %}
     </div>
 </div>
-{% endif %}
