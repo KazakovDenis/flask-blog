@@ -13,7 +13,7 @@ def create_instance(data: dict):
     """Create instance from fixture data"""
     import_name = data.get('class')
     if not import_name:
-        logger.warning(f'"class" key not found')
+        logger.warning('"class" key not found')
         return None
 
     try:

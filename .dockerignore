@@ -1,4 +1,5 @@
 venv
+*.secrets
 **/migrations
 **/test*
 **/*.log

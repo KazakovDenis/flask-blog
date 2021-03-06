@@ -1,5 +1,4 @@
-# -*- coding: utf-8 -*-
-# https://github.com/KazakovDenis
+# TODO: rework absolutely
 import json
 from flask import Blueprint, request, Response
 
@@ -59,14 +58,20 @@ def get_tags():
     else:
         tags = Tag.query.order_by(Tag.name.asc())
 
-    result = {'tags': {tag.name: {
-                           'id': tag.id,
-                           'posts': {post.title:
-                                         {'id': post.id,
-                                          'URL': site + post.slug,
-                                          'body': post.body}
-                                     for post in tag.posts},
-                       } for tag in tags}}
+    result = {
+        'tags': {
+            tag.name: {
+                'id': tag.id,
+                'posts': {
+                    post.title: {
+                        'id': post.id,
+                        'URL': site + post.slug,
+                        'body': post.body
+                    } for post in tag.posts
+                }
+            } for tag in tags
+        }
+    }
 
     result = json.dumps(result)
     response = Response(result, content_type='application/json')

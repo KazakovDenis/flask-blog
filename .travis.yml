@@ -18,7 +18,9 @@ jobs:
       name: "Run unit tests"
       install: pip install -r requirements/test.txt
       before_script: cp example.secrets .secrets
-      script: make test
+      script:
+        - flake8
+        - make test
 
     - stage: build
       name: "Build a docker image"

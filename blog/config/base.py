@@ -1,6 +1,6 @@
 import os
 
-from .parser import *
+from .parser import APP_ROOT, PROJECT_DIR, get_secret
 
 
 PUBLIC_DIR = PROJECT_DIR / 'public'
