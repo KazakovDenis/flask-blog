@@ -1,3 +1,4 @@
+{% if certificates %}
 <div class="container-fluid">
     <h3 class="cover-heading text-center mt-5 w-100">Certificates & tests</h3>
     <div id="carouselIndicators" class="carousel slide" data-ride="carousel">
@@ -8,12 +9,15 @@
             </ol>
         </div>
         <div class="carousel-inner">
-            <div class="carousel-item active">
-                <img class="img-fluid rounded d-block certificate" src="https://www.sololearn.com/Certificate/1060-14685036/jpg/" alt="SQL">
-            </div>
-            <div class="carousel-item">
-                <img class="img-fluid rounded d-block certificate" src="https://www.sololearn.com/Certificate/1073-14685036/jpg/" alt="Python">
-            </div>
+            {% for cert in certificates %}
+                {% if loop.index == 1 %}
+                    <div class="carousel-item active">
+                {% else %}
+                    <div class="carousel-item">
+                {% endif %}
+                    <img class="img-fluid rounded d-block certificate" src="{{ cert.value }}">
+                </div>
+            {% endfor %}
         </div>
         <a class="carousel-control-prev" href="#carouselIndicators" role="button" data-slide="prev">
             <div class="bg-info rounded-circle d-flex justify-content-center align-items-center arrow">
@@ -29,3 +33,4 @@
         </a>
     </div>
 </div>
+{% endif %}

@@ -1,6 +1,6 @@
-from typing import Optional
+from typing import Optional, Union
 
-from sqlalchemy.orm import validates
+from sqlalchemy.orm import validates, Query
 
 from blog.factory import db
 
@@ -50,6 +50,17 @@ class Parameter(db.Model):
         return f'<Parameter "{self.name}">'
 
 
-def parameter(name: str) -> Optional[Parameter]:
-    """A shortcut to get parameters"""
-    return Parameter.query.filter(Parameter.name == name).first()
+def parameters(name: str = '', group: str = '') -> Union[Query, Optional[Parameter]]:
+    """A shortcut to get parameters
+
+    :returns Parameter instance if name set else Parameter Query
+    """
+    filters = []
+    if group:
+        filters.append(Parameter.group == group)
+
+    if not name:
+        return Parameter.query.filter(*filters).all()
+
+    filters.append(Parameter.name == name)
+    return Parameter.query.filter(*filters).first()

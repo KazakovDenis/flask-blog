@@ -4,7 +4,7 @@ from flask import Blueprint, redirect, url_for, request, render_template, flash
 from werkzeug.utils import secure_filename
 
 from blog import config
-from blog.config import parameter
+from blog.config import parameters
 from blog.services.functions import russify
 from blog.models import Post, Tag
 
@@ -16,8 +16,9 @@ main = Blueprint('main', __name__, template_folder='templates')
 def get_cv():
     return render_template(
         'index.html',
-        header=parameter('index_header').value,
-        description=parameter('index_description').value,
+        header=parameters('index_header').value,
+        description=parameters('index_description').value,
+        certificates=parameters(group='certificates'),
     )
 
 

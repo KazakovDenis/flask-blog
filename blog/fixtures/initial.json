@@ -10,7 +10,7 @@
     "kwargs": {
       "name": "index_header",
       "type": "string",
-      "content": "Hello, let's start!"
+      "content": "Hello, let's start!\nYou can change the view of this page in admin settings."
     }
   },
   {
@@ -18,7 +18,8 @@
     "kwargs": {
       "name": "index_description",
       "type": "string",
-      "content": "You can change the text of this block in admin settings"
+      "content": "To add or delete groups of skills edit parameters with group \"skill_group\".\nAdd your skills by creating parameters with group value equals to group name.\nRate your skill by creating parameter with group equals to skill name and value from 1 to 5. Add certificates by creating \"certificates\" group parameters with a link as a value."
+
     }
   }
 ]
