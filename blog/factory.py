@@ -4,32 +4,14 @@ from flask_security import Security, SQLAlchemyUserDatastore
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.middleware.proxy_fix import ProxyFix
 
-from blog import config
+from . import config
+from .jinja_env import set_jinja_env
 from .services.functions import configure_logger
 
 
 db = SQLAlchemy()
 migrate = Migrate()
 security = Security()
-
-
-def set_jinja_globals(app: Flask):
-    """Set Jinja2 environment globals"""
-    app.jinja_env.globals.update(
-        # Common
-        DOMAIN=config.DOMAIN,
-        MAINTAINER=config.MAINTAINER,
-
-        # Contacts
-        GITHUB_USER=config.GITHUB_USER,
-        CONTACT_EMAIL=config.CONTACT_EMAIL,
-        CONTACT_TELEGRAM=config.CONTACT_TELEGRAM,
-
-        # Integrations
-        DISQUS_URL=config.DISQUS_URL,
-        YANDEX_METRIKA_ID=config.YANDEX_METRIKA_ID,
-        GOOGLE_ANALYTICS_ID=config.GOOGLE_ANALYTICS_ID,
-    )
 
 
 def create_app(
@@ -49,6 +31,6 @@ def create_app(
     migrate.init_app(app, db, directory=migrations_dir)
     security.init_app(app, datastore)
 
-    set_jinja_globals(app)
+    set_jinja_env(app)
     configure_logger(app)
     return app

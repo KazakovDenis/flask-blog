@@ -18,6 +18,7 @@ def get_cv():
         'index.html',
         header=parameters('index_header').value,
         description=parameters('index_description').value,
+        skill_groups=parameters(group='skill_groups'),
         certificates=parameters(group='certificates'),
     )
 

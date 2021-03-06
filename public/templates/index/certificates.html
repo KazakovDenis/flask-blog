@@ -10,11 +10,7 @@
         </div>
         <div class="carousel-inner">
             {% for cert in certificates %}
-                {% if loop.index == 1 %}
-                    <div class="carousel-item active">
-                {% else %}
-                    <div class="carousel-item">
-                {% endif %}
+                <div class="carousel-item {% if loop.index == 1 %}active{% endif %}">
                     <img class="img-fluid rounded d-block certificate" src="{{ cert.value }}">
                 </div>
             {% endfor %}

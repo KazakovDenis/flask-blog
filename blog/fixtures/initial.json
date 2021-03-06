@@ -21,5 +21,79 @@
       "content": "To add or delete groups of skills edit parameters with group \"skill_group\".\nAdd your skills by creating parameters with group value equals to group name.\nRate your skill by creating parameter with group equals to skill name and value from 1 to 5. Add certificates by creating \"certificates\" group parameters with a link as a value."
 
     }
+  },
+  {
+    "class": "blog.config.Parameter",
+    "kwargs": {
+      "group": "certificates",
+      "name": "cert_1",
+      "type": "string",
+      "content": "https://simplecert.net/wp-content/uploads/2014/06/Cascade-Academy-1024x794.png"
+
+    }
+  },
+  {
+    "class": "blog.config.Parameter",
+    "kwargs": {
+      "group": "certificates",
+      "name": "cert_2",
+      "type": "string",
+      "content": "https://images.template.net/81/Completion-Certificate-Template.jpg"
+
+    }
+  },
+  {
+    "class": "blog.config.Parameter",
+    "kwargs": {
+      "group": "skill_groups",
+      "name": "group_languages",
+      "type": "string",
+      "content": "Language"
+    }
+  },
+  {
+    "class": "blog.config.Parameter",
+    "kwargs": {
+      "group": "skill_groups",
+      "name": "group_libs",
+      "type": "string",
+      "content": "Frameworks & libs"
+    }
+  },
+  {
+    "class": "blog.config.Parameter",
+    "kwargs": {
+      "group": "skill_groups",
+      "name": "group_cicd",
+      "type": "string",
+      "content": "CI / CD"
+    }
+  },
+  {
+    "class": "blog.config.Parameter",
+    "kwargs": {
+      "group": "skill_groups",
+      "name": "group_other",
+      "type": "string",
+      "content": "Other"
+    }
+  },
+  {
+    "class": "blog.config.Parameter",
+    "kwargs": {
+      "group": "Languages",
+      "name": "skill_python",
+      "type": "string",
+      "content": "Python 3"
+    }
+  },
+  {
+    "class": "blog.config.Parameter",
+    "kwargs": {
+      "group": "Languages",
+      "name": "skill_javascript",
+      "type": "string",
+      "content": "Javascript"
+    }
   }
 ]

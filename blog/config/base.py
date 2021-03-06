@@ -26,6 +26,7 @@ else:
     DB_URI = f'sqlite:///{db_name}'
 
 # Common
+DEBUG = get_secret('DEBUG')
 DOMAIN = get_secret('DOMAIN')
 MAINTAINER = get_secret('MAINTAINER')
 LOG_LEVEL = 30
@@ -45,11 +46,11 @@ GOOGLE_ANALYTICS_ID = get_secret('GOOGLE_ANALYTICS_ID')
 
 # Flask app
 class Configuration:
-    DEBUG = False
+    DEBUG = DEBUG
     MAX_CONTENT_LENGTH = 16 * 1024 * 1024
     SECRET_KEY = get_secret('FLASK_SECRET')
     SECURITY_PASSWORD_SALT = get_secret('FLASK_SALT')
     SECURITY_PASSWORD_HASH = 'sha512_crypt'
-    SQLALCHEMY_ECHO = DEBUG
+    SQLALCHEMY_ECHO = True
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_DATABASE_URI = DB_URI
