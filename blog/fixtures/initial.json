@@ -10,7 +10,7 @@
     "kwargs": {
       "name": "index_header",
       "type": "string",
-      "content": "Set the \"index_header\" parameter in admin settings to change this header"
+      "content": "Hello, let's start!"
     }
   },
   {
@@ -18,7 +18,7 @@
     "kwargs": {
       "name": "index_description",
       "type": "string",
-      "content": "Set the \"index_description\" parameter in admin settings to change this description"
+      "content": "You can change the text of this block in admin settings"
     }
   }
 ]
