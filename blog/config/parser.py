@@ -15,5 +15,5 @@ parser = ConfigParser()
 parser.read(SECRETS_SRC)
 
 
-def get_secret(name, default=None):
-    return parser.get('secrets', name, fallback=default)
+def get_secret(name, output=str, default=None):
+    return output(parser.get('secrets', name, fallback=default))

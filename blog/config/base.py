@@ -17,7 +17,7 @@ ALLOWED_EXTENSIONS = ('txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif')
 # Database
 DB_USER = get_secret('POSTGRES_USER')
 DB_PASS = get_secret('POSTGRES_PASS')
-DB_ADDRESS = get_secret('POSTGRES_ADDRESS', '')     # defaults to unix socket
+DB_ADDRESS = get_secret('POSTGRES_ADDRESS', default='')     # defaults to unix socket
 
 if DB_USER and DB_PASS:
     DB_URI = f'postgresql+psycopg2://{DB_USER}:{DB_PASS}@{DB_ADDRESS}/blog'
@@ -26,11 +26,11 @@ else:
     DB_URI = f'sqlite:///{db_name}'
 
 # Common
-DEBUG = get_secret('DEBUG', False)
+DEBUG = get_secret('DEBUG', bool, False)
 DOMAIN = get_secret('DOMAIN')
 MAINTAINER = get_secret('MAINTAINER')
 OCCUPATION = get_secret('OCCUPATION')
-LOG_LEVEL = 30
+LOG_LEVEL = get_secret('LOG_LEVEL', int, 30)
 LOG_FORMAT = "[%(asctime)s] @%(name)s  %(levelname)s in %(module)s: %(message)s"
 LOG_DIR = PROJECT_DIR / 'log'
 
@@ -52,6 +52,6 @@ class Configuration:
     SECRET_KEY = get_secret('FLASK_SECRET')
     SECURITY_PASSWORD_SALT = get_secret('FLASK_SALT')
     SECURITY_PASSWORD_HASH = 'sha512_crypt'
-    SQLALCHEMY_ECHO = True
+    SQLALCHEMY_ECHO = DEBUG
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_DATABASE_URI = DB_URI

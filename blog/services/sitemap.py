@@ -24,6 +24,8 @@ def create_sitemap(app: Flask, domain: str) -> FlaskSitemap:
     """Create an endpoint for a sitemap"""
     # todo: убрать после устранения в dynamic-sitemap
     os.makedirs(SMConfig.TEMPLATE_FOLDER, exist_ok=True)
+    if not domain.startswith('http'):
+        domain = f'https://{domain}'
 
     sm = FlaskSitemap(app, base_url=domain, orm='sqlalchemy', config_obj=SMConfig)
     sm.add_rule('/blog', Post, loc_attr='slug', lastmod_attr='created')
