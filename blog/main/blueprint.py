@@ -27,7 +27,8 @@ def get_cv():
 def get_notes():
     posts = Post.query.order_by(Post.created.desc()).all()[:10]
     tags = Tag.query.all()
-    return render_template('notes.html', posts=posts, all_tags=tags)
+    adv = parameters('advertisement').value
+    return render_template('notes.html', posts=posts, all_tags=tags, advert=adv)
 
 
 @main.route('/upload', methods=['POST', 'GET'])

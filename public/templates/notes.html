@@ -1,40 +1,49 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    Заметки программиста | {{ DOMAIN }}
+    {{ MAINTAINER }} | {{ DOMAIN }}
 {% endblock %}
 
 {% block content %}
 <div>
-    <!-- Search form on XS -->
+    <!-- Search form [xs] -->
     <div class="d-sm-none mb-3">
         <div class="d-flex align-items-center justify-content-center">
             {% include 'search.html' %}
         </div>
     </div>
+    <!-- /Search form [xs] -->
+    <!-- Post list -->
     <div class="d-flex justify-content-between mb-2">
         <div class="main-content text-justify" style="min-width: 65%;">
             {% for post in posts %}
                 <p class="h3 mb-0">
                     <a href="{{ url_for('posts.post_detail', slug=post.slug) }}">{{ post.title }}</a>
                 </p>
+                <!-- Post tags -->
                 <div class="my-2">
-                {% for tag in post.tags %}
-                    <a href="/blog/tag/{{ tag.slug }}">
-                        <span class="badge badge-info text-decoration-none">
-                            {{ tag }}
-                        </span>
-                    </a>
-                {% endfor %}
+                    {% for tag in post.tags %}
+                        <a href="/blog/tag/{{ tag.slug }}">
+                            <span class="badge badge-info text-decoration-none">{{ tag }}</span>
+                        </a>
+                    {% endfor %}
                 </div>
+                <!-- /Post tags -->
                 <small class="text-muted">{{ post.created.strftime('%d.%m.%Y %H:%M') }}</small>
                 <div class="text-justify mb-0 mt-2">{{ post.body | safe }}</div>
                 <hr class="bg-info">
             {% endfor %}
-            <div class="text-center"><a href="{{ url_for('posts.index') }}">
-                <h5><b>Все записи...</b></h5></a>
-            </div>
+            <!-- Posts block bottom -->
+            {% if posts %}
+                <div class="text-center"><a href="{{ url_for('posts.index') }}">
+                    <h5><b>Все записи...</b></h5></a>
+                </div>
+            {% else %}
+                <div class="text-center"><h5>Здесь пока нет ни одной записи</h5></div>
+            {% endif %}
+            <!-- /Posts block bottom -->
         </div>
+        <!-- Right block [medium] -->
         <div class="d-none d-sm-block ml-5" style="max-width: 35%;">
             <div class="mb-5">
                 {% include 'search.html' %}
@@ -42,10 +51,16 @@
             <div>
                 {% include 'posts/all_tags.html' %}
             </div>
+            <div class="text-center">{{ advert|safe }}</div>
         </div>
+        <!-- /Right block [medium] -->
     </div>
+    <!-- /Post list -->
+    <!-- All tags [small] -->
     <div class="d-sm-none mb-3">
         {% include 'posts/all_tags.html' %}
     </div>
+    <div class="text-center">{{ advert|safe }}</div>
+    <!-- /All tags [small] -->
 </div>
 {% endblock %}

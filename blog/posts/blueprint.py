@@ -1,10 +1,9 @@
-# -*- coding: utf-8 -*-
-# https://github.com/KazakovDenis
 from flask import Blueprint, redirect, url_for, request, render_template
 from flask_security import login_required
 from html2text import html2text
 from markdown import markdown
 
+from blog.config import parameters
 from blog.factory import db
 from blog.models import Post, Tag
 from .forms import PostForm
@@ -56,23 +55,25 @@ def create_post(slug=None):
 @posts.route('/')
 def index():
     """The app index page handler"""
-    # обработчик пагинации
-    page = request.args.get('page')
+    page = request.args.get('page', '1')
     if page and page.isdigit():
         page = int(page)
-    else:
-        page = 1
 
-    # обработчик формы поиска
     q = request.args.get('q')
     if q:
-        posts = Post.query.filter(Post.title.contains(q) | Post.body.contains(q))
+        results = Post.query.filter(Post.title.contains(q) | Post.body.contains(q))
     else:
-        posts = Post.query.order_by(Post.created.desc())
+        results = Post.query.order_by(Post.created.desc())
 
     all_tags = Tag.query.all()
-    pages = posts.paginate(page=page, per_page=10)   # объект pagination
-    return render_template('posts/index.html', paginator=pages, all_tags=all_tags, query=q)
+    pages = results.paginate(page=page, per_page=10)
+    return render_template(
+        'posts/index.html',
+        paginator=pages,
+        all_tags=all_tags,
+        query=q,
+        advert=parameters('advertisement').value,
+    )
 
 
 @posts.route('/<slug>/')
@@ -83,7 +84,6 @@ def post_detail(slug):
     the_post = Post.query.filter(Post.slug == slug).first_or_404()
     tags = the_post.tags
 
-    # создаём список смежных постов для правой панели
     cache = []
     for posts_list in [tag.posts.all() for tag in tags if tag.name != 'projects']:
         posts_list = [post for post in posts_list if post.id != the_post.id]
@@ -91,8 +91,14 @@ def post_detail(slug):
 
     adjacent_posts = set(cache)
     all_tags = Tag.query.all()
-    return render_template('posts/post_detail.html',
-                           post=the_post, tags=tags, all_tags=all_tags, adjacent=adjacent_posts)
+    return render_template(
+        'posts/post_detail.html',
+        post=the_post,
+        tags=tags,
+        all_tags=all_tags,
+        adjacent=adjacent_posts,
+        advert=parameters('advertisement').value,
+    )
 
 
 @posts.route('/tag/<slug>/')
@@ -103,4 +109,10 @@ def tag_detail(slug):
     tag = Tag.query.filter(Tag.slug == slug).first_or_404()
     this_tag_posts = tag.posts.order_by(Post.created.desc()).all()
     all_tags = Tag.query.all()
-    return render_template('posts/tag_detail.html', tag=tag, all_tags=all_tags, posts=this_tag_posts)
+    return render_template(
+        'posts/tag_detail.html',
+        tag=tag,
+        all_tags=all_tags,
+        posts=this_tag_posts,
+        advert=parameters('advertisement').value,
+    )

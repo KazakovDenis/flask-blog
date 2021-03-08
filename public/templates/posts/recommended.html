@@ -1,7 +1,6 @@
 {% if adjacent %}
 <div>
     <p class="text-center font-weight-bolder">Статьи по теме:</p>
-
     {% for post in adjacent %}
         <p>
             <a href="/blog/{{ post.slug }}" class="text-decoration-none">{{ post.title }}</a>
