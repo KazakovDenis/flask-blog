@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-# https://github.com/KazakovDenis
 from wtforms import Form, StringField, TextAreaField
 
 

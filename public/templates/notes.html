@@ -59,8 +59,8 @@
     <!-- All tags [small] -->
     <div class="d-sm-none mb-3">
         {% include 'posts/all_tags.html' %}
+        <div class="text-center">{{ advert|safe }}</div>
     </div>
-    <div class="text-center">{{ advert|safe }}</div>
     <!-- /All tags [small] -->
 </div>
 {% endblock %}

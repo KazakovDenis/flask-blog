@@ -36,10 +36,12 @@
             <div class="">
                 {% include 'posts/all_tags.html' %}
             </div>
+            <div class="text-center">{{ advert|safe }}</div>
         </div>
     </div>
     <div class="d-sm-none mb-3">
         {% include 'posts/all_tags.html' %}
+        <div class="text-center">{{ advert|safe }}</div>
     </div>
 </div>
 {% endblock %}

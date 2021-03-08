@@ -1,5 +1,5 @@
 [
-    {
+  {
     "class": "blog.models.Tag",
     "kwargs": {
       "name": "projects"
@@ -19,7 +19,6 @@
       "name": "index_description",
       "type": "string",
       "content": "To add or delete groups of skills edit parameters with group \"skill_group\".\nAdd your skills by creating parameters with group value equals to group name.\nRate your skill by creating parameter with group equals to skill name and value from 1 to 5. Add certificates by creating \"certificates\" group parameters with a link as a value."
-
     }
   },
   {
@@ -45,10 +44,18 @@
   {
     "class": "blog.config.Parameter",
     "kwargs": {
+      "name": "advertisement",
+      "type": "string",
+      "content": "<a>adv banner</a>"
+    }
+  },
+  {
+    "class": "blog.config.Parameter",
+    "kwargs": {
       "group": "skill_groups",
       "name": "group_languages",
       "type": "string",
-      "content": "Language"
+      "content": "Languages"
     }
   },
   {
@@ -64,7 +71,7 @@
     "class": "blog.config.Parameter",
     "kwargs": {
       "group": "skill_groups",
-      "name": "group_cicd",
+      "name": "group_ci_cd",
       "type": "string",
       "content": "CI / CD"
     }
@@ -82,18 +89,153 @@
     "class": "blog.config.Parameter",
     "kwargs": {
       "group": "Languages",
-      "name": "skill_python",
-      "type": "string",
-      "content": "Python 3"
+      "name": "Python 3",
+      "type": "integer",
+      "content": "4"
     }
   },
   {
     "class": "blog.config.Parameter",
     "kwargs": {
       "group": "Languages",
-      "name": "skill_javascript",
-      "type": "string",
-      "content": "Javascript"
+      "name": "Javascript",
+      "type": "integer",
+      "content": "2"
+    }
+  },
+  {
+    "class": "blog.config.Parameter",
+    "kwargs": {
+      "group": "Languages",
+      "name": "HTML/CSS",
+      "type": "integer",
+      "content": "2"
+    }
+  },
+  {
+    "class": "blog.config.Parameter",
+    "kwargs": {
+      "group": "Languages",
+      "name": "C",
+      "type": "integer",
+      "content": "1"
+    }
+  },
+  {
+    "class": "blog.config.Parameter",
+    "kwargs": {
+      "group": "Languages",
+      "name": "Groovy",
+      "type": "integer",
+      "content": "1"
+    }
+  },
+  {
+    "class": "blog.config.Parameter",
+    "kwargs": {
+      "group": "Frameworks & libs",
+      "name": "Django",
+      "type": "integer",
+      "content": "4"
+    }
+  },
+  {
+    "class": "blog.config.Parameter",
+    "kwargs": {
+      "group": "Frameworks & libs",
+      "name": "Flask",
+      "type": "integer",
+      "content": "3"
+    }
+  },
+  {
+    "class": "blog.config.Parameter",
+    "kwargs": {
+      "group": "Frameworks & libs",
+      "name": "DRF",
+      "type": "integer",
+      "content": "3"
+    }
+  },
+  {
+    "class": "blog.config.Parameter",
+    "kwargs": {
+      "group": "Frameworks & libs",
+      "name": "Bootstrap",
+      "type": "integer",
+      "content": "2"
+    }
+  },
+  {
+    "class": "blog.config.Parameter",
+    "kwargs": {
+      "group": "Frameworks & libs",
+      "name": "Vue.js",
+      "type": "integer",
+      "content": "1"
+    }
+  },
+  {
+    "class": "blog.config.Parameter",
+    "kwargs": {
+      "group": "CI / CD",
+      "name": "Docker",
+      "type": "integer",
+      "content": "3"
+    }
+  },
+  {
+    "class": "blog.config.Parameter",
+    "kwargs": {
+      "group": "CI / CD",
+      "name": "Travis CI",
+      "type": "integer",
+      "content": "2"
+    }
+  },
+  {
+    "class": "blog.config.Parameter",
+    "kwargs": {
+      "group": "CI / CD",
+      "name": "Jenkins",
+      "type": "integer",
+      "content": "2"
+    }
+  },
+  {
+    "class": "blog.config.Parameter",
+    "kwargs": {
+      "group": "Other",
+      "name": "Git",
+      "type": "integer",
+      "content": "4"
+    }
+  },
+  {
+    "class": "blog.config.Parameter",
+    "kwargs": {
+      "group": "Other",
+      "name": "Linux",
+      "type": "integer",
+      "content": "3"
+    }
+  },
+  {
+    "class": "blog.config.Parameter",
+    "kwargs": {
+      "group": "Other",
+      "name": "PostgresQL",
+      "type": "integer",
+      "content": "2"
+    }
+  },
+  {
+    "class": "blog.config.Parameter",
+    "kwargs": {
+      "group": "Other",
+      "name": "Nginx",
+      "type": "integer",
+      "content": "2"
     }
   }
 ]

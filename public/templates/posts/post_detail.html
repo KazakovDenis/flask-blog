@@ -53,12 +53,14 @@
                 </div>
                 {% include 'posts/recommended.html' %}
                 {% include 'posts/all_tags.html' %}
+                <div class="text-center">{{ advert|safe }}</div>
             </div>
         </div>
     </div>
     <div class="d-sm-none mb-3">
         {% include 'posts/recommended.html' %}
         {% include 'posts/all_tags.html' %}
+        <div class="text-center">{{ advert|safe }}</div>
     </div>
     <!-- Disqus -->
     <div class="">
