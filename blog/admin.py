@@ -19,19 +19,20 @@ class AdminMixin:
         return redirect(url_for('security.login', next=request.url))
 
 
-class BaseModelView(ModelView):
-    def on_model_change(self, form, model, is_created):
-        model.generate_slug()
-        return super(BaseModelView, self).on_model_change(form, model, is_created)
-
-
-class ParameterAdminView(AdminMixin, ModelView):
-    pass
-
-
-# FIXME: not used
 class AdminView(AdminMixin, ModelView):
     pass
+
+
+class ParameterAdminView(AdminView):
+    column_searchable_list = ('name', 'group')
+    column_filters = ('group',)
+    form_choices = {
+        'type': (
+            ('integer', 'integer'),
+            ('float', 'float'),
+            ('string', 'string'),
+        )
+    }
 
 
 class HomeAdminView(AdminMixin, AdminIndexView):
@@ -40,21 +41,27 @@ class HomeAdminView(AdminMixin, AdminIndexView):
         return self.render('admin.html')
 
 
-class PostAdminView(AdminMixin, BaseModelView):
+class SlugModelView(ModelView):
+    def on_model_change(self, form, model, is_created):
+        model.generate_slug()
+        return super().on_model_change(form, model, is_created)
+
+
+class PostAdminView(AdminMixin, SlugModelView):
     column_list = ('title', 'tags', 'created')
     form_columns = ('title', 'body', 'tags', 'slug', 'created')
 
 
-class TagAdminView(AdminMixin, BaseModelView):
+class TagAdminView(AdminMixin, SlugModelView):
     form_columns = ('name', 'posts')
 
 
-class UserAdminView(AdminMixin, ModelView):
+class UserAdminView(AdminView):
     column_list = ('email', 'roles', 'active')
     form_columns = ('email', 'password', 'roles', 'active')
 
 
-class RoleAdminView(AdminMixin, ModelView):
+class RoleAdminView(AdminView):
     pass
 
 
@@ -65,12 +72,16 @@ class FilesAdminView(AdminMixin, FileAdmin):
 def create_admin(app, db):
     admin = Admin(app, 'Admin panel', url='/admin', index_view=HomeAdminView(), template_mode='bootstrap3')
     admin.add_views(
-        PostAdminView(Post, db.session),
-        TagAdminView(Tag, db.session),
-        UserAdminView(User, db.session),
-        RoleAdminView(Role, db.session),
+        # Content
+        PostAdminView(Post, db.session, category='Content'),
+        TagAdminView(Tag, db.session, category='Content'),
+
+        # Management
+        UserAdminView(User, db.session, category='Management'),
+        RoleAdminView(Role, db.session, category='Management'),
+        ParameterAdminView(Parameter, db.session, name='Settings', category='Management'),
+
         FilesAdminView(PUBLIC_DIR, name='Files', url='/admin/files/'),
-        ParameterAdminView(Parameter, db.session, name='Settings'),
     )
     admin.add_links(
         MenuLink('Back to app', endpoint='main.get_notes'),
