@@ -28,12 +28,12 @@ def register_blueprints(app: Flask):
 
 def load_initial_data():
     """Load instances necessary to start the app"""
-    try:
-        objects = load_fixtures(INITIAL_FIXTURES)
-        db.session.add_all(objects)
-        db.session.commit()
-    except IntegrityError:
-        db.session.rollback()
+    for obj in load_fixtures(INITIAL_FIXTURES):
+        try:
+            db.session.add(obj)
+            db.session.commit()
+        except IntegrityError:
+            db.session.rollback()
 
 
 def init_app(config: type = Configuration,

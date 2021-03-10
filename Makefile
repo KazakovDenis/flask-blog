@@ -44,9 +44,14 @@ cover:
 	- python3 -m coverage html
 
 #? ----------------------- FOR DOCKER CONTAINER PURPOSES -----------------------
+#? collect:   Collect all static files into one directory
+collect:
+	find . -type d -name flask_admin -exec cp -R {}/static ${VOLUME_DIR}/admin \;
+	find . -type d -name flask_admin -exec cp -R {}/templates ${VOLUME_DIR}/admin \;
+
 #? publish:   Copy static files and templates into a volume
-publish:
-	cp -R $(PUBLIC_DIR)/templates $(PUBLIC_DIR)/static $(PUBLIC_DIR)/uploads $(VOLUME_DIR)
+publish: collect
+	cp -R ${PUBLIC_DIR}/templates ${PUBLIC_DIR}/static ${PUBLIC_DIR}/uploads ${VOLUME_DIR}
 
 #? prod:      make publish & run gunicorn
 prod: publish
