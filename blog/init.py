@@ -9,9 +9,10 @@ from .models import user_datastore
 from .services.fixture import load_fixtures
 from .services.sitemap import create_sitemap
 
-from .api.blueprint import api
-from .main.blueprint import main
-from .posts.blueprint import posts
+# blueprints
+from .api import api_bp
+from .main import main
+from .posts import posts
 
 
 def register_blueprints(app: Flask):
@@ -22,7 +23,7 @@ def register_blueprints(app: Flask):
 
     app.register_blueprint(main, url_prefix='/')
     app.register_blueprint(posts, url_prefix='/blog/')
-    app.register_blueprint(api, url_prefix='/api/')
+    app.register_blueprint(api_bp, url_prefix='/api/')
     create_admin(app, db)
 
 
