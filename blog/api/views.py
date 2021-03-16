@@ -25,13 +25,14 @@ class BaseModelView(Resource):
         return self.parser.parse_args()
 
     @staticmethod
-    def make_response(**context):
+    def make_response(result, **context):
         """Implement for browsable view"""
         now = datetime.utcnow()
         payload = {
             'errors': False,
             'datetime': now.isoformat(),
-            'result': context,
+            'result': result,
+            **context
         }
         return payload
 
@@ -56,9 +57,8 @@ class ListView(BaseModelView):
         return [self.serializer(obj) for obj in objects]
 
     def get(self):
-        return self.make_response(
-            objects=self.get_objects(),
-        )
+        obj = self.get_objects()
+        return self.make_response(obj)
 
     def post(self, *args, **kwargs):
         raise NotImplementedError
@@ -68,12 +68,12 @@ class DetailView(BaseModelView):
     """API endpoint for an object details"""
 
     def get_object(self, obj_id):
-        return self.model.query.get(obj_id)
+        obj = self.model.query.get(obj_id)
+        return self.serializer(obj)
 
     def get(self, obj_id):
-        return self.make_response(
-            object=self.get_object(obj_id),
-        )
+        obj = self.get_object(obj_id)
+        return self.make_response(obj)
 
     def put(self, *args, **kwargs):
         raise NotImplementedError

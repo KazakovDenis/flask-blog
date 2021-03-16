@@ -4,17 +4,10 @@ from datetime import date
 from flask_sqlalchemy import Model
 
 
-def prepare(value):
-    """Serialize model fields values"""
-    if isinstance(value, date):
-        value = value.isoformat()
-    return value
-
-
 class BaseModelSerializer:
     """Model serializers base class"""
-    related = {}
     fields = ()
+    related = {}
 
     def __init__(self, *fields):
         if fields:
@@ -26,6 +19,7 @@ class BaseModelSerializer:
         return self._convert(obj)
 
     def _convert(self, obj):
+        """Serialize instance. The method to override."""
         raise NotImplementedError
 
     def _get_value(self, obj: Model, field: str):
@@ -59,7 +53,7 @@ class PostSerializer(JSONModelSerializer):
 
 
 class TagSerializer(JSONModelSerializer):
-    fields = ('id', 'name', 'slug')
+    fields = ('id', 'name', 'slug', 'posts')
     related = {
         'posts': JSONModelSerializer('id', 'title', 'created', 'slug'),
     }
