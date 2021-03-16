@@ -1,10 +1,29 @@
-from blog.models import Post
+from blog.models import Post, Tag
 from .bases import DetailView, ListView
 
 
-class PostApi(DetailView):
+class PostApiMixin:
     model = Post
+    # todo: add tags
+    fields = ('id', 'title', 'body', 'created', 'slug')
 
 
-class PostListApi(ListView):
-    model = Post
+class PostApi(PostApiMixin, DetailView):
+    pass
+
+
+class PostListApi(PostApiMixin, ListView):
+    pass
+
+
+class TagApiMixin:
+    model = Tag
+    fields = ('id', 'name', 'slug')
+
+
+class TagApi(TagApiMixin, DetailView):
+    pass
+
+
+class TagListApi(TagApiMixin, ListView):
+    pass
