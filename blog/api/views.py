@@ -9,7 +9,6 @@ from .serializers import JSONModelSerializer
 class BaseModelView(Resource):
     """API endpoint base class"""
     model: Model
-    fields = ()
     serializer = JSONModelSerializer
     template: str
     method_decorators = ()
@@ -18,52 +17,47 @@ class BaseModelView(Resource):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self._create_parser()
-        self.serializer = self.serializer(self.fields)
+        self.parser = self._create_parser()
+        if isinstance(self.serializer, type):
+            self.serializer = self.serializer()
 
     def get_args(self):
         return self.parser.parse_args()
 
     @staticmethod
-    def payload(**context):
-        """Unify response body"""
+    def make_response(**context):
+        """Implement for browsable view"""
         now = datetime.utcnow()
-        return {
+        payload = {
             'errors': False,
             'datetime': now.isoformat(),
             'result': context,
         }
-
-    def render(self, **context):
-        """Implement for browsable view"""
-        payload = self.payload(**context)
         return payload
-
-    def serialize(self, obj):
-        return self.serializer(obj)
 
     def _create_parser(self):
         """Creates URL arguments parser"""
-        self.parser = self.parser_cls()
+        parser = self.parser_cls()
         for arg in self.url_args:
             if isinstance(arg, str):
                 self.parser.add_argument(arg)
             else:
                 arg, kwargs = arg
                 self.parser.add_argument(arg, **kwargs)
+        return parser
 
 
 class ListView(BaseModelView):
     """API endpoint for list of objects"""
 
-    def get_objects(self, **filters):
+    def get_objects(self):
+        filters = self.get_args()
         objects = self.model.query.filter_by(**filters).all()
-        return [self.serialize(obj) for obj in objects]
+        return [self.serializer(obj) for obj in objects]
 
     def get(self):
-        args = self.get_args()
-        return self.render(
-            objects=self.get_objects(**args),
+        return self.make_response(
+            objects=self.get_objects(),
         )
 
     def post(self, *args, **kwargs):
@@ -77,7 +71,7 @@ class DetailView(BaseModelView):
         return self.model.query.get(obj_id)
 
     def get(self, obj_id):
-        return self.render(
+        return self.make_response(
             object=self.get_object(obj_id),
         )
 

@@ -1,11 +1,11 @@
 from blog.models import Post, Tag
-from .bases import DetailView, ListView
+from .serializers import PostSerializer, TagSerializer
+from .views import DetailView, ListView
 
 
 class PostApiMixin:
     model = Post
-    # todo: add tags
-    fields = ('id', 'title', 'body', 'created', 'slug')
+    serializer = PostSerializer
 
 
 class PostApi(PostApiMixin, DetailView):
@@ -18,7 +18,7 @@ class PostListApi(PostApiMixin, ListView):
 
 class TagApiMixin:
     model = Tag
-    fields = ('id', 'name', 'slug')
+    serializer = TagSerializer
 
 
 class TagApi(TagApiMixin, DetailView):
