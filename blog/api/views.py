@@ -1,9 +1,9 @@
-from datetime import datetime
-
+from flask import request
 from flask_restful import Resource, reqparse
 from flask_sqlalchemy import Model
 
 from .serializers import JSONModelSerializer
+from ..factory import db
 
 
 class BaseModelView(Resource):
@@ -16,6 +16,7 @@ class BaseModelView(Resource):
     url_args = ()
 
     def __init__(self, *args, **kwargs):
+        assert self.model, 'No model specified'
         super().__init__(*args, **kwargs)
         self.parser = self._create_parser()
         if isinstance(self.serializer, type):
@@ -24,13 +25,12 @@ class BaseModelView(Resource):
     def get_args(self):
         return self.parser.parse_args()
 
+    # todo: add status code
     @staticmethod
     def make_response(result, **context):
         """Implement for browsable view"""
-        now = datetime.utcnow()
         payload = {
             'errors': False,
-            'datetime': now.isoformat(),
             'result': result,
             **context
         }
@@ -53,30 +53,52 @@ class ListView(BaseModelView):
 
     def get_objects(self):
         filters = self.get_args()
-        objects = self.model.query.filter_by(**filters).all()
-        return [self.serializer(obj) for obj in objects]
+        return self.model.query.filter_by(**filters).all()
 
     def get(self):
-        obj = self.get_objects()
-        return self.make_response(obj)
+        payload = []
+        objects = self.get_objects()
+        if objects:
+            # todo: 404 if no objects
+            payload = [self.serializer(obj) for obj in objects]
+        return self.make_response(payload)
 
     def post(self, *args, **kwargs):
-        raise NotImplementedError
+        # noinspection PyCallingNonCallable
+        obj = self.model(**request.json)
+        db.session.add(obj)
+        db.session.commit()
+        payload = self.serializer(obj)
+        return self.make_response(payload)
 
 
 class DetailView(BaseModelView):
     """API endpoint for an object details"""
 
     def get_object(self, obj_id):
-        obj = self.model.query.get(obj_id)
-        return self.serializer(obj)
+        return self.model.query.get(obj_id)
 
     def get(self, obj_id):
+        payload = None
         obj = self.get_object(obj_id)
-        return self.make_response(obj)
+        if obj:
+            # todo: 404 if no object
+            payload = self.serializer(obj)
+        return self.make_response(payload)
 
-    def put(self, *args, **kwargs):
-        raise NotImplementedError
+    def delete(self, obj_id):
+        obj = self.get_object(obj_id)
+        db.session.delete(obj)
+        db.session.commit()
+        return self.make_response('ok')
+
+    def put(self, obj_id):
+        obj = self.get_object(obj_id)
+        for key, value in request.json.items():
+            setattr(obj, key, value)
+        db.session.commit()
+        payload = self.serializer(obj)
+        return self.make_response(payload)
 
     def patch(self, *args, **kwargs):
         return self.put(*args, **kwargs)
